@@ -5,7 +5,7 @@
   "main": "index",
   "scripts": {
     "gen": "redoc-cli bundle api-1.1.0.yaml",
-    "serve": "redoc-cli serve api-1.1.0.yaml"
+    "serve": "redoc-cli serve --watch api-1.1.0.yaml"
   },
   "repository": {
     "type": "git",
