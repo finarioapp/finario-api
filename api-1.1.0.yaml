@@ -46,12 +46,14 @@
 
       # Authentication
       
-      Finario API offers two forms of authentication:
-        - OAuth2
-        - Finario API Token
+      Finario API requires two forms of authentication:
+        - OAuth2 (in the `Authorization` header); and
+        - Finario API Token (in the `x-api-token` header).
 
-      OAuth2 - an open protocol to allow secure authorization in a simple
-      and standard method from web, mobile and desktop applications.
+      #### OAuth2
+      
+      OAuth2 allows secure authorization in a simple and standard method from
+      web, mobile and desktop applications.
 
         - **Grant Type**: Client credentials
         - **Access Token URL**: `https://api-proxy.finario.com/oauth2/token`
@@ -59,9 +61,9 @@
         - **Header prefix**: Bearer
           - `--header 'Authorization: Bearer <Token>'`
 
-      Finario API Token
-        * Visit the API section of your Finario application: `https://<your_host>.finario.com/profile/api_token`.
-          - Get your API Key.
+      #### Finario API Token
+        * Visit your **Profile** in the Finario app: `https://<your_host>.finario.com/profile/api_token`.
+          - Generate your API Key.
           - Configure the white list of IP addresses that can access your API.
         * Familiarize yourself with our authentication process and the Finario resource names.
         * Begin developing your application.
@@ -2595,7 +2597,8 @@
           enum: ['application/json']
           type: string
       ApiToken:
-        description: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        description: |
+          Generate your API Token through the Finario app (from your **Profile**).
         in: header
         name: x-api-token
         required: true
