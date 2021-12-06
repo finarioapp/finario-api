@@ -804,14 +804,7 @@
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
           - $ref: '#/components/parameters/InvestmentId'
-          - name: approvalId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/ApprovalId'
         responses:
           '200':
             description: Success
@@ -842,7 +835,7 @@
                   message: Investment Not Found
         security:
           - oauth2: []
-        summary: Get an Approval
+        summary: Get an Approval of an Investment
         tags:
           - Approvals
           - Endpoints
@@ -2425,6 +2418,15 @@
         description: A unique ID from your external system. This is saved as the "Investment Code" in Finario, and can be used as a resource identifier for other API endpoints.
         in: path
         name: investmentId
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      ApprovalId:
+        description: The unique identifier of the Approval
+        in: path
+        name: approvalId
         required: true
         style: simple
         explode: false
