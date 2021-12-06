@@ -1441,14 +1441,7 @@
           - $ref: '#/components/parameters/ContentType'
           - $ref: '#/components/parameters/InvestmentId'
           - $ref: '#/components/parameters/VendorId'
-          - name: invoiceReference
-            description: The reference of an invoice
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/InvoiceReference'
         requestBody:
           description: 'Required Parameters <br/> amount, date, number'
           content:
@@ -1589,6 +1582,7 @@
           - $ref: '#/components/parameters/ContentType'
           - $ref: '#/components/parameters/InvoiceId'
           - name: vendor_id
+            description: The unique identifier for the Vendor
             in: query
             required: true
             style: form
@@ -1676,14 +1670,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: organizationId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/OrganizationId'
         requestBody:
           description: |
             <strong>Required Parameters.</strong> <br/> name, org_code
@@ -2098,14 +2085,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: userEmail
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/UserEmail'
         responses:
           '200':
             description: Success
@@ -2142,28 +2122,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: userEmail
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/UserEmail'
         requestBody:
           description: |
             <strong>Required Parameters.</strong> <br/> first_name, last_name
@@ -2389,6 +2348,33 @@
         description: The unique identifier for the Invoice
         in: path
         name: invoiceId
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      InvoiceReference:
+        description: The reference of an invoice
+        in: path
+        name: invoiceReference
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      OrganizationId:
+        description: The unique identifier for the Organization
+        in: path
+        name: organizationId
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      UserEmail:
+        description: The email address of the user
+        in: path
+        name: userEmail
         required: true
         style: simple
         explode: false
