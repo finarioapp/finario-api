@@ -762,12 +762,12 @@
                 schema:
                   $ref: '#/components/schemas/Approval'
           '404':
-            description: Investment not found
+            description: Investment or Approval not found.
             content:
-              application/json:
-                example:
-                  success: false
-                  message: Investment Not Found
+              application/json::
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
+
         security:
           - oauth2: []
         summary: Create an Approval
@@ -800,12 +800,11 @@
                 schema:
                   $ref: '#/components/schemas/Approval'
           '404':
-            description: Investment not found
+            description: Investment or Approval not found.
             content:
               application/json:
-                example:
-                  success: false
-                  message: Investment Not Found
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Get an Approval of an Investment
@@ -2446,6 +2445,16 @@
             type: array
             items:
               type: string
+
+      ErrorMessageDirect:
+        type: object
+        properties:
+          success:
+            description: The response status of the request.
+            type: boolean
+          message:
+            description: The error message.
+            type: string
 
 
 
