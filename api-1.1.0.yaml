@@ -759,22 +759,8 @@
             description: Created
             content:
               application/json:
-                example:
-                  approval_round_id: <approval_round_id>
-                  approval_round_name_cache: <name of round this approval belongs to>
-                  approver_first_name_cache: <first name of approver>
-                  approver_last_name_cache: <last name of approver>
-                  approver_id: <user id of approver>
-                  comment_count_cache: 0
-                  created_at: '2012-05-05T23:42:54.000+0000'
-                  creator_id: <user id of approval creator>
-                  id: <approval_id>
-                  invalidated_at: '2016-05-26T20:46:20.000+0000'
-                  investment_id: <investment_id>
-                  organization_id: <organization_id>
-                  status_cache: <a numeric value representing the current approval status>
-                  updated_at: '2016-05-26T20:46:20.000+0000'
-                  updater_id: <user id of last approval updater>
+                schema:
+                  $ref: '#/components/schemas/Approval'
           '404':
             description: Investment not found
             content:
@@ -806,26 +792,13 @@
           - $ref: '#/components/parameters/InvestmentId'
           - $ref: '#/components/parameters/ApprovalId'
         responses:
+
           '200':
             description: Success
             content:
               application/json:
-                example:
-                  approval_round_id: <approval_round_id>
-                  approval_round_name_cache: <name of round this approval belongs to>
-                  approver_first_name_cache: <first name of approver>
-                  approver_last_name_cache: <last name of approver>
-                  approver_id: <user id of approver>
-                  comment_count_cache: 0
-                  created_at: '2012-05-05T23:42:54.000+0000'
-                  creator_id: <user id of approval creator>
-                  id: <approval_id>
-                  invalidated_at: '2016-05-26T20:46:20.000+0000'
-                  investment_id: <investment_id>
-                  organization_id: <organization_id>
-                  status_cache: <a numeric value representing the current approval status>
-                  updated_at: '2016-05-26T20:46:20.000+0000'
-                  updater_id: <user id of last approval updater>
+                schema:
+                  $ref: '#/components/schemas/Approval'
           '404':
             description: Investment not found
             content:
@@ -2412,6 +2385,58 @@
             type: string
         required:
           - name
+
+      Approval:
+        type: object
+        properties:
+          approval_round_id:
+            description: The approval round id.
+            type: string
+          approval_round_name_cache:
+            description: The name of round this approval belongs to.
+            type: string
+          approver_first_name_cache:
+            description: The first name of approver.
+            type: string
+          approver_last_name_cache:
+            description: The last name of approver.
+            type: string
+          approver_id:
+            description: The user id of approver.
+            type: string
+          comment_count_cache:
+            description: The number of comment in the cache.
+            type: number
+          created_at:
+            description: The timestamp when the approval is created.
+            type: string
+            format: date-time
+          creator_id:
+            description: The user id of approval creator.
+            type: string
+          id:
+            description: The unique identifier for the Approval.
+            type: string
+          invalidated_at:
+            description: The timestamp when the approval is invalidated.
+            type: string
+            format: date-time
+          investment_id:
+            description: The unique identifier for the Investment.
+            type: string
+          organization_id:
+            description: The unique identifier for the Organization.
+            type: string
+          status_cache:
+            description: The numeric value representing the current approval status.
+            type: number
+          updated_at:
+            description: The timestamp when the approval is updated.
+            type: string
+            format: date-time
+          updater_id:
+            description: The user id of last approval updater.
+            type: string
 
       ErrorMessage:
         type: object
