@@ -448,20 +448,8 @@
       post:
         description: Create a new investment
         parameters:
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
         requestBody:
           description: Acceptable Parameters
           content:
@@ -509,18 +497,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: investmentId
-            in: path
-            description: >-
-              A unique ID from your external system. This is saved as the
-              "Investment Code" in Finario, and can be used as a resource
-              identifier for other API endpoints.
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/InvestmentIdPath'
           - name: start_month
             in: query
             description: >-
@@ -726,32 +703,9 @@
       put:
         description: Update an existing investment
         parameters:
-          - name: investmentId
-            in: path
-            description: >-
-              A unique ID from your external system. This is saved as the
-              "Investment Code" in Finario, and can be used as a resource
-              identifier for other API endpoints.
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
+          - $ref: '#/components/parameters/InvestmentIdPath'
         requestBody:
           description: Acceptable Parameters
           content:
@@ -799,14 +753,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: investmentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/InvestmentIdPath'
         responses:
           '201':
             description: Created
@@ -856,14 +803,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: investmentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/InvestmentIdPath'
           - name: approvalId
             in: path
             required: true
@@ -921,14 +861,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: investmentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/InvestmentIdPath'
         responses:
           '200':
             description: Success
@@ -955,28 +888,9 @@
       post:
         description: Add a new Cost to an investment
         parameters:
-          - name: investmentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
+          - $ref: '#/components/parameters/InvestmentIdPath'
         requestBody:
           description: >
             <strong>Required Parameters.</strong> <br/> name, account,
@@ -1037,14 +951,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: investmentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/InvestmentIdPath'
           - name: costId
             in: path
             required: true
@@ -1090,14 +997,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: investmentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/InvestmentIdPath'
           - name: cost_id
             in: path
             required: true
@@ -1177,14 +1077,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: investmentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/InvestmentIdPath'
           - name: unique_cost_id
             in: query
             required: true
@@ -1263,14 +1156,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: investmentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/InvestmentIdPath'
           - name: paymentId
             in: path
             required: true
@@ -1326,14 +1212,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: investmentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/InvestmentIdPath'
         requestBody:
           description: 'Required Parameters <br/> amount, date, po_number, po_line, reference'
           content:
@@ -1401,14 +1280,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: investmentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/InvestmentIdPath'
           - name: purchaseOrderId
             in: path
             required: true
@@ -1466,14 +1338,9 @@
       post:
         description: Create an invoice made by the vendor against an investment
         parameters:
-          - name: investmentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
+          - $ref: '#/components/parameters/InvestmentIdPath'
           - name: vendorId
             in: path
             required: true
@@ -1482,20 +1349,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         requestBody:
           description: 'Required Parameters <br/> amount, date, number'
           content:
@@ -1571,14 +1424,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: investmentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/InvestmentIdPath'
           - name: vendorId
             in: path
             required: true
@@ -1648,14 +1494,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: investmentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/InvestmentIdPath'
           - name: vendorId
             in: path
             required: true
@@ -2048,20 +1887,8 @@
       post:
         description: Create new payment
         parameters:
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
         requestBody:
           description: 'Required Parameters <br/> amount, date, reference,'
           content:
@@ -2396,6 +2223,8 @@
       put:
         description: Update an existing user
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: userEmail
             in: path
             required: true
@@ -2491,20 +2320,8 @@
       post:
         description: Create new vendor
         parameters:
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
         requestBody:
           description: Required Parameters <br/> name
           content:
@@ -2602,6 +2419,15 @@
         in: header
         name: x-api-token
         required: true
+        schema:
+          type: string
+      InvestmentIdPath:
+        description: A unique ID from your external system. This is saved as the "Investment Code" in Finario, and can be used as a resource identifier for other API endpoints.
+        in: path
+        name: investmentId
+        required: true
+        style: simple
+        explode: false
         schema:
           type: string
 
