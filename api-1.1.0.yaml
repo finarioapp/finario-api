@@ -11,47 +11,47 @@
 
       # Introduction
 
-      Our set of REST-based APIs enable seamless integration of Finario directly 
-      into your internal workflows, products and services. The API uses JSON 
-      over HTTPS to allow you to build applications capable of using or adding 
+      Our set of REST-based APIs enable seamless integration of Finario directly
+      into your internal workflows, products and services. The API uses JSON
+      over HTTPS to allow you to build applications capable of using or adding
       Finario data in your application, and vice-versa.
 
       > Please note, API access is only available with the Enterprise Edition.
 
       # Developer Portal
 
-      This specification is available both publicly and from within the 
+      This specification is available both publicly and from within the
       [Developer Portal](https://api-proxy.finario.com/devportal). To be able to
-      try out the API endpoints, you will need to have access to the Developer 
-      Portal. The Developer Portal contains an easy way to generate 
-      authentication tokens, along with download the Postman collection and 
-      generated boilerplate code.                                                                                                                                                                                                                    
+      try out the API endpoints, you will need to have access to the Developer
+      Portal. The Developer Portal contains an easy way to generate
+      authentication tokens, along with download the Postman collection and
+      generated boilerplate code.
 
-      > Contact your Finario account manager to gain access to the 
+      > Contact your Finario account manager to gain access to the
       [Developer Portal](https://api-proxy.finario.com/devportal).
 
       # OpenAPI 3.0.1
 
-      The Finario API is built and documented using [OpenAPI 3.0.1](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.1.md). 
-      In addition to standard OpenAPI syntax we use a few vendor extensions to 
+      The Finario API is built and documented using [OpenAPI 3.0.1](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.1.md).
+      In addition to standard OpenAPI syntax we use a few vendor extensions to
       improve compatibility with tooling and documentation.
 
       # CORS
 
-      This API features Cross-Origin Resource Sharing (CORS) implemented in 
-      compliance with the [W3C spec](https://www.w3.org/TR/cors/). And that 
-      allows cross-domain communication from the browser. All responses have a 
+      This API features Cross-Origin Resource Sharing (CORS) implemented in
+      compliance with the [W3C spec](https://www.w3.org/TR/cors/). And that
+      allows cross-domain communication from the browser. All responses have a
       wildcard same-origin which makes them completely public and accessible to
       everyone, including any code on any site.
 
       # Authentication
-      
+
       Finario API requires two forms of authentication:
         - OAuth2 (in the `Authorization` header); and
         - Finario API Token (in the `x-api-token` header).
 
       #### OAuth2
-      
+
       OAuth2 allows secure authorization in a simple and standard method from
       web, mobile and desktop applications.
 
@@ -127,7 +127,7 @@
       get:
         description: |
           Returns a list of all cost categories.
-          
+
           > This endpoint does not support pagination.
         parameters:
           - $ref: '#/components/parameters/ApiToken'
@@ -497,7 +497,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
           - name: start_month
             in: query
             description: >-
@@ -705,7 +705,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
         requestBody:
           description: Acceptable Parameters
           content:
@@ -753,7 +753,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
         responses:
           '201':
             description: Created
@@ -803,7 +803,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
           - name: approvalId
             in: path
             required: true
@@ -861,7 +861,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
         responses:
           '200':
             description: Success
@@ -890,7 +890,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
         requestBody:
           description: >
             <strong>Required Parameters.</strong> <br/> name, account,
@@ -951,7 +951,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
           - name: costId
             in: path
             required: true
@@ -997,7 +997,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
           - name: cost_id
             in: path
             required: true
@@ -1077,7 +1077,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
           - name: unique_cost_id
             in: query
             required: true
@@ -1156,7 +1156,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
           - name: paymentId
             in: path
             required: true
@@ -1212,7 +1212,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
         requestBody:
           description: 'Required Parameters <br/> amount, date, po_number, po_line, reference'
           content:
@@ -1280,7 +1280,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
           - name: purchaseOrderId
             in: path
             required: true
@@ -1340,7 +1340,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
           - name: vendorId
             in: path
             required: true
@@ -1424,7 +1424,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
           - name: vendorId
             in: path
             required: true
@@ -1494,7 +1494,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/InvestmentIdPath'
+          - $ref: '#/components/parameters/InvestmentId'
           - name: vendorId
             in: path
             required: true
@@ -1564,15 +1564,15 @@
           Retrieve list of invoices.
 
           > This endpoint does not support pagination.
-          
+
           #### Query Parameters
-          
-          These query parameters apply to the Investment the Invoices are 
+
+          These query parameters apply to the Investment the Invoices are
           assigned to. If an Invoice is not assigned to an Investment, it will
           not be returned while using these params.
 
           All values should be encoded for URL; for example:
-          
+
           `token=your_token&closed=true&closed_within_days_ago=10`.
         parameters:
           - $ref: '#/components/parameters/ApiToken'
@@ -1739,7 +1739,7 @@
       post:
         description: |
           Create new organization.
-          
+
           An {organizationId} is required in the URL. A top-level organization
           cannot be created through the API.
         parameters:
@@ -1803,17 +1803,17 @@
       get:
         description: |
           Retrieve list of payments
-          
+
           > This endpoint does not support pagination.
-          
+
           #### Query Parameters
-          
-          These query parameters apply to the Investment the Payments are 
+
+          These query parameters apply to the Investment the Payments are
           assigned to. If a Payment is not assigned to an Investment, it will
           not be returned while using these params.
 
           All values should be encoded for URL; for example:
-          
+
           `token=your_token&closed=true&closed_within_days_ago=10`.
         parameters:
           - $ref: '#/components/parameters/ApiToken'
@@ -2013,17 +2013,17 @@
       get:
         description: |
           Retrieve list of purchase orders.
-          
+
           > This endpoint does not support pagination.
-          
+
           #### Query Parameters
-          
-          These query parameters apply to the Investment the Purchase Orders 
+
+          These query parameters apply to the Investment the Purchase Orders
           are assigned to. If a Purchase Order is not assigned to an Investment,
           it will not be returned while using these params.
 
           All values should be encoded for URL; for example:
-          
+
           `token=your_token&closed=true&closed_within_days_ago=10`.
         parameters:
           - $ref: '#/components/parameters/ApiToken'
@@ -2421,7 +2421,7 @@
         required: true
         schema:
           type: string
-      InvestmentIdPath:
+      InvestmentId:
         description: A unique ID from your external system. This is saved as the "Investment Code" in Finario, and can be used as a resource identifier for other API endpoints.
         in: path
         name: investmentId
@@ -2458,7 +2458,7 @@
             type: string
           parent_name:
             description: |
-              If there is no category with the given name, a new category will 
+              If there is no category with the given name, a new category will
               be created.
             type: string
         required:
