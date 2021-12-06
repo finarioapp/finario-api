@@ -1,30 +1,51 @@
-  openapi: 3.0.1
+  openapi: '3.0.1'
 
   servers:
     - url: 'https://api-proxy.finario.com/<your_host>/1.1'
-      description: Sandbox / Production Server
+      description: Sandbox / Production Base URL
     - url: 'https://api-proxy-lab.finario.com/<your_host>/1.1'
-      description: Lab Server
+      description: Lab Server Base URL
 
   info:
     description: |
-      Our set of RESTful APIs enable seamless integration of Finario directly into your internal workflows, products and services.
-      The API uses JSON over HTTPS to allow you to build applications capable of using or adding Finario data in your application.
-      API access is only available with the Enterprise Edition.
 
-      # OpenAPI Specification
-      
-      The Finario API is documented in **OpenAPI format**. In addition to standard
-      OpenAPI syntax we use a few [vendor extensions](https://github.com/Redocly/redoc/blob/master/docs/redoc-vendor-extensions.md).
+      # Introduction
 
-      # Cross-Origin Resource Sharing
-      
-      This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with  [W3C spec](https://www.w3.org/TR/cors/).
-      And that allows cross-domain communication from the browser.
-      All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
+      Our set of REST-based APIs enable seamless integration of Finario directly 
+      into your internal workflows, products and services. The API uses JSON 
+      over HTTPS to allow you to build applications capable of using or adding 
+      Finario data in your application, and vice-versa.
+
+      > Please note, API access is only available with the Enterprise Edition.
+
+      # Developer Portal
+
+      This specification is available both publicly and from within the 
+      [Developer Portal](https://api-proxy.finario.com/devportal). To be able to
+      try out the API endpoints, you will need to have access to the Developer 
+      Portal. The Developer Portal contains an easy way to generate 
+      authentication tokens, along with download the Postman collection and 
+      generated boilerplate code.                                                                                                                                                                                                                    
+
+      > Contact your Finario account manager to gain access to the 
+      [Developer Portal](https://api-proxy.finario.com/devportal).
+
+      # OpenAPI 3.0.1
+
+      The Finario API is built and documented using [OpenAPI 3.0.1](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.1.md). 
+      In addition to standard OpenAPI syntax we use a few vendor extensions to 
+      improve compatibility with tooling and documentation.
+
+      # CORS
+
+      This API features Cross-Origin Resource Sharing (CORS) implemented in 
+      compliance with the [W3C spec](https://www.w3.org/TR/cors/). And that 
+      allows cross-domain communication from the browser. All responses have a 
+      wildcard same-origin which makes them completely public and accessible to
+      everyone, including any code on any site.
 
       # Authentication
-
+      
       Finario API offers two forms of authentication:
         - OAuth2
         - Finario API Token
@@ -50,69 +71,44 @@
         - **Parameter name**: x-api-token
           - `--header 'x-api-token: <Finario API Token>'`
 
-    version: '1.0'
+    version: '1.1.0'
     title: Finario API
+    x-logo:
+      url: "https://integrationworks-uk.github.io/finario-api/img/logo.png"
+      backgroundColor: "#FFFFFF"
+      altText: "Finario API"
+
   tags:
-    - name: resources
-      description: All available API resources.
-    - name: webhooks
-      description: All available webhooks.
+    - name: Approvals
+      description: All Approvals resources and endpoints.
     - name: Cost Categories
-      description: All Cost Categories resources and endpoints
+      description: All Cost Categories resources and endpoints.
+    - name: Costs
+      description: All Cost resources and endpoints.
     - name: Investments
-      description: All Investment resources and endpoints
+      description: All Investment resources and endpoints.
     - name: Invoices
-      description: All Invoices resources and endpoints
+      description: All Invoices resources and endpoints.
     - name: Organizations
-      description: All Organizations resources and endpoints
+      description: All Organizations resources and endpoints.
     - name: Payments
-      description: All Payments resources and endpoints
+      description: All Payments resources and endpoints.
     - name: Purchase Orders
-      description: All Purchase Orders resources and endpoints
+      description: All Purchase Orders resources and endpoints.
     - name: Users
-      description: All Users resources and endpoints
+      description: All Users resources and endpoints.
     - name: Vendors
-      description: All Vendors resources and endpoints
-    - name: investment_model
-      x-displayName: The Investment Model
-      description: |
-        <SchemaDefinition schemaRef="#/components/schemas/CreateInvestment" />
-    - name: organization_model
-      x-displayName: The Organization Model
-      description: |
-        <SchemaDefinition schemaRef="#/components/schemas/CreateOrganization" />
-    - name: cost_model
-      x-displayName: The Cost Model
-      description: |
-        <SchemaDefinition schemaRef="#/components/schemas/CreateCost" />
-    - name: cost_category_model
-      x-displayName: The Cost Category Model
-      description: |
-        <SchemaDefinition schemaRef="#/components/schemas/CreateCostCategory" />
-    - name: user_model
-      x-displayName: The User Model
-      description: |
-        <SchemaDefinition schemaRef="#/components/schemas/UpdateUser" />
-    - name: vendor_model
-      x-displayName: The Vendor Model
-      description: |
-        <SchemaDefinition schemaRef="#/components/schemas/CreateVendor" />
-    - name: puchase_oder_model
-      x-displayName: The Purchase Order Model
-      description: |
-        <SchemaDefinition schemaRef="#/components/schemas/CreatePurchaseOrder" />
-    - name: invoice_model
-      x-displayName: The Invoice Model
-      description: |
-        <SchemaDefinition schemaRef="#/components/schemas/CreateInvoice" />
-    - name: payment_model
-      x-displayName: The Payment Model
-      description: |
-        <SchemaDefinition schemaRef="#/components/schemas/CreatePayment" />
+      description: All Vendors resources and endpoints.
+
+    - name: Post-Approval
+      description: The Post-Approval webhook.
+
   x-tagGroups:
-    - name: General
+    - name: Endpoints
       tags:
+        - Approvals
         - Cost Categories
+        - Costs
         - Investments
         - Invoices
         - Organizations
@@ -120,114 +116,72 @@
         - Purchase Orders
         - Users
         - Vendors
-        - resources
-        - endpoints
-    - name: Models
+    - name: Webhooks
       tags:
-        - investment_model
-        - organization_model
-        - cost_model
-        - cost_category_model
-        - user_model
-        - vendor_model
-        - puchase_oder_model
-        - invoice_model
-        - payment_model
+        - Post-Approval
+
   paths:
     /cost_categories:
       get:
-        summary: Returns a list of all cost categories
-        description: Returns a list of all cost categories
-        tags:
-          - resources
-          - endpoints
-          - Cost Categories
+        description: |
+          Returns a list of all cost categories.
+          
+          > This endpoint does not support pagination.
         parameters:
-          - name: x-api-token
-            in: header
-            description: |
-              ## Checklist
-              * Visit the API section of your Finario application: `https://<your_host>.finario.com/profile/api_token`.
-                - Get your API Key.
-                - Configure the white list of IP addresses that can access your API.
-              * Familiarize yourself with our authentication process and the Finario resource names.
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
         responses:
           '200':
-            description: Success
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    [{"category_code":"<category_code>","name":"<category_name>","id":"<category_id>"},"..."]
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/CostCategory'
+            description: An array of cost categories.
         security:
-          - default: []
+          - oauth2: []
+        summary: List Cost Categories
+        tags:
+          - Cost Categories
+          - Endpoints
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
           security-types:
             - api_key
-            - basic_auth
           optional: false
       post:
-        summary: Create a new cost category
-        tags:
-          - resources
-          - endpoints
-          - Cost Categories
+        description: Create a new cost category.
         parameters:
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
         requestBody:
-          description: |
-            <strong>Required Parameters.</strong> <br/> name
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateCostCategory'
+                $ref: '#/components/schemas/CostCategoryPostPut'
+          description: The new Cost Category to create.
           required: true
         responses:
           '201':
-            description: No Content
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    {"category_code":"<category_code>","name":"<category_name>","id":"<category_id>"}
+                  $ref: '#/components/schemas/CostCategory'
+            description: Successfully created.
           '422':
-            description: Missing required fields
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"errors":["Name can''t be blank"]}'
+                  $ref: '#/components/schemas/ErrorMessage'
+            description: Missing required fields.
         security:
-          - default: []
+          - oauth2: []
+        summary: Create a Cost Category
+        tags:
+          - Cost Categories
+          - Endpoints
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -235,68 +189,50 @@
             - api_key
             - basic_auth
           optional: false
+
     '/cost_categories/{categoryId}':
       put:
-        summary: Update an existing cost category
-        tags:
-          - resources
-          - endpoints
-          - Cost Categories
+        description: Update an existing cost category
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: categoryId
             in: path
             required: true
-            style: simple
-            explode: false
             schema:
-              type: string
-              format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
+              description: The unique identifier for the Cost Category.
               type: string
         requestBody:
-          description: |
-            <strong>Required Parameters.</strong> <br/> name
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateCostCategory'
+                $ref: '#/components/schemas/CostCategoryPostPut'
+          description: The Cost Category details to update.
         responses:
-          '200':
-            description: Success
+          '201':
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    {"category_code":"<category_code>","name":"<category_name>","id":"<category_id>"}
+                  $ref: '#/components/schemas/CostCategory'
+            description: Successfully updated.
           '404':
-            description: Cost Category Not Found
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"errors":["Cost Category Not Found"]}'
+                  $ref: '#/components/schemas/ErrorMessage'
+            description: Cost Category not found.
           '422':
-            description: Missing required field
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"errors":["Name can''''t be blank"]}'
+                  $ref: '#/components/schemas/ErrorMessage'
+            description: Missing required fields.
         security:
-          - default: []
+          - oauth2: []
+        summary: Update a Cost Category
+        tags:
+          - Cost Categories
+          - Endpoints
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -304,28 +240,13 @@
             - api_key
             - basic_auth
           optional: false
+
     /investments:
       get:
-        summary: Retrieve list of investments
-        tags:
-          - resources
-          - endpoints
-          - Investments
+        description: Retrieve list of investments
         parameters:
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: start_month
             in: query
             description: >-
@@ -503,21 +424,18 @@
               application/json:
                 schema:
                   type: string
-                  example: >-
-                    [{"name":"<name>","id":"<id>","investment_id":"<investment
-                    code>","investment_category_name":"<investment category
-                    name>","api_request":"<api request used to create the
-                    investment (if created via api)>","costs_path":"<resource
-                    locator for costs>","organization_code":"<org code>"},"..."]
           '404':
-            description: Not Found
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"errors":["Not Found"]}'
+                  $ref: '#/components/schemas/ErrorMessage'
+            description: Investment not found.
         security:
-          - default: []
+          - oauth2: []
+        summary: List Investments
+        tags:
+          - Endpoints
+          - Investments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -526,11 +444,7 @@
             - basic_auth
           optional: false
       post:
-        summary: Create a new investment
-        tags:
-          - resources
-          - endpoints
-          - Investments
+        description: Create a new investment
         parameters:
           - name: x-api-token
             in: header
@@ -560,13 +474,6 @@
               application/json:
                 schema:
                   type: string
-                  example: >-
-                    {"name":"<name>","id":"<investment
-                    id>","investment_id":"<investment
-                    code>","investment_category_name\"":"<investment category
-                    name>","api_request":"<api request used to create the
-                    investment (if created via api)>","costs_path":"<resource
-                    locator for costs>","organization_code":"<org code>"}
           '404':
             description: Organization Not Found
             content:
@@ -580,13 +487,12 @@
               application/json:
                 schema:
                   type: string
-                  example: >-
-                    {"errors":["Name can't be blank","Project start can't be
-                    blank","In service date can't be blank","Estimated completion
-                    date can't be blank","Investment category can't be
-                    blank","Owner can't be blank"]}
         security:
-          - default: []
+          - oauth2: []
+        summary: Create an Investment
+        tags:
+          - Endpoints
+          - Investments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -594,14 +500,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/investments/{investmentId}':
       get:
-        summary: Retrieve an investment
-        tags:
-          - resources
-          - endpoints
-          - Investments
+        description: Retrieve an investment
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: investmentId
             in: path
             description: >-
@@ -614,20 +519,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
           - name: start_month
             in: query
             description: >-
@@ -812,14 +703,17 @@
                     investment (if created via api)>","costs_path":"<resource
                     locator for costs>","organization_code":"<org code>"},"..."]
           '404':
-            description: Not Found
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"errors":["Not Found"]}'
+                  $ref: '#/components/schemas/ErrorMessage'
+            description: Cost Category not found.
         security:
-          - default: []
+          - oauth2: []
+        summary: Get an Investment
+        tags:
+          - Endpoints
+          - Investments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -828,11 +722,7 @@
             - basic_auth
           optional: false
       put:
-        summary: Update an existing investment
-        tags:
-          - resources
-          - endpoints
-          - Investments
+        description: Update an existing investment
         parameters:
           - name: investmentId
             in: path
@@ -888,7 +778,11 @@
                   type: string
                   example: '{"errors":["Organization can''''t be blank"]}'
         security:
-          - default: []
+          - oauth2: []
+        summary: Update an Investment
+        tags:
+          - Endpoints
+          - Investments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -896,13 +790,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/investments/{investmentId}/approvals':
       post:
-        summary: This operation will submit the investment to the first approver in the approval list. It changes the investment's status from "Idea" to "Pending".
-        tags:
-          - resources
-          - Investments
+        description: This operation will submit the investment to the first approver in the approval list. It changes the investment's status from **Idea** to **Pending**.
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: investmentId
             in: path
             required: true
@@ -911,20 +805,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         responses:
           '201':
             description: Created
@@ -954,7 +834,12 @@
                   success: false
                   message: Investment Not Found
         security:
-          - default: []
+          - oauth2: []
+        summary: Create an Approval
+        tags:
+          - Approvals
+          - Endpoints
+          - Investments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -962,13 +847,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/investments/{investmentId}/approvals/{approvalId}':
       get:
-        summary: Retrieve approval details of an investment
-        tags:
-          - resources
-          - Investments
+        description: Retrieve approval details of an investment
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: investmentId
             in: path
             required: true
@@ -985,20 +870,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         responses:
           '200':
             description: Success
@@ -1028,7 +899,12 @@
                   success: false
                   message: Investment Not Found
         security:
-          - default: []
+          - oauth2: []
+        summary: Get an Approval
+        tags:
+          - Approvals
+          - Endpoints
+          - Investments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -1036,15 +912,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/investments/{investmentId}/costs':
       get:
-        summary: Retrieve list of costs in an investment
-        tags:
-          - resources
-          - endpoints
-          - Investments
         description: Returns a list of all costs for a given investment.
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: investmentId
             in: path
             required: true
@@ -1053,20 +927,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         responses:
           '200':
             description: Success
@@ -1077,7 +937,12 @@
                   example: >-
                     [{"name":"<name>","id":"<cost_id>","description":"<description>","investment_id":"<investment_id>"},"..."]
         security:
-          - default: []
+          - oauth2: []
+        summary: List Costs
+        tags:
+          - Endpoints
+          - Costs
+          - Investments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -1086,11 +951,7 @@
             - basic_auth
           optional: false
       post:
-        summary: Add a new Cost to an investment
-        tags:
-          - resources
-          - endpoints
-          - Investments
+        description: Add a new Cost to an investment
         parameters:
           - name: investmentId
             in: path
@@ -1154,7 +1015,12 @@
                   type: string
                   example: '{"errors":{"name":["can''''t be blank"]}}'
         security:
-          - default: []
+          - oauth2: []
+        summary: Create a Cost
+        tags:
+          - Endpoints
+          - Costs
+          - Investments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -1162,14 +1028,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/investments/{investmentId}/costs/{costId}':
       get:
-        summary: Retrieve cost details of an investment
-        tags:
-          - resources
-          - endpoints
-          - Investments
+        description: Retrieve cost details of an investment
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: investmentId
             in: path
             required: true
@@ -1186,20 +1051,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         responses:
           '200':
             description: Success
@@ -1217,7 +1068,12 @@
                   type: string
                   example: '{"success":false,"message":"Cost Not Found"}'
         security:
-          - default: []
+          - oauth2: []
+        summary: Get a Cost
+        tags:
+          - Endpoints
+          - Costs
+          - Investments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -1225,14 +1081,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/investments/{investmentId}/costs/{cost_id}/payments':
       post:
-        summary: Create payment against an existing investment cost
-        tags:
-          - resources
-          - endpoints
-          - Investments
+        description: Create payment against an existing investment cost
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: investmentId
             in: path
             required: true
@@ -1249,20 +1104,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         requestBody:
           description: 'Required Parameters <br/> amount, date, reference,'
           content:
@@ -1314,7 +1155,12 @@
                     reference:
                       - has already been taken
         security:
-          - default: []
+          - oauth2: []
+        summary: Create a Payment
+        tags:
+          - Endpoints
+          - Investments
+          - Payments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -1322,14 +1168,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/investments/{investmentId}/payments':
       post:
-        summary: Create payment against an investment
-        tags:
-          - resources
-          - endpoints
-          - Investments
+        description: Create payment against an investment
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: investmentId
             in: path
             required: true
@@ -1338,20 +1183,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
           - name: unique_cost_id
             in: query
             required: true
@@ -1410,7 +1241,12 @@
                     reference:
                       - has already been taken
         security:
-          - default: []
+          - oauth2: []
+        summary: Create a Payment
+        tags:
+          - Endpoints
+          - Investments
+          - Payments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -1418,14 +1254,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/investments/{investmentId}/payments/{paymentId}':
       put:
-        summary: Update an existing payment details
-        tags:
-          - resources
-          - endpoints
-          - Investments
+        description: Update an existing payment details
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: investmentId
             in: path
             required: true
@@ -1442,20 +1277,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         requestBody:
           description: 'Required Parameters <br/> amount, date, reference,'
           content:
@@ -1483,7 +1304,12 @@
                     amount:
                       - can't be blank
         security:
-          - default: []
+          - oauth2: []
+        summary: Update a Payment
+        tags:
+          - Endpoints
+          - Investments
+          - Payments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -1491,14 +1317,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/investments/{investmentId}/purchase_orders':
       post:
-        summary: Create a purchase order against an investment
-        tags:
-          - resources
-          - endpoints
-          - Investments
+        description: Create a purchase order against an investment
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: investmentId
             in: path
             required: true
@@ -1507,20 +1332,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         requestBody:
           description: 'Required Parameters <br/> amount, date, po_number, po_line, reference'
           content:
@@ -1568,7 +1379,12 @@
                   success: false
                   message: Investment Not Found
         security:
-          - default: []
+          - oauth2: []
+        summary: Create a Purchase Order
+        tags:
+          - Endpoints
+          - Investments
+          - Purchase Orders
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -1576,14 +1392,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/investments/{investmentId}/purchase_orders/{purchaseOrderId}':
       put:
-        summary: Update an existing purchase order details of an investment
-        tags:
-          - resources
-          - endpoints
-          - Investments
+        description: Update an existing purchase order details of an investment
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: investmentId
             in: path
             required: true
@@ -1600,20 +1415,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         requestBody:
           description: 'Required Parameters <br/> amount, date, po_number, po_line, reference'
           content:
@@ -1645,7 +1446,12 @@
                   success: false
                   message: Investment Not Found
         security:
-          - default: []
+          - oauth2: []
+        summary: Update a Purchase Order
+        tags:
+          - Endpoints
+          - Investments
+          - Purchase Orders
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -1653,13 +1459,10 @@
             - api_key
             - basic_auth
           optional: false
+
     '/investments/{investmentId}/vendors/{vendorId}/invoices':
       post:
-        summary: Create an invoice made by the vendor against an investment
-        tags:
-          - resources
-          - endpoints
-          - Investments
+        description: Create an invoice made by the vendor against an investment
         parameters:
           - name: investmentId
             in: path
@@ -1746,7 +1549,12 @@
                     reference:
                       - has already been taken
         security:
-          - default: []
+          - oauth2: []
+        summary: Create an Invoice
+        tags:
+          - Endpoints
+          - Investments
+          - Invoices
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -1754,14 +1562,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/investments/{investmentId}/vendors/{vendorId}/invoices/{invoiceId}':
       put:
-        summary: Update an existing invoice
-        tags:
-          - resources
-          - endpoints
-          - Investments
+        description: Update an existing invoice
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: investmentId
             in: path
             required: true
@@ -1786,20 +1593,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         requestBody:
           description: 'Required Parameters <br/> amount, date, number'
           content:
@@ -1833,7 +1626,12 @@
                     number:
                       - can't be blank
         security:
-          - default: []
+          - oauth2: []
+        summary: Update an Invoice by ID
+        tags:
+          - Endpoints
+          - Investments
+          - Invoices
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -1841,14 +1639,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/investments/{investmentId}/vendors/{vendorId}/invoices/{invoiceReference}':
       put:
-        summary: Update an existing invoice
-        tags:
-          - resources
-          - endpoints
-          - Investments
+        description: Update an existing invoice
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: investmentId
             in: path
             required: true
@@ -1873,20 +1670,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         requestBody:
           description: 'Required Parameters <br/> amount, date, number'
           content:
@@ -1920,7 +1703,12 @@
                     number:
                       - can't be blank
         security:
-          - default: []
+          - oauth2: []
+        summary: Update an Invoice by Ref.
+        tags:
+          - Endpoints
+          - Investments
+          - Invoices
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -1928,37 +1716,26 @@
             - api_key
             - basic_auth
           optional: false
+
     /invoices:
       get:
-        summary: Retrieve list of invoices
-        tags:
-          - resources
-          - endpoints
-          - Invoices
-        description: >
-          Please note that the index endpoint doesn't currently support
-          pagination. <br /> <strong>Optional Parameters</strong> <p>The following
-          query parameters can be included in the request. These params apply to
-          the Investment the Invoices are assigned to. If an Invoice is not
-          assigned to an Investment, it will not be returned while using these
-          params.  <p>All values should be encoded for URL. If typing into a
-          browser all query parameters are separated by '&', for example after
-          "token=your_token&closed=true&closed_within_days_ago=10"
+        description: |
+          Retrieve list of invoices.
+
+          > This endpoint does not support pagination.
+          
+          #### Query Parameters
+          
+          These query parameters apply to the Investment the Invoices are 
+          assigned to. If an Invoice is not assigned to an Investment, it will
+          not be returned while using these params.
+
+          All values should be encoded for URL; for example:
+          
+          `token=your_token&closed=true&closed_within_days_ago=10`.
         parameters:
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: closed
             in: query
             description: >-
@@ -2012,7 +1789,11 @@
                   - ...
                   - {}
         security:
-          - default: []
+          - oauth2: []
+        summary: List Invoices
+        tags:
+          - Endpoints
+          - Invoices
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2020,14 +1801,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/invoices/{invoiceId}':
       get:
-        summary: Retrieve an invoice details
-        tags:
-          - resources
-          - endpoints
-          - Invoices
+        description: Retrieve an invoice details
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: invoiceId
             in: path
             required: true
@@ -2036,20 +1816,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
           - name: vendor_id
             in: query
             required: true
@@ -2086,7 +1852,11 @@
                   success: false
                   message: Invoice Not Found
         security:
-          - default: []
+          - oauth2: []
+        summary: Get an Invoice
+        tags:
+          - Endpoints
+          - Invoices
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2094,28 +1864,13 @@
             - api_key
             - basic_auth
           optional: false
+
     /organizations:
       get:
-        summary: Retrieve list of organizations
-        tags:
-          - resources
-          - Organizations
         description: Returns a list of all Organizations.
         parameters:
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
         responses:
           '200':
             description: Success
@@ -2126,7 +1881,11 @@
                   example: >-
                     [{"name":"<org_1_name>","id":"<org_1_id>","parent_id":"<org_1_parent_id"},{"name":"<org_2_name>","id":"<org_2_id>","parent_id":"<org_2_parent_id"},{"name":"<org_n_name>","id":"<org_n_id>","parent_id":"<org_n_parent_id"}]
         security:
-          - default: []
+          - oauth2: []
+        summary: List Organizations
+        tags:
+          - Endpoints
+          - Organizations
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2134,16 +1893,17 @@
             - api_key
             - basic_auth
           optional: false
+
     '/{organizationId}/organizations':
       post:
-        summary: Create new organizations
-        tags:
-          - resources
-          - Organizations
-        description: >-
-          Please note that a {organizationId} is required in the URL. A top-level
-          organization cannot be created through the API.
+        description: |
+          Create new organization.
+          
+          An {organizationId} is required in the URL. A top-level organization
+          cannot be created through the API.
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: organizationId
             in: path
             required: true
@@ -2152,20 +1912,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         requestBody:
           description: |
             <strong>Required Parameters.</strong> <br/> name, org_code
@@ -2199,7 +1945,11 @@
                     {"errors":{"name":["can't be blank"],"org_code":["can't be
                     blank"]}}
         security:
-          - default: []
+          - oauth2: []
+        summary: Create an Orgnization
+        tags:
+          - Endpoints
+          - Organizations
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2207,39 +1957,26 @@
             - api_key
             - basic_auth
           optional: false
+
     /payments:
       get:
-        summary: Retrieve list of payments
-        tags:
-          - resources
-          - endpoints
-          - Payments
-        description: >
-          Please note that the index endpoint doesn't currently support
-          pagination.<br/><br/> <strong>Optional Parameters</strong> <p>The
-          following query parameters can be included in the request. These params
-          apply to the Investment the Payments are assigned to. If a Payment is
-          not assigned to an Investment, it will not be returned while using these
-          params.
+        description: |
+          Retrieve list of payments
+          
+          > This endpoint does not support pagination.
+          
+          #### Query Parameters
+          
+          These query parameters apply to the Investment the Payments are 
+          assigned to. If a Payment is not assigned to an Investment, it will
+          not be returned while using these params.
 
-          <p>All values should be encoded for URL. If typing into a browser all
-          query parameters are separated by '&', for example after
-          "token=your_token&closed=true&closed_within_days_ago=10"
+          All values should be encoded for URL; for example:
+          
+          `token=your_token&closed=true&closed_within_days_ago=10`.
         parameters:
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: closed
             in: query
             description: >-
@@ -2294,7 +2031,11 @@
                   - ...
                   - {}
         security:
-          - default: []
+          - oauth2: []
+        summary: List Payments
+        tags:
+          - Endpoints
+          - Payments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2303,11 +2044,7 @@
             - basic_auth
           optional: false
       post:
-        summary: Create new payment
-        tags:
-          - resources
-          - endpoints
-          - Payments
+        description: Create new payment
         parameters:
           - name: x-api-token
             in: header
@@ -2374,7 +2111,11 @@
                     reference:
                       - has already been taken
         security:
-          - default: []
+          - oauth2: []
+        summary: Create a Payment
+        tags:
+          - Endpoints
+          - Payments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2382,14 +2123,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/payments/{paymentId}':
       get:
-        summary: Retrieve payment details
-        tags:
-          - resources
-          - endpoints
-          - Payments
+        description: Retrieve payment details
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: paymentId
             in: path
             required: true
@@ -2398,20 +2138,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         responses:
           '200':
             description: Success
@@ -2441,7 +2167,11 @@
                   success: false
                   message: Payment Not Found
         security:
-          - default: []
+          - oauth2: []
+        summary: Get a Payment
+        tags:
+          - Endpoints
+          - Payments
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2449,39 +2179,26 @@
             - api_key
             - basic_auth
           optional: false
+
     /purchase_orders:
       get:
-        summary: Retrieve list of purchase orders
-        tags:
-          - resources
-          - endpoints
-          - Purchase Orders
-        description: >-
-          Please note that the index endpoint doesn't currently support
-          pagination. <br/> <br/> <strong>Optional Parameters</strong> <p>The
-          following query parameters can be included in the request. These params
-          apply to the Investment the Purchase Orders are assigned to. If a
-          Purchase Order is not assigned to an Investment, it will not be returned
-          while using these params.
+        description: |
+          Retrieve list of purchase orders.
+          
+          > This endpoint does not support pagination.
+          
+          #### Query Parameters
+          
+          These query parameters apply to the Investment the Purchase Orders 
+          are assigned to. If a Purchase Order is not assigned to an Investment,
+          it will not be returned while using these params.
 
-          <p>All values should be encoded for URL. If typing into a browswer all
-          query parameters are separated by '&', for example after
-          "token=your_token&closed=true&closed_within_days_ago=10"
+          All values should be encoded for URL; for example:
+          
+          `token=your_token&closed=true&closed_within_days_ago=10`.
         parameters:
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: closed
             in: query
             description: >-
@@ -2531,7 +2248,11 @@
                   - ...
                   - {}
         security:
-          - default: []
+          - oauth2: []
+        summary: List Purchase Orders
+        tags:
+          - Endpoints
+          - Purchase Orders
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2539,14 +2260,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/purchase_orders/{purchaseOrderId}':
       get:
-        summary: Retrieve purchase order details
-        tags:
-          - resources
-          - endpoints
-          - Purchase Orders
+        description: Retrieve purchase order details
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: purchaseOrderId
             in: path
             required: true
@@ -2555,20 +2275,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         responses:
           '200':
             description: Success
@@ -2596,7 +2302,11 @@
                   success: false
                   message: Purchase Order Not Found
         security:
-          - default: []
+          - oauth2: []
+        summary: Get a Purchase Order
+        tags:
+          - Endpoints
+          - Purchase Orders
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2604,28 +2314,13 @@
             - api_key
             - basic_auth
           optional: false
+
     /users:
       get:
-        summary: Retrieve list of users
-        tags:
-          - resources
-          - endpoints
-          - Users
+        description: Retrieve list of users
         parameters:
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
         responses:
           '200':
             description: Success
@@ -2638,7 +2333,11 @@
                     Doe","email":"john.doe@finario.com","external_id":"x19221zz5","authority_assignments":[{"authority":"Project
                     Manager","organization":"Northeast"}],"permissions":[{"name":"View/Edit","organization":"Northeast"}],"has_actual_costs_feature":true,"has_approvals":true,"has_budgets_feature":true,"has_portfolios_feature":true,"has_reports":true,"active_for_authentication":true,"last_modified":"2017-11-06T11:37:39-05:00"},"..."]
         security:
-          - default: []
+          - oauth2: []
+        summary: List Users
+        tags:
+          - Endpoints
+          - Users
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2646,15 +2345,14 @@
             - api_key
             - basic_auth
           optional: false
-    '/users/{+userEmail}':
+
+    '/users/{userEmail}':
       get:
-        summary: Retrieve user details
-        tags:
-          - resources
-          - endpoints
-          - Users
+        description: Retrieve user details
         parameters:
-          - name: +userEmail
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
+          - name: userEmail
             in: path
             required: true
             style: simple
@@ -2662,20 +2360,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         responses:
           '200':
             description: Success
@@ -2695,7 +2379,11 @@
                   type: string
                   example: '{"success":false,"message":"User Not Found"}'
         security:
-          - default: []
+          - oauth2: []
+        summary: Retrieve a single User
+        tags:
+          - Endpoints
+          - Users
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2704,13 +2392,9 @@
             - basic_auth
           optional: false
       put:
-        summary: Update an existing user
-        tags:
-          - resources
-          - endpoints
-          - Users
+        description: Update an existing user
         parameters:
-          - name: +userEmail
+          - name: userEmail
             in: path
             required: true
             style: simple
@@ -2759,7 +2443,11 @@
                   type: string
                   example: '{"errors":{"external_id":["has already been taken"]}}'
         security:
-          - default: []
+          - oauth2: []
+        summary: Update a User
+        tags:
+          - Endpoints
+          - Users
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2767,29 +2455,13 @@
             - api_key
             - basic_auth
           optional: false
+
     /vendors:
       get:
-        summary: Retrieve list of vendors
-        tags:
-          - resources
-          - endpoints
-          - Vendors
         description: Returns a list of all Vendors.
         parameters:
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
         responses:
           '200':
             description: Success
@@ -2802,7 +2474,11 @@
                     id>","external_ids":["<external vendor id>","<external id
                     2>","<external id n>"]},"..."]
         security:
-          - default: []
+          - oauth2: []
+        summary: List Vendors
+        tags:
+          - Endpoints
+          - Vendors
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2811,11 +2487,7 @@
             - basic_auth
           optional: false
       post:
-        summary: Create new vendor
-        tags:
-          - resources
-          - endpoints
-          - Vendors
+        description: Create new vendor
         parameters:
           - name: x-api-token
             in: header
@@ -2856,7 +2528,11 @@
                     {"errors":{"name":["can't be blank"],"short_name":["has
                     already been taken"]}}
         security:
-          - default: []
+          - oauth2: []
+        summary: Create a Vendor
+        tags:
+          - Endpoints
+          - Vendors
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2864,14 +2540,13 @@
             - api_key
             - basic_auth
           optional: false
+
     '/vendors/{vendorId}':
       put:
-        summary: Update an existing vendor
-        tags:
-          - resources
-          - endpoints
-          - Vendors
+        description: Update an existing vendor
         parameters:
+          - $ref: '#/components/parameters/ApiToken'
+          - $ref: '#/components/parameters/ContentType'
           - name: vendorId
             in: path
             required: true
@@ -2880,20 +2555,6 @@
             schema:
               type: string
               format: string
-          - name: x-api-token
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-          - name: Content-Type
-            in: header
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
         requestBody:
           description: Required Parameters <br/> name
           content:
@@ -2911,7 +2572,11 @@
                   type: string
                   example: '{"errors":{"name":["can''t be blank"]}}'
         security:
-          - default: []
+          - oauth2: []
+        summary: Update a Vendor
+        tags:
+          - Endpoints
+          - Vendors
         x-auth-type: Application & Application User
         x-throttling-tier: Unlimited
         x-wso2-application-security:
@@ -2919,10 +2584,126 @@
             - api_key
             - basic_auth
           optional: false
-  security:
-    - default: []
+
   components:
+    parameters:
+      ContentType:
+        in: header
+        name: Content-Type
+        required: true
+        schema:
+          enum: ['application/json']
+          type: string
+      ApiToken:
+        description: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        in: header
+        name: x-api-token
+        required: true
+        schema:
+          type: string
+
+
     schemas:
+
+      CostCategory:
+        type: object
+        properties:
+          category_code:
+            description: The category shortcode.
+            type: string
+          id:
+            description: Cost Category ID.
+            type: string
+          name:
+            description: The name of the Cost Category.
+            type: string
+
+      CostCategoryPostPut:
+        type: object
+        properties:
+          name:
+            description: The name of the Cost Category.
+            type: string
+          category_code:
+            description: The category shortcode.
+            type: string
+          parent_name:
+            description: |
+              If there is no category with the given name, a new category will 
+              be created.
+            type: string
+        required:
+          - name
+
+      ErrorMessage:
+        type: object
+        properties:
+          errors:
+            description: An array of error messages.
+            type: array
+            items:
+              type: string
+
+
+
+
+
+      CreateCost:
+        type: object
+        properties:
+          name:
+            type: string
+            description: (required)
+          account:
+            type: string
+            description: >-
+              Must be the Name of an account that already exists in your Finario
+              application. (required)
+          expected_units:
+            type: array
+            description: >
+              An array of Expected Unit objects, e.g. [{"quantity": 1,
+              "project_month": "M3"}]. If more than one expected_unit object is
+              passed in, only the first in the array will be used. (required)
+            items:
+              type: string
+          vendor_name:
+            type: string
+            description: >-
+              Must be the Name of a vendor that already exists in your Finario
+              application.
+          cost_category:
+            type: string
+            description: >-
+              Must be the Name of a Cost Category that already exists in your
+              Finario application.
+          apply_tax:
+            type: string
+            description: Send value yes if tax should be applied.
+          'expected_units_object[quantity]':
+            type: number
+          'expected_units_object[project_month]':
+            type: string
+            description: >-
+              This should be the project month of the investment the cost occurs
+              in. For example, if the investment has a start_date of January 2016,
+              and the cost falls in February 2016, the project_month is "M2";
+              February 2017 is "M14".
+          unit_price:
+            type: object
+          'unit_price[dollars]':
+            type: number
+          'unit_price[currency]':
+            type: string
+            description: For example "USD" or "EUR".
+          freight:
+            type: object
+          'freight[dollars]':
+            type: number
+          'freight[currency]':
+            type: string
+            description: For example "USD" or "EUR".
+
       CreateInvestment:
         type: object
         properties:
@@ -2981,6 +2762,7 @@
             description: >-
               Providing a value here will automatically add the keyword "api" to
               the created investment.
+
       CreateOrganization:
         type: object
         properties:
@@ -2993,74 +2775,7 @@
           default_currency_code:
             type: string
             description: 'ISO code. e.g., ''USD'' or ''EUR'''
-      CreateCost:
-        type: object
-        properties:
-          name:
-            type: string
-            description: (required)
-          account:
-            type: string
-            description: >-
-              Must be the Name of an account that already exists in your Finario
-              application. (required)
-          expected_units:
-            type: array
-            description: >
-              An array of Expected Unit objects, e.g. [{"quantity": 1,
-              "project_month": "M3"}]. If more than one expected_unit object is
-              passed in, only the first in the array will be used. (required)
-            items:
-              type: string
-          vendor_name:
-            type: string
-            description: >-
-              Must be the Name of a vendor that already exists in your Finario
-              application.
-          cost_category:
-            type: string
-            description: >-
-              Must be the Name of a Cost Category that already exists in your
-              Finario application.
-          apply_tax:
-            type: string
-            description: Send value yes if tax should be applied.
-          'expected_units_object[quantity]':
-            type: number
-          'expected_units_object[project_month]':
-            type: string
-            description: >-
-              This should be the project month of the investment the cost occurs
-              in. For example, if the investment has a start_date of January 2016,
-              and the cost falls in February 2016, the project_month is "M2";
-              February 2017 is "M14".
-          unit_price:
-            type: object
-          'unit_price[dollars]':
-            type: number
-          'unit_price[currency]':
-            type: string
-            description: For example "USD" or "EUR".
-          freight:
-            type: object
-          'freight[dollars]':
-            type: number
-          'freight[currency]':
-            type: string
-            description: For example "USD" or "EUR".
-      CreateCostCategory:
-        type: object
-        properties:
-          name:
-            type: string
-            description: (required)
-          category_code:
-            type: string
-          parent_name:
-            type: string
-            description: >-
-              If there is no category with the given name, a new category will be
-              created.
+
       UpdateUser:
         type: object
         properties:
@@ -3114,6 +2829,7 @@
             description: >-
               Must match an organization name that already exists in your Finario
               application.
+
       CreateVendor:
         type: object
         properties:
@@ -3152,6 +2868,7 @@
             type: string
           notes:
             type: string
+
       CreatePurchaseOrder:
         type: object
         properties:
@@ -3188,6 +2905,7 @@
             description: >-
               e.g., "abc123" This ID is used to match payments to a cost and must
               exist on the cost prior to using it for matching.
+
       CreateInvoice:
         type: object
         properties:
@@ -3230,6 +2948,7 @@
             description: >-
               e.g., "abc123" This ID is used to match payments to a cost and must
               exist on the cost prior to using it for matching.
+
       CreatePayment:
         type: object
         properties:
@@ -3276,14 +2995,19 @@
           account_id:
             type: string
             description: 'e.g., "abc123" This ID is used to match payments to a cost'
+
     securitySchemes:
-      default:
+      oauth2:
         type: oauth2
         flows:
           implicit:
             authorizationUrl: 'https://api-proxy.finario.com/oauth2/authorize'
             scopes: {}
+
   x-wso2-auth-header: Authorization
+
+  x-wso2-basePath: /api/1.1
+
   x-wso2-cors:
     corsConfigurationEnabled: true
     accessControlAllowOrigins:
@@ -3304,14 +3028,15 @@
       - DELETE
       - PATCH
       - OPTIONS
+
+  x-wso2-response-cache:
+    enabled: false
+    cacheTimeoutInSeconds: 300
+
   x-wso2-sandbox-endpoints:
     urls:
       - 'https://enterprise-lab.finario.com/api/'
     type: http
-  x-wso2-basePath: /api/1.0
+
   x-wso2-transports:
-    - http
     - https
-  x-wso2-response-cache:
-    enabled: false
-    cacheTimeoutInSeconds: 300
