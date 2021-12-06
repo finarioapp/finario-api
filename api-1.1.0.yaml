@@ -1058,6 +1058,7 @@
           - $ref: '#/components/parameters/ContentType'
           - $ref: '#/components/parameters/InvestmentId'
           - name: unique_cost_id
+            description: The unique cost id
             in: query
             required: true
             style: form
@@ -1136,14 +1137,7 @@
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
           - $ref: '#/components/parameters/InvestmentId'
-          - name: paymentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/PaymentId'
         requestBody:
           description: 'Required Parameters <br/> amount, date, reference,'
           content:
@@ -1938,14 +1932,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: paymentId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/PaymentId'  
         responses:
           '200':
             description: Success
@@ -2422,6 +2409,15 @@
         description: The unique identifier for the Cost
         in: path
         name: costId
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      PaymentId:
+        description: The unique identifier for the Payment
+        in: path
+        name: paymentId
         required: true
         style: simple
         explode: false
