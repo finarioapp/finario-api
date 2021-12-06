@@ -1254,14 +1254,7 @@
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
           - $ref: '#/components/parameters/InvestmentId'
-          - name: purchaseOrderId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/PurchaseOrderId'
         requestBody:
           description: 'Required Parameters <br/> amount, date, po_number, po_line, reference'
           content:
@@ -1932,7 +1925,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - $ref: '#/components/parameters/PaymentId'  
+          - $ref: '#/components/parameters/PaymentId'
         responses:
           '200':
             description: Success
@@ -2062,14 +2055,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: purchaseOrderId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/PurchaseOrderId'
         responses:
           '200':
             description: Success
@@ -2418,6 +2404,15 @@
         description: The unique identifier for the Payment
         in: path
         name: paymentId
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      PurchaseOrderId:
+        description: The unique identifier for the Purchase Order
+        in: path
+        name: purchaseOrderId
         required: true
         style: simple
         explode: false
