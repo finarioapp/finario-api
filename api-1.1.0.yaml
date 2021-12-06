@@ -1307,14 +1307,7 @@
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
           - $ref: '#/components/parameters/InvestmentId'
-          - name: vendorId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/VendorId'
         requestBody:
           description: 'Required Parameters <br/> amount, date, number'
           content:
@@ -1391,22 +1384,8 @@
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
           - $ref: '#/components/parameters/InvestmentId'
-          - name: vendorId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
-          - name: invoiceId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/VendorId'
+          - $ref: '#/components/parameters/InvoiceId'
         requestBody:
           description: 'Required Parameters <br/> amount, date, number'
           content:
@@ -1461,22 +1440,15 @@
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
           - $ref: '#/components/parameters/InvestmentId'
-          - name: vendorId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/VendorId'
           - name: invoiceReference
+            description: The reference of an invoice
             in: path
             required: true
             style: simple
             explode: false
             schema:
               type: string
-              format: string
         requestBody:
           description: 'Required Parameters <br/> amount, date, number'
           content:
@@ -1615,14 +1587,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: invoiceId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/InvoiceId'
           - name: vendor_id
             in: query
             required: true
@@ -2318,14 +2283,7 @@
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: vendorId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/VendorId'
         requestBody:
           description: Required Parameters <br/> name
           content:
@@ -2413,6 +2371,24 @@
         description: The unique identifier for the Purchase Order
         in: path
         name: purchaseOrderId
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      VendorId:
+        description: The unique identifier for the Vendor
+        in: path
+        name: vendorId
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      InvoiceId:
+        description: The unique identifier for the Invoice
+        in: path
+        name: invoiceId
         required: true
         style: simple
         explode: false
