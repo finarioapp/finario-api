@@ -945,14 +945,7 @@
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
           - $ref: '#/components/parameters/InvestmentId'
-          - name: costId
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/CostId'
         responses:
           '200':
             description: Success
@@ -984,21 +977,14 @@
             - basic_auth
           optional: false
 
-    '/investments/{investmentId}/costs/{cost_id}/payments':
+    '/investments/{investmentId}/costs/{costId}/payments':
       post:
         description: Create payment against an existing investment cost
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
           - $ref: '#/components/parameters/InvestmentId'
-          - name: cost_id
-            in: path
-            required: true
-            style: simple
-            explode: false
-            schema:
-              type: string
-              format: string
+          - $ref: '#/components/parameters/CostId'
         requestBody:
           description: 'Required Parameters <br/> amount, date, reference,'
           content:
@@ -2424,7 +2410,7 @@
         schema:
           type: string
       ApprovalId:
-        description: The unique identifier of the Approval
+        description: The unique identifier for the Approval
         in: path
         name: approvalId
         required: true
@@ -2432,7 +2418,15 @@
         explode: false
         schema:
           type: string
-
+      CostId:
+        description: The unique identifier for the Cost
+        in: path
+        name: costId
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
 
     schemas:
 
