@@ -5,6 +5,7 @@
   "main": "index",
   "scripts": {
     "gen": "redoc-cli bundle api-1.1.0.yaml",
+    "lint": "openapi lint api-1.1.0.yaml",
     "serve": "redoc-cli serve --watch api-1.1.0.yaml"
   },
   "repository": {
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/integrationworks-uk/finario-api#readme",
   "dependencies": {
+    "@redocly/openapi-cli": "^1.0.0-beta.69",
     "redoc-cli": "^0.13.1"
   }
 }
