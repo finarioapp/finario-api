@@ -1347,31 +1347,8 @@
             description: Success
             content:
               application/json:
-                example:
-                  - amount:
-                      cents: 2000000
-                      currency: USD
-                    assignment:
-                      organization_id: <org_id>
-                      user_id: <user_id>
-                      investment_id: <investment_id>
-                      cost_id: <cost_id>
-                      manually_unassigned: false
-                    date: '2016-11-30T00:00:00.000+0000'
-                    description: An invoice we like a lot
-                    gl_line: '2'
-                    id: <invoice_id>
-                    number: '42'
-                    po_line: '2'
-                    po_number: '33'
-                    po_type: <po_type>
-                    reference: <unique_reference_id>
-                    vendor_id: <vendor_id>
-                    unique_cost_id: <unique_cost_id>
-                    cost_category_id: <cost_category_id>
-                  - {}
-                  - ...
-                  - {}
+                schema:
+                  $ref: '#/components/schemas/InvoicesGetAll'
         security:
           - oauth2: []
         summary: List Invoices
@@ -1406,29 +1383,14 @@
             description: Success
             content:
               application/json:
-                example:
-                  amount:
-                    cents: 1000
-                    currency: USD
-                  assignment:
-                    organization_id: <org_id>
-                    user_id: <user_id>
-                    investment_id: <investment_id>
-                    cost_id: <cost_id>
-                    manually_unassigned: false
-                  date: '2016-11-30T05:00:00.000+0000'
-                  id: <invoice_id>
-                  po_type: <po_type>
-                  vendor_id: <vendor_id>
-                  unique_cost_id: <unique_cost_id>
-                  cost_category_id: <cost_category_id>
+                schema:
+                  $ref: '#/components/schemas/Invoices'
           '404':
             description: Not Found
             content:
               application/json:
-                example:
-                  success: false
-                  message: Invoice Not Found
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Get an Invoice
@@ -2683,6 +2645,78 @@
               type: string
             vendor_id:
               description: The vendor id for the Invoice.
+              type: string
+
+      InvoicesGetAll:
+        type: array
+        items:
+          type: object
+          properties:
+            amount:
+              description: The amount for the Invoice.
+              type: object
+              properties:
+                cents:
+                  description: The cents equivalent for the amount.
+                  type: number
+                currency:
+                  description: The currency for the the amount.
+                  type: string
+            assignment:
+              description: THe assignment for the Invoice.
+              type: object
+              properties:
+                organization_id:
+                  description: The organization id for the assignment.
+                  type: string
+                user_id:
+                  description: The user id for the assignment.
+                  type: string
+                investment_id:
+                  description: The investment id for the assignment.
+                  type: string
+                cost_id:
+                  description: The cost id for the assignment.
+                  type: string
+                manually_unassigned:
+                  description: The manually unassigned for the assignment.
+                  type: string
+            date:
+              description: The date for the Invoice.
+              type: string
+              format: date
+            description:
+              description: The description for the Invoice.
+              type: string
+            gl_line:
+              description: The GL line for the Invoice.
+              type: string
+            id:
+              description: The unique identifier for the Invoice.
+              type: string
+            number:
+              description: The number for the Invoice.
+              type: string
+            po_line:
+              description: The PO line for the Invoice.
+              type: string
+            po_number:
+              description: The PO number for the Invoice.
+              type: string
+            po_type:
+              description: The PO type for the Invoice.
+              type: string
+            reference:
+              description: The reference for the Invoice.
+              type: string
+            vendor_id:
+              description: The vendor id for the Invoice.
+              type: string
+            unique_cost_id:
+              description: The unique cost id for the Invoice.
+              type: string
+            cost_category_id:
+              description: The cost category id for the Invoice.
               type: string
 
       ErrorMessage:
