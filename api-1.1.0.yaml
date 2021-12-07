@@ -1096,41 +1096,20 @@
             description: Created
             content:
               application/json:
-                example:
-                  amount:
-                    cents: 1000
-                    currency: USD
-                  assignment:
-                    organization_id: <organization_id>
-                    user_id: <user_id>
-                    investment_id: <investment_id>
-                    cost_id: <cost_id>
-                    manually_unassigned: false
-                  date: '2016-11-22T05:00:00.000+0000'
-                  id: <purchase_order_id>
-                  po_line: <po_line>
-                  po_number: <po_number>
+                schema:
+                  $ref: '#/components/schemas/PurchaseOrders'
           '402':
             description: Missing required fields
             content:
               application/json:
-                example:
-                  errors:
-                    date:
-                      - can't be blank
-                    amount:
-                      - can't be blank
-                    po_number:
-                      - can't be blank
-                    po_line:
-                      - can't be blank
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
           '404':
             description: Investment not found
             content:
               application/json:
-                example:
-                  success: false
-                  message: Investment Not Found
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Create a Purchase Order
@@ -1167,23 +1146,14 @@
             description: Missing required fields
             content:
               application/json:
-                example:
-                  errors:
-                    date:
-                      - can't be blank
-                    amount:
-                      - can't be blank
-                    po_number:
-                      - can't be blank
-                    po_line:
-                      - can't be blank
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
           '404':
             description: Investment not found
             content:
               application/json:
-                example:
-                  success: false
-                  message: Investment Not Found
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Update a Purchase Order
@@ -2659,6 +2629,66 @@
               type: string
             account_id:
               description: The account id for the Payment.
+              type: string
+
+      PurchaseOrders:
+        type: array
+        items:
+          type: object
+          properties:
+            amount:
+              description: The amount for the Purchase Orders.
+              type: object
+              properties:
+                cents:
+                  description: The cents equivalent for the amount.
+                  type: number
+                currency:
+                  description: The currency for the the amount.
+                  type: string
+            assignment:
+              description: THe assignment for the Purchase Orders.
+              type: object
+              properties:
+                organization_id:
+                  description: The organization id for the assignment.
+                  type: string
+                user_id:
+                  description: The user id for the assignment.
+                  type: string
+                investment_id:
+                  description: The investment id for the assignment.
+                  type: string
+                cost_id:
+                  description: The cost id for the assignment.
+                  type: string
+                manually_unassigned:
+                  description: The manually unassigned for the assignment.
+                  type: string
+            date:
+              description: The date for the Purchase Orders.
+              type: string
+              format: date
+            description:
+              description: The description for the Purchase Oders.
+              type: string
+            id:
+              description: The unique identifier for the Purchase Orders.
+              type: string
+            po_line:
+              description: The PO line for the Purchase Orders.
+              type: string
+            po_number:
+              description: The PO number for the Purchase Orders.
+              type: string
+            po_type:
+              description: The type of PO for the Purchase Orders.
+              type: string
+            reference:
+              description: The reference for the Purchase Orders.
+              type: string
+            vendor_id:
+              description: The vendor id for the Pruchase Orders.
               type: string
 
       ErrorMessage:
