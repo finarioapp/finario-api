@@ -1731,11 +1731,7 @@
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    [{"id":"abc123","name":"John
-                    Doe","email":"john.doe@finario.com","external_id":"x19221zz5","authority_assignments":[{"authority":"Project
-                    Manager","organization":"Northeast"}],"permissions":[{"name":"View/Edit","organization":"Northeast"}],"has_actual_costs_feature":true,"has_approvals":true,"has_budgets_feature":true,"has_portfolios_feature":true,"has_reports":true,"active_for_authentication":true,"last_modified":"2017-11-06T11:37:39-05:00"},"..."]
+                  $ref: '#/components/schemas/Users'
         security:
           - oauth2: []
         summary: List Users
@@ -1763,18 +1759,13 @@
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    {"id":"abc123","name":"John
-                    Doe","email":"john.doe@finario.com","external_id":"x19221zz5","authority_assignments":[{"authority":"Project
-                    Manager","organization":"Northeast"}],"permissions":[{"name":"View/Edit","organization":"Northeast"}],"has_actual_costs_feature":true,"has_approvals":true,"has_budgets_feature":true,"has_portfolios_feature":true,"has_reports":true,"active_for_authentication":true,"last_modified":"2017-11-06T11:37:39-05:00"}
+                  $ref: '#/components/schemas/Users'
           '404':
             description: Success
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"success":false,"message":"User Not Found"}'
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Retrieve a single User
@@ -1809,17 +1800,13 @@
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    {"errors":{"first_name":["can't be blank"],"last_name":["can't
-                    be blank"]}}
+                  $ref: '#/components/schemas/ErrorMessageDirect'
           '422':
             description: Duplicate external id
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"errors":{"external_id":["has already been taken"]}}'
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Update a User
@@ -1846,11 +1833,7 @@
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    [{"name":"<name>","id":"<id>","vendor_id":"<external vendor
-                    id>","external_ids":["<external vendor id>","<external id
-                    2>","<external id n>"]},"..."]
+                  $ref: '#/components/schemas/Vendors'
         security:
           - oauth2: []
         summary: List Vendors
@@ -1881,18 +1864,13 @@
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    {"id":"<id>","name":"<vendor_name>","vendor_id":"<vendor_id>","external_ids":["<vendor_id_1>","<vendor_id_2>","<vendor_id_n>"]}
+                  $ref: '#/components/schemas/Vendors'
           '422':
             description: Missing required field / Duplicate vendor_id
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    {"errors":{"name":["can't be blank"],"short_name":["has
-                    already been taken"]}}
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Create a Vendor
@@ -1928,8 +1906,7 @@
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"errors":{"name":["can''t be blank"]}}'
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Update a Vendor
@@ -2635,6 +2612,88 @@
           id:
             description: The unique identifier created for the Organization.
             type: string
+
+      Users:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              description: The unique identifier for the User.
+              type: string
+            name:
+              description: The full name for the User.
+              type: string
+            email:
+              description: The email address for the User.
+              type: string
+            external_id:
+              description: The external id for the User.
+              type: string
+            authority_assignments:
+              description: The authority assignments for the User.
+              type: array
+              items:
+                type: object
+                properties:
+                  authority:
+                    description: The authority for the assigments.
+                    type: string
+                  organization:
+                    description: The organization for the assignments.
+                    type: string
+            permissions:
+              description: The permissions for the User.
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    description: The name for the permissions.
+                    type: string
+                  organization:
+                    description: The organization for the permissions.
+                    type: string
+            has_actual_costs_feature:
+              description: The has actual costs feature id for the User.
+              type: boolean
+            has_approvals:
+              description: The has approvals for the User.
+              type: boolean
+            has_budgets_feature:
+              description: The has budgets feature for the User.
+              type: boolean
+            has_portfolios_feature:
+              description: The has portfolios feature for the User.
+              type: boolean
+            has_reports:
+              description: The has reports for the User.
+              type: boolean
+            active_for_authentication:
+              description: The active for authentication for the User.
+              type: boolean
+            last_modified:
+              description: The last modified timestamp for the User.
+              type: string
+              format: date-time
+
+      Vendors:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              description: The name for the Vendor.
+              type: string
+            id:
+              description: The unique identifier for the Vendor.
+              type: string
+            vendor_id:
+              description: The external Vendor id.
+              type: string
+            external_ids:
+              description: The lists of external ids for the Vendor.
+              type: array
 
       ErrorMessage:
         type: object
