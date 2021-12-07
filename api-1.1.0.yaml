@@ -955,10 +955,7 @@
           '422':
             description: Unprocessable Entity
             content:
-              Missing required fields:
-                schema:
-                  $ref: '#/components/schemas/ErrorMessageDirect'
-              Duplicate Reference ID:
+              application/json:
                 schema:
                   $ref: '#/components/schemas/ErrorMessageDirect'
         security:
@@ -1013,10 +1010,7 @@
           '422':
             description: Unprocessable Entity
             content:
-              Missing required fields:
-                schema:
-                  $ref: '#/components/schemas/ErrorMessageDirect'
-              Duplicate Reference ID:
+              application/json:
                 schema:
                   $ref: '#/components/schemas/ErrorMessageDirect'
         security:
@@ -1188,49 +1182,20 @@
             description: Created
             content:
               application/json:
-                example:
-                  amount:
-                    cents: 1000
-                    currency: USD
-                  assignment:
-                    organization_id: <org_id>
-                    user_id: <user_id>
-                    investment_id: <investment_id>
-                    cost_id: <cost_id>
-                    manually_unassigned: false
-                  date: '2016-11-30T05:00:00.000+0000'
-                  id: <invoice_id>
-                  number: <invoice_number>
-                  reference: <invoice_reference_id>
-                  vendor_id: <vendor_id>
+                schema:
+                  $ref: '#/components/schemas/Invoices'
           '404':
             description: Not found
             content:
-              Investment:
-                example:
-                  success: false
-                  message: Investment Not Found
-              Vendor:
-                example:
-                  success: false
-                  message: Vendor Not Found
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
           '422':
             description: Unprocessable Entity
             content:
-              Missing required fields:
-                example:
-                  errors:
-                    date:
-                      - can't be blank
-                    amount:
-                      - can't be blank
-                    number:
-                      - can't be blank
-              Duplicate Reference ID:
-                example:
-                  errors:
-                    reference:
-                      - has already been taken
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Create an Invoice
@@ -1267,26 +1232,15 @@
           '404':
             description: Not found
             content:
-              Investment:
-                example:
-                  success: false
-                  message: Investment Not Found
-              Vendor:
-                example:
-                  success: false
-                  message: Vendor Not Found
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
           '422':
             description: Unprocessable Entity
             content:
-              Missing required fields:
-                example:
-                  errors:
-                    date:
-                      - can't be blank
-                    amount:
-                      - can't be blank
-                    number:
-                      - can't be blank
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Update an Invoice by ID
@@ -1323,26 +1277,15 @@
           '404':
             description: Not found
             content:
-              Investment:
-                example:
-                  success: false
-                  message: Investment Not Found
-              Vendor:
-                example:
-                  success: false
-                  message: Vendor Not Found
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
           '422':
             description: Unprocessable Entity
             content:
-              Missing required fields:
-                example:
-                  errors:
-                    date:
-                      - can't be blank
-                    amount:
-                      - can't be blank
-                    number:
-                      - can't be blank
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Update an Invoice by Ref.
@@ -2689,6 +2632,57 @@
               type: string
             vendor_id:
               description: The vendor id for the Pruchase Orders.
+              type: string
+
+      Invoices:
+        type: array
+        items:
+          type: object
+          properties:
+            amount:
+              description: The amount for the Invoice.
+              type: object
+              properties:
+                cents:
+                  description: The cents equivalent for the amount.
+                  type: number
+                currency:
+                  description: The currency for the the amount.
+                  type: string
+            assignment:
+              description: THe assignment for the Invoice.
+              type: object
+              properties:
+                organization_id:
+                  description: The organization id for the assignment.
+                  type: string
+                user_id:
+                  description: The user id for the assignment.
+                  type: string
+                investment_id:
+                  description: The investment id for the assignment.
+                  type: string
+                cost_id:
+                  description: The cost id for the assignment.
+                  type: string
+                manually_unassigned:
+                  description: The manually unassigned for the assignment.
+                  type: string
+            date:
+              description: The date for the Invoice.
+              type: string
+              format: date
+            id:
+              description: The unique identifier for the Invoice.
+              type: string
+            number:
+              description: The number for the Invoice.
+              type: string
+            reference:
+              description: The reference for the Invoice.
+              type: string
+            vendor_id:
+              description: The vendor id for the Invoice.
               type: string
 
       ErrorMessage:
