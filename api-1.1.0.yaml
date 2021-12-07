@@ -855,9 +855,7 @@
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    {"account_id":"<account_id>","approved":false,"cost_category_id":"<cost_category_id>","unit_price":{"cents":500000,"currency":"USD"},"freight":{"cents":0,"currency":"USD"},"sales_tax_rule":{"rate":5,"taxable":[]},"expected_units":[{"date":[2015,10],"quantity":"1","unit_cost":{"cents":500000,"currency":"USD"}}],"id":"<cost_id>","name":"<cost_name>","depreciable_cache":true,"forecast_spends":[[{"cents":500000,"currency":"USD"},[2015,10]]],"suspended_spends":[],"approved_spends":[],"actual_spends":[],"revised_forecast":[[{"cents":500000,"currency":"USD"},[2015,10]]],"forecasted_at":"2016-11-29T16:08:18-05:00","base_forecast_total":{"cents":500000,"currency":"USD"},"base_approved_total":{"cents":0,"currency":"USD"},"base_spends":[[{"cents":500000,"currency":"USD"},[2015,10]]]}
+                  $ref: '#/components/schemas/Costs'
           '404':
             description: Investment not found
             content:
@@ -2468,6 +2466,160 @@
           organization_code:
             description: The organization code.
             type: string
+
+      Costs:
+        type: object
+        properties:
+          account_id:
+            description: The account id for the Cost.
+            type: string
+          approved:
+            description: The approve status for the Cost.
+            type: boolean
+          cost_category_id:
+            description: The cost category id for the Cost.
+            type: string
+          unit_price:
+            type: object
+            properties:
+              cents:
+                description: The cents equivalent value for the unit price.
+                type: number
+              currency:
+                description: The currency for the unit price.
+                type: string
+          freight:
+            type: object
+            properties:
+              cents:
+                description: The cents equivalent value of the amount for the freight.
+                type: number
+              currency:
+                description: The currency for the freight.
+                type: string
+          sales_tax_rule:
+            type: object
+            properties:
+              rate:
+                description: The rate for the sales tax rule.
+                type: number
+              taxable:
+                description: The taxable items for the sales tax rule.
+                type: array
+          expected_units:
+            type: array
+            items:
+              properties:
+                date:
+                  description: The date of the expected units.
+                  type: array
+                quantity:
+                  description: The quantity of the expected units.
+                  type: string
+                unit_cost:
+                  description: The unit cost of the expected units.
+                  type: object
+                  properties:
+                    cents:
+                      description: The cents equivalent value for the unit cost.
+                      type: number
+                    currency:
+                      description: The currency for the unit cost.
+                      type: string
+          id:
+            description: The unique identifier for the Cost.
+            type: string
+          name:
+            description: The name for the Cost.
+            type: string
+          vendor_id:
+            description: The vendor id.
+            type: string
+          depreciable_cache:
+            description: The depreciable cache for the Cost.
+            type: boolean
+          forecast_spends:
+            description: The forecast spends for the Cost.
+            type: array
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  cents:
+                    description: The cents equivalent value for the forecast spends.
+                    type: number
+                  currency:
+                    description: The currency for the forecast spends.
+                    type: string
+          suspended_spends:
+            description: The suspended spends of the Cost.
+            type: array
+          approved_spends:
+            description: The approved spends for the Cost.
+            type: array
+          actual_spends:
+            description: The actual spends for the Cost.
+            type: array
+          revised_forecast:
+            description: The revised forecast for the Cost.
+            type: array
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  cents:
+                    description: The cents equivalent value for the revised forecast.
+                    type: number
+                  currency:
+                    description: The currency for the revised forecast.
+                    type: string
+          forecasted_by_id:
+            description: The user id that performed the forecasting.
+            type: string
+          forecasted_at:
+            description: The forecasted timestamp for the Cost.
+            type: string
+          base_forecast_total:
+            description: The base forcast total for the Cost.
+            type: object
+            properties:
+              cents:
+                description: The cents equivalent value for the base forecast total.
+                type: number
+              currency:
+                description: The currency for the base forecast total.
+                type: string
+          base_approved_total:
+            description: The base approved total for the Cost.
+            type: object
+            properties:
+              cents:
+                description: The cents equivalent value for the base approved total.
+                type: number
+              currency:
+                description: The currency for the base approved total.
+                type: string
+          base_spends:
+            description: The base spends for the Cost.
+            type: array
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  cents:
+                    description: The cents equivalent value for the base spendst.
+                    type: number
+                  currency:
+                    description: The currency for the base spends.
+                    type: string
+          investment_closed_at:
+            description: The investment closed timestamp for the Cost.
+            type: string
+            format: date-time
+
 
       ErrorMessage:
         type: object
