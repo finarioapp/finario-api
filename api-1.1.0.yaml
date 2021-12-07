@@ -819,7 +819,7 @@
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/Investments'
+                  $ref: '#/components/schemas/CostsGet'
         security:
           - oauth2: []
         summary: List Costs
@@ -903,16 +903,13 @@
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    {"account_id":"<account_id>","approved":false,"cost_category_id":"<cost_category_id>","unit_price":{"cents":500000,"currency":"USD"},"freight":{"cents":0,"currency":"USD"},"sales_tax_rule":{"rate":5,"taxable":[]},"expected_units":[{"date":[2015,10],"quantity":"1","unit_cost":{"cents":500000,"currency":"USD"}}],"id":"<cost_id>","name":"<cost_name>","depreciable_cache":true,"forecast_spends":[[{"cents":500000,"currency":"USD"},[2015,10]]],"suspended_spends":[],"approved_spends":[],"actual_spends":[],"revised_forecast":[[{"cents":500000,"currency":"USD"},[2015,10]]],"forecasted_at":"2016-11-29T16:08:18-05:00","base_forecast_total":{"cents":500000,"currency":"USD"},"base_approved_total":{"cents":0,"currency":"USD"},"base_spends":[[{"cents":500000,"currency":"USD"},[2015,10]]]}
+                  $ref: '#/components/schemas/Costs'
           '404':
             description: Not Found
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"success":false,"message":"Cost Not Found"}'
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Get a Cost
@@ -947,45 +944,23 @@
             description: Created
             content:
               application/json:
-                example:
-                  amount:
-                    cents: 1000
-                    currency: USD
-                  assignment:
-                    organization_id: <org_id>
-                    user_id: <user_id>
-                    investment_id: <investment_id>
-                    cost_id: <cost_id>
-                    manually_unassigned: false
-                  date: '2016-11-30T00:00:00.000+0000'
-                  id: <payment_id>
-                  number: <invoice_number>
-                  reference: <invoice_reference_id>
-                  vendor_id: <vendor_id>
-                  cost_category_name: <cost_category_name>
-                  unique_cost_id: <unique_cost_id>
-                  account_id: <account_id>
+                schema:
+                  $ref: '#/components/schemas/Payments'
           '404':
             description: Unmatched Unique Cost ID
             content:
               application/json:
-                example:
-                  errors: {}
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
           '422':
             description: Unprocessable Entity
             content:
               Missing required fields:
-                example:
-                  errors:
-                    date:
-                      - can't be blank
-                    amount:
-                      - can't be blank
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
               Duplicate Reference ID:
-                example:
-                  errors:
-                    reference:
-                      - has already been taken
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Create a Payment
@@ -2467,6 +2442,24 @@
             description: The organization code.
             type: string
 
+      CostsGet:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              description: The name for the Cost.
+              type: string
+            id:
+              description: The unique identifier for the Cost.
+              type: string
+            description:
+              description: The description for the Cost.
+              type: string
+            investment_id:
+              description: The investment id for the Cost.
+              type: string
+
       Costs:
         type: object
         properties:
@@ -2620,6 +2613,80 @@
             type: string
             format: date-time
 
+      Payments:
+        type: array
+        items:
+          type: object
+          properties:
+            amount:
+              description: The amount for the Payment.
+              type: object
+              properties:
+                cents:
+                  description: The cents equivalent for the amount.
+                  type: number
+                currency:
+                  description: The currency for the the amount.
+                  type: string
+            assignment:
+              description: THe assignment for the Payment.
+              type: object
+              properties:
+                organization_id:
+                  description: The organization id for the assignment.
+                  type: string
+                user_id:
+                  description: The user id for the assignment.
+                  type: string
+                investment_id:
+                  description: The investment id for the assignment.
+                  type: string
+                cost_id:
+                  description: The cost id for the assignment.
+                  type: string
+                manually_unassigned:
+                  description: The manually unassigned for the assignment.
+                  type: string
+            check_number:
+              description: The check number for the Payment.
+              type: string
+            date:
+              description: The date for the Payment.
+              type: string
+              format: date
+            description:
+              description: The description for the Payment.
+              type: string
+            id:
+              description: The unique identifier for the Payment.
+              type: string
+            invoice_number:
+              description: The invoice number for the Payment.
+              type: string
+            po_line:
+              description: The PO line for the Payment.
+              type: string
+            po_number:
+              description: The PO number for the Payment.
+              type: string
+            po_type:
+              description: The type of PO for the Payment.
+              type: string
+            reference:
+              description: The reference for the Payment.
+              type: string
+            vendor_id:
+              description: The vendor id for the Payment.
+              type: string
+            cost_category_name:
+              description: The cost category name for the Payment.
+              type: string
+            unique_cost_id:
+              description: The unique cost id for the Payment.
+              type: string
+            account_id:
+              description: The account id for the Payment.
+              type: string
 
       ErrorMessage:
         type: object
