@@ -1002,45 +1002,23 @@
             description: Created
             content:
               application/json:
-                example:
-                  amount:
-                    cents: 1000
-                    currency: USD
-                  assignment:
-                    organization_id: <org_id>
-                    user_id: <user_id>
-                    investment_id: <investment_id>
-                    cost_id: <cost_id>
-                    manually_unassigned: false
-                  date: '2016-11-30T00:00:00.000+0000'
-                  id: <payment_id>
-                  number: <invoice_number>
-                  reference: <invoice_reference_id>
-                  vendor_id: <vendor_id>
-                  cost_category_name: <cost_category_name>
-                  unique_cost_id: <unique_cost_id>
-                  account_id: <account_id>
+                schema:
+                  $ref: '#/components/schemas/Payments'
           '404':
             description: Unmatched Unique Cost ID
             content:
               application/json:
-                example:
-                  errors: {}
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
           '422':
             description: Unprocessable Entity
             content:
               Missing required fields:
-                example:
-                  errors:
-                    date:
-                      - can't be blank
-                    amount:
-                      - can't be blank
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
               Duplicate Reference ID:
-                example:
-                  errors:
-                    reference:
-                      - has already been taken
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Create a Payment
@@ -1077,19 +1055,14 @@
             description: Investment not found
             content:
               application/json:
-                example:
-                  success: false
-                  message: Investment Not Found
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
           '422':
             description: Unprocessable Entity
             content:
               Missing required fields:
-                example:
-                  errors:
-                    date:
-                      - can't be blank
-                    amount:
-                      - can't be blank
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Update a Payment
