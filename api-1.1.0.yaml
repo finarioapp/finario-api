@@ -1417,9 +1417,7 @@
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    [{"name":"<org_1_name>","id":"<org_1_id>","parent_id":"<org_1_parent_id"},{"name":"<org_2_name>","id":"<org_2_id>","parent_id":"<org_2_parent_id"},{"name":"<org_n_name>","id":"<org_n_id>","parent_id":"<org_n_parent_id"}]
+                  $ref: '#/components/schemas/Organizations'
         security:
           - oauth2: []
         summary: List Organizations
@@ -1459,24 +1457,19 @@
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"id":"<new organization id>"}'
+                  $ref: '#/components/schemas/OrganizationPosts'
           '404':
             description: Parent org not found
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"errors":["Not Found"]}'
+                  $ref: '#/components/schemas/ErrorMessageDirect'
           '406':
             description: Missing required fields
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    {"errors":{"name":["can't be blank"],"org_code":["can't be
-                    blank"]}}
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Create an Orgnization
@@ -1537,32 +1530,8 @@
             description: Success
             content:
               application/json:
-                example:
-                  - amount:
-                      cents: 1000000
-                      currency: USD
-                    assignment:
-                      organization_id: <org_id>
-                      user_id: <user_id>
-                      investment_id: <investment_id>
-                      cost_id: <cost_id>
-                      manually_unassigned: false
-                    check_number: '22'
-                    date: '2017-10-03T00:00:00.000+0000'
-                    description: A payment we like a lot
-                    id: <payment_id>
-                    invoice_number: '22'
-                    po_line: '2'
-                    po_number: vt1-po
-                    po_type: Regular
-                    reference: <unique_reference_id>
-                    vendor_id: <vendor_id>
-                    cost_category_name: <cost_category_name>
-                    unique_cost_id: <unique_cost_id>
-                    account_id: <account_id>
-                  - {}
-                  - ...
-                  - {}
+                schema:
+                  $ref: '#/components/schemas/Payments'
         security:
           - oauth2: []
         summary: List Payments
@@ -1592,45 +1561,20 @@
             description: Created
             content:
               application/json:
-                example:
-                  amount:
-                    cents: 1000
-                    currency: USD
-                  assignment:
-                    organization_id: <org_id>
-                    user_id: <user_id>
-                    investment_id: <investment_id>
-                    cost_id: <cost_id>
-                    manually_unassigned: false
-                  date: '2016-11-30T00:00:00.000+0000'
-                  id: <payment_id>
-                  number: <invoice_number>
-                  reference: <invoice_reference_id>
-                  vendor_id: <vendor_id>
-                  cost_category_name: <cost_category_name>
-                  unique_cost_id: <unique_cost_id>
-                  account_id: <account_id>
+                schema:
+                  $ref: '#/components/schemas/Payments'
           '404':
             description: Unmatched Unique Cost ID
             content:
               application/json:
-                example:
-                  errors: {}
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
           '422':
             description: Unprocessable Entity
             content:
-              Missing required fields:
-                example:
-                  errors:
-                    date:
-                      - can't be blank
-                    amount:
-                      - can't be blank
-              Duplicate Reference ID:
-                example:
-                  errors:
-                    reference:
-                      - has already been taken
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Create a Payment
@@ -1657,29 +1601,14 @@
             description: Success
             content:
               application/json:
-                example:
-                  amount:
-                    cents: 1000
-                    currency: USD
-                  assignment:
-                    organization_id: <organization_id>
-                    user_id: <user_id>
-                    investment_id: <investment_id>
-                    cost_id: <cost_id>
-                    manually_unassigned: false
-                  date: '2016-11-22T00:00:00.000+0000'
-                  id: <payment_id>
-                  vendor_id: <vendor_id>
-                  cost_category_name: <cost_category_name>
-                  unique_cost_id: <unique_cost_id>
-                  account_id: <account_id>
+                schema:
+                  $ref: '#/components/schemas/Payments'
           '404':
             description: Not Found
             content:
               application/json:
-                example:
-                  success: false
-                  message: Payment Not Found
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Get a Payment
@@ -1740,27 +1669,8 @@
             description: Success
             content:
               application/json:
-                example:
-                  - amount:
-                      cents: 10000
-                      currency: USD
-                    assignment:
-                      organization_id: <org_id>
-                      user_id: <user_id>
-                      investment_id: <investment_id>
-                      cost_id: <cost_id>
-                      manually_unassigned: false
-                    date: '2017-10-03T00:00:00.000+0000'
-                    description: A purchase order we like a lot
-                    id: <po_id>
-                    po_line: '1000'
-                    po_number: '3'
-                    po_type: Regular
-                    reference: <unique_ref_id>
-                    vendor_id: <vendor_id>
-                  - {}
-                  - ...
-                  - {}
+                schema:
+                  $ref: '#/components/schemas/PurchaseOrders'
         security:
           - oauth2: []
         summary: List Purchase Orders
@@ -1787,27 +1697,14 @@
             description: Success
             content:
               application/json:
-                example:
-                  amount:
-                    cents: 1000
-                    currency: USD
-                  assignment:
-                    organization_id: <organization_id>
-                    user_id: <user_id>
-                    investment_id: <investment_id>
-                    cost_id: <cost_id>
-                    manually_unassigned: false
-                  date: '2016-11-22T05:00:00.000+0000'
-                  id: <purchase_order_id>
-                  po_line: <po_line>
-                  po_number: <po_number>
+                schema:
+                  $ref: '#/components/schemas/PurchaseOrders'
           '404':
             description: Not Found
             content:
               application/json:
-                example:
-                  success: false
-                  message: Purchase Order Not Found
+                schema:
+                  $ref: '#/components/schemas/ErrorMessageDirect'
         security:
           - oauth2: []
         summary: Get a Purchase Order
@@ -2718,6 +2615,26 @@
             cost_category_id:
               description: The cost category id for the Invoice.
               type: string
+
+      Organizations:
+        type: object
+        properties:
+          name:
+            description: The name for the Organization.
+            type: string
+          id:
+            description: The unique identifier for the Organization.
+            type: string
+          parent_id:
+            description: The parent id for the Organization.
+            type: string
+
+      OrganizationPosts:
+        type: object
+        properties:
+          id:
+            description: The unique identifier created for the Organization.
+            type: string
 
       ErrorMessage:
         type: object
