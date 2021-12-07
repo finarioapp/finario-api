@@ -425,7 +425,7 @@
             content:
               application/json:
                 schema:
-                  type: string
+                  $ref: '#/components/schemas/Investments'
           '404':
             content:
               application/json:
@@ -463,20 +463,19 @@
             content:
               application/json:
                 schema:
-                  type: string
+                  $ref: '#/components/schemas/InvestmentsPostPut'
           '404':
             description: Organization Not Found
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"success":false,"message":"Organization Not Found"}'
+                  $ref: '#/components/schemas/ErrorMessageDirect'
           '422':
             description: Missing required fields
             content:
               application/json:
                 schema:
-                  type: string
+                  $ref: '#/components/schemas/ErrorMessage'
         security:
           - oauth2: []
         summary: Create an Investment
@@ -674,13 +673,7 @@
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    [{"name":"<name>","id":"<id>","investment_id":"<investment
-                    code>","investment_category_name\"":"<investment category
-                    name>","api_request":"<api request used to create the
-                    investment (if created via api)>","costs_path":"<resource
-                    locator for costs>","organization_code":"<org code>"},"..."]
+                  $ref: '#/components/schemas/Investments'
           '404':
             content:
               application/json:
@@ -719,20 +712,13 @@
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    {"name":"<name>","id":"<id>","investment_id":"<investment
-                    code>","investment_category_name\"":"<investment category
-                    name>","api_request":"<api request used to create the
-                    investment (if created via api)>","costs_path":"<resource
-                    locator for costs>","organization_code":"<org code>"}
+                  $ref: '#/components/schemas/InvestmentsPostPut'
           '422':
             description: Organization Not Found
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"errors":["Organization can''''t be blank"]}'
+                  $ref: '#/components/schemas/ErrorMessage'
         security:
           - oauth2: []
         summary: Update an Investment
@@ -833,9 +819,7 @@
             content:
               application/json:
                 schema:
-                  type: string
-                  example: >-
-                    [{"name":"<name>","id":"<cost_id>","description":"<description>","investment_id":"<investment_id>"},"..."]
+                  $ref: '#/components/schemas/Investments'
         security:
           - oauth2: []
         summary: List Costs
@@ -879,22 +863,19 @@
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"success":false,"message":"Investment Not Found"}'
+                  $ref: '#/components/schemas/ErrorMessageDirect'
           '406':
             description: Account not found
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"success":false,"message":"Account ''''Foo'''' Not Found"}'
+                  $ref: '#/components/schemas/ErrorMessageDirect'
           '422':
             description: Missing required field
             content:
               application/json:
                 schema:
-                  type: string
-                  example: '{"errors":{"name":["can''''t be blank"]}}'
+                  $ref: '#/components/schemas/ErrorMessage'
         security:
           - oauth2: []
         summary: Create a Cost
@@ -2437,6 +2418,57 @@
             description: The user id of last approval updater.
             type: string
 
+      Investments:
+        type: array
+        items:
+          properties:
+            name:
+              description: The name for the Investment.
+              type: string
+            id:
+              description: The unique identifier for the Investment.
+              type: string
+            investment_id:
+              description: The unique code for the Investment.
+              type: string
+            investment_category_name:
+              description: The category name for the Investment.
+              type: string
+            api_request:
+              description: The api request used to create the investment (if created via api).
+              type: string
+            costs_path:
+              description: The resource locator for costs.
+              type: string
+            organization_code:
+              description: The organization code.
+              type: string
+
+      InvestmentsPostPut:
+        type: object
+        properties:
+          name:
+            description: The name for the Investment.
+            type: string
+          id:
+            description: The unique identifier for the Investment.
+            type: string
+          investment_id:
+            description: The unique code for the Investment.
+            type: string
+          investment_category_name:
+            description: The category name for the Investment.
+            type: string
+          api_request:
+            description: The api request used to create the investment (if created via api).
+            type: string
+          costs_path:
+            description: The resource locator for costs.
+            type: string
+          organization_code:
+            description: The organization code.
+            type: string
+
       ErrorMessage:
         type: object
         properties:
@@ -2946,14 +2978,14 @@
     PostApproval:
       post:
         description: |
-          After an investment is approved, Finario can send the investment's 
+          After an investment is approved, Finario can send the investment's
           data to an API endpoint of your choosing.
 
           #### Set Up
 
           Setup is performed within the Finario app. An Administrator can set up
           Web Hooks at:
-          
+
           `https://<your_host>.finario.com/web_hooks`.
 
           The information required is as follows:
@@ -2962,10 +2994,10 @@
           - API Key (if needed for your endpoint)
           - API Secret (if needed for your endpoint)
           - The conditions that will trigger the payload being sent. These
-          conditions will only be matched after an investment has been fully 
+          conditions will only be matched after an investment has been fully
           approved.
-          
-          > You can also send test requests to the endpoint you set up from 
+
+          > You can also send test requests to the endpoint you set up from
           within the Finario app.
         requestBody:
           content:
@@ -2974,7 +3006,7 @@
                 $ref: '#/components/schemas/PostApprovalWebhook'
         responses:
           "200":
-            description: 
+            description:
         summary: Post Approval
-        tags: 
+        tags:
           - Webhooks
