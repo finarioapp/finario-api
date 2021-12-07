@@ -3101,7 +3101,45 @@
           costs:
             description: |
               Costs associated with the investment array of cost hashes - see below for contents of cost hashes within array.
-            type: string
+            type: array
+            items:
+              type: object
+              properties:
+                account:
+                  description: Name or code of account.
+                  type: string
+                cost_category:
+                  description: Cost category name.
+                  type: string
+                expected_units:
+                  description: Cost data.
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      date:
+                        description: Expected unit's entry date.
+                        type: array
+                      quantity:
+                        description: Expected unit's entry date.
+                        type: string
+                      unit_cost:
+                        description: Cost amount.
+                        type: object
+                        properties:
+                          cents:
+                            type: number
+                          currency:
+                            type: string
+                name:
+                  description: Name of cost.
+                  type: string
+                unique_cost_id:
+                  description: Unique id assigned to cost.
+                  type: string
+                vendor:
+                  description: Vendor code.
+                  type: string
           costs_path:
             description: |
               The investment's costs' API URL.
