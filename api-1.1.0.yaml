@@ -1054,7 +1054,7 @@
           '422':
             description: Unprocessable Entity
             content:
-              Missing required fields:
+              application/json:
                 schema:
                   $ref: '#/components/schemas/ErrorMessageDirect'
         security:
@@ -1761,7 +1761,7 @@
                 schema:
                   $ref: '#/components/schemas/Users'
           '404':
-            description: Success
+            description: Not Found
             content:
               application/json:
                 schema:
@@ -3263,14 +3263,15 @@
 
           > You can also send test requests to the endpoint you set up from
           within the Finario app.
-        requestBody:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PostApprovalWebhook'
+
         responses:
           "200":
-            description:
+            description: Success
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/PostApprovalWebhook'
+
         summary: Post Approval
         tags:
           - Webhooks
