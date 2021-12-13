@@ -2221,6 +2221,8 @@
               taxable:
                 description: The taxable items for the sales tax rule.
                 type: array
+                items:
+                  type: object
           expected_units:
             type: array
             items:
@@ -2228,6 +2230,8 @@
                 date:
                   description: The date of the expected units.
                   type: array
+                  items:
+                    type: number
                 quantity:
                   description: The quantity of the expected units.
                   type: string
@@ -2270,12 +2274,18 @@
           suspended_spends:
             description: The suspended spends of the Cost.
             type: array
+            items:
+              type: object
           approved_spends:
             description: The approved spends for the Cost.
             type: array
+            items:
+              type: object
           actual_spends:
             description: The actual spends for the Cost.
             type: array
+            items:
+              type: object
           revised_forecast:
             description: The revised forecast for the Cost.
             type: array
@@ -2694,6 +2704,8 @@
             external_ids:
               description: The lists of external ids for the Vendor.
               type: array
+              items:
+                type: string
 
       ErrorMessage:
         type: object
@@ -3120,6 +3132,8 @@
                       date:
                         description: Expected unit's entry date.
                         type: array
+                        items:
+                          type: number
                       quantity:
                         description: Expected unit's entry date.
                         type: string
@@ -3188,6 +3202,8 @@
             description: |
               The investment's project start date.
             type: array
+            items:
+              type: number
           web_hook_user_fields:
             description: |
               Custom list of users associated with the webhook
