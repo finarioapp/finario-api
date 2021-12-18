@@ -1,12 +1,12 @@
 {
   "name": "finario-api",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Describes the Finario API >= v1.1.0",
   "main": "index",
   "scripts": {
-    "gen": "redoc-cli bundle api-1.1.0.yaml",
-    "lint": "openapi lint api-1.1.0.yaml",
-    "serve": "redoc-cli serve --watch api-1.1.0.yaml"
+    "gen": "redoc-cli bundle api-2.0.0.yaml",
+    "lint": "openapi lint api-2.0.0.yaml",
+    "serve": "redoc-cli serve --watch api-2.0.0.yaml"
   },
   "repository": {
     "type": "git",
