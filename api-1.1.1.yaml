@@ -1,0 +1,2861 @@
+openapi: 3.0.3
+
+info:
+  description: |
+    
+    ## Introduction
+    
+    Our set of REST-based APIs enable seamless integration of Finario directly into your internal workflows, products and services. The API uses JSON over HTTPS to allow you to build secure applications capable of using or adding Finario data in your application, and vice-versa.
+    
+    > Please note, API access is available in various editions, so please contact your Finario account manager for more information.
+
+    This API is built and documented using [OpenAPI 3.0.3](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md). In addition to standard OpenAPI syntax we use a few vendor extensions to improve compatibility with tooling and documentation.
+    
+    ## Development Workflow
+    
+    Developing integrations using the Finario API is easy and the workflow relatively straight-forward. You will need to perform the following:
+    
+    1. Ensure you have a Finario account.
+    2. Familiarize yourself with the API **Endpoints** and **Webhooks**.
+    3. Familiarize yourself with the [headers required](#required-headers) to be sent with each request. 
+    4. Familiarize yourself with [how to authenticate](#authentication) when using the API.
+    5. [Generate](#authentication) your API Token.
+    6. Start using the API, either in your code or via your tooling of choice.
+    
+    ### Development & Testing Tools
+    
+    There are many different tools that can be used for developing and testing APIs. If you're experienced, we'd imagine you've seen them all. If you have your own preference, feel free to use that. If your existing toolchain comes with some form of HTTP client and that's what you're familiar with, feel free to stick with that.
+    
+    However, for completeness, below we provide some links to tooling that we use and would recommend when building and testing APIs.
+    
+    You can [import this specification](./api-1.1.1.yaml) into an API testing tool such as **Postman** or **Paw**. You can also use command-line tools such as **curl**, **wget** or **httpie**. By using tools such as Postman or Paw, you will be able to genereate code stubs for a variety of popular languages to speed your development and testing efforts.
+    
+    - [Postman](https://www.postman.com) // [Paw](https://paw.cloud) // [curl](https://curl.se) // [wget](https://www.gnu.org/software/wget/) // [httpie](https://httpie.io)
+
+    ## Download the API Spec
+    
+    **[Download](./api-1.1.1.yaml)** version 1.1.1 of the specification for use in your chosen API development and testing tools.
+    
+    - For versions 1.0 and earlier, please see this [GitHub repository](https://github.com/finarioapp/api).
+    
+    ## Authentication
+    
+    You are required to authenticate when calling any of the Endpoints in the Finario API. This is performed via an **API Token**, as described below.
+    
+    ### Generate your API Token
+
+    To generate an API Token, follow the steps below:
+
+      1. Visit your **Profile** in the Finario app: `https://<your-host>.finario.com/profile/api-token`.
+      2. Generate your API Token.
+      3. Configure a white list of IP addresses if you want to add additional security to your Finario API endpoint. This is not required, but here if you want the additional security.
+      4. Add your token as a header in each HTTP request `--header 'x-api-token: <API Token>'.    
+
+    ## Required Headers
+    
+    ### Request
+    
+    This API requires you to send the following three headers, at a minimum, as part of each HTTP request:
+    
+    | <div style="width:130px">Header Name</div> | Description |
+    | ---------------- | --- |
+    | `content-type`   | Must be `application/json`. |
+    | `x-api-token`    | As described in the [Authentication](#authentication) section below. |
+    | `x-finario-host` | The Finario host name that you use to login to your Finario app. For example, if you login to the Finario app at `example-co.finario.com`, then your `x-finario-host` will be `example-co`. |
+    
+    ### Response
+    
+    To receive a valid HTTP response, your API must be able to accept `application/json` as a response media type.
+    
+    ### CORS
+    
+    This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with the [W3C spec](https://www.w3.org/TR/cors/). And that allows cross-domain communication from the browser. All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
+    
+    ## Post-Approval Webhook
+    
+    After an investment is approved, Finario can send the investment's data to an API endpoint of your choosing.
+
+    ### Set Up
+
+    Setup is performed within the Finario app. An Administrator can set up Web Hooks at:
+
+    `https://<your_host>.finario.com/web_hooks`.
+
+    The information required is as follows:
+
+    - Endpoint (the URL Finario will send the investment payload to after approval)
+    - API Key (if needed for your endpoint)
+    - API Secret (if needed for your endpoint)
+    - The conditions that will trigger the payload being sent. These conditions will only be matched after an investment has been fully approved.
+
+    _You can also send test requests to the endpoint you set up from within the Finario app._
+
+    ### Response Format
+    
+    The content type of the response will be `application/json`.
+    
+    The format of the response can be found under `Schemas/PostApprovalWebhook`.  
+
+
+  license:
+    name: &copy; Finario
+    url: https://finario.com
+  title: Finario API
+  version: 1.1.1
+  x-logo:
+    url: '/img/logo.png'
+    backgroundColor: '#FFFFFF'
+    altText: 'Finario API'
+
+servers:
+  - url: 'https://sandbox.finarioapi.com/1.1'
+    description: Sandbox URL
+  - url: 'https://finarioapi.com/1.1'
+    description: Production URL
+
+paths:
+  '/investments/{investment-id}/approvals':
+    post:
+      description: This operation will submit the investment to the first approver in the approval list. It changes the investment's status from **Idea** to **Pending**.
+      operationId: CreateApproval
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvestmentId'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Approval'
+        '404':
+          description: Investment or Approval not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Create an Approval
+      tags:
+        - Approvals
+
+  '/investments/{investment-id}/approvals/{approval-id}':
+    get:
+      description: Retrieve approval details of an investment
+      operationId: GetApproval
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvestmentId'
+        - $ref: '#/components/parameters/ApprovalId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Approval'
+        '404':
+          description: Investment or Approval not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Get an Approval
+      tags:
+        - Approvals
+
+  '/cost_categories':
+    get:
+      description: |
+        Returns a list of all cost categories.
+
+        _This endpoint does not support pagination._
+      operationId: GetCostCategories
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+      responses:
+        '200':
+          description: An array of cost categories or an empty list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CostCategory'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: List Cost Categories
+      tags:
+        - Cost Categories
+    post:
+      description: Create a new cost category.
+      operationId: CreateCostCategory
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CostCategoryPostPut'
+        description: The new Cost Category to create.
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostCategory'
+          description: Successfully created.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Missing required fields.
+      summary: Create a Cost Category
+      tags:
+        - Cost Categories
+
+  '/cost_categories/{cost-category-id}':
+    put:
+      description: Update an existing cost category
+      operationId: UpdateCostCategory
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/CostCategoryId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CostCategoryPostPut'
+        description: The Cost Category details to update.
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostCategory'
+          description: Successfully updated.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Cost Category not found.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Missing required fields.
+      summary: Update a Cost Category
+      tags:
+        - Cost Categories
+
+  '/investments/{investment-id}/costs':
+    get:
+      description: Returns a list of all costs for a given investment.
+      operationId: GetCosts
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvestmentId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostsGet'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: List Costs
+      tags:
+        - Costs
+    post:
+      description: Add a new Cost to an investment
+      operationId: CreateCost
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvestmentId'
+      requestBody:
+        description: >
+          <strong>Required Parameters.</strong> <br/> name, account,
+          expected_units
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CostPostPut'
+        required: true
+      responses:
+        '201':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Costs'
+        '404':
+          description: Investment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+        '406':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+        '422':
+          description: Missing required field
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+      summary: Create a Cost
+      tags:
+        - Costs
+
+  '/investments/{investment-id}/costs/{cost-id}':
+    get:
+      description: Retrieve cost details of an investment
+      operationId: GetCost
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvestmentId'
+        - $ref: '#/components/parameters/CostId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Costs'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Get a Cost
+      tags:
+        - Costs
+
+  '/investments':
+    get:
+      description: Retrieve list of investments
+      operationId: GetInvestments
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - name: start_month
+          in: query
+          description: Investments with spend starting in 2013. Should be used with start_month.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+          example: 7
+        - name: start_year
+          in: query
+          description: Investments with spend starting in 2013. Should be used with start_month.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+          example: 2013
+        - name: end_month
+          in: query
+          description: Investments with spend in or before June. Should be used with end_year.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+          example: 6
+        - name: end_year
+          in: query
+          description: Investments with spend in or before 2014. Should be used with end_month.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+          example: 2014
+        - name: keywords
+          in: query
+          description: Investments that have both of the keywords 'one' AND 'two' (not OR). Multiple keywords should be separated by commas.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: 'one,two'
+        - name: organization
+          in: query
+          description: Investments in the "Asia" organization. The param must match the organization's display name or organization code(including capitalization and spaces).
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: organization=Asia or organization=Asia%20123
+        - name: categories
+          in: query
+          description: Investments in the "Foo" category. The param must match the category's display name (including capitalization and spaces). Multiple investment categories can be used like so &categories[]=Baz&categories[]=Foo.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: 'categories[]=Foo'
+        - name: size_range
+          in: query
+          description: Investments with more than 1 million dollars in spends. (Yes, that is a comma). Only 'greater than' ranges defined in Approval Routes are valid. Ranges with lower and upper bounds can be defined like so greater_than,$500k-less_than,$1M.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: 'size_range=greater_than,$1M'
+        - name: rounds
+          in: query
+          description: Investments that are fully approved. Other values '"Idea",' "Closed", "Denied", "Invalidated", "Pending", "Remanded", or the name of an approval round will return all investments currently in that round.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: rounds=Approved
+        - name: budgeted_status
+          in: query
+          description: Investments that have been added to a budget. The only other possible value is unbudgeted.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: budgeted_status=budgeted
+        - name: vendor
+          in: query
+          description: Investments with the vendor "Amazon" associated with any of the investment's costs. The value should match the Vendor's display name (including capitalization and spaces).
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: vendor=Amazon
+        - name: approved_before
+          in: query
+          description: Investments that were approved before the given date. Use with approved_after if selecting investments in a range of dates. Must follow year-month-date format.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: approved_before=2019-12-2
+        - name: approved_after
+          in: query
+          description: Investments that were approved after the given date. Use with approved_before if selsecting investments in a range of dates. Must follow year-month-date format.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: approved_after=2019-1-24
+        - name: Custom Fields
+          in: query
+          description: See custom fields for more information. Custom fields will only be optional parameters if they are turned on within your account. If you're unsure, ask your account manager whether or not you have access to custom fields.Custom fields are formatted with a c_ proceeding whatever you've named the custom field. The examplec_Funding=Cash will take you to the investments where the custom field "Funding" is set to "Cash' Parameter keys and values should match what you've defined in your custom fields
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: c_Funding=Cash
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Investments'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Investment not found.
+      summary: List Investments
+      tags:
+        - Investments
+    post:
+      description: Create a new investment
+      operationId: CreateInvestment
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+      requestBody:
+        description: Acceptable Parameters
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvestmentPostPut'
+        required: true
+      responses:
+        '201':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvestmentsPostPut'
+        '404':
+          description: Organization Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+        '422':
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+      summary: Create an Investment
+      tags:
+        - Investments
+
+  '/investments/{investment-id}':
+    get:
+      description: Retrieve an investment
+      operationId: GetInvestment
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvestmentId'
+        - name: start_month
+          in: query
+          description: Investments with spend starting in 2013. Should be used with start_month.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+          example: 7
+        - name: start_year
+          in: query
+          description: Investments with spend starting in 2013. Should be used with start_month.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+          example: 2013
+        - name: end_month
+          in: query
+          description: Investments with spend in or before June. Should be used with end_year.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+          example: 6
+        - name: end_year
+          in: query
+          description: Investments with spend in or before 2014. Should be used with end_month.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+          example: 2014
+        - name: keywords
+          in: query
+          description: Investments that have both of the keywords 'one' AND 'two' (not OR). Multiple keywords should be separated by commas.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: 'one,two'
+        - name: organization
+          in: query
+          description: Investments in the "Asia" organization. The param must match the organization's display name or organization code(including capitalization and spaces).
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: organization=Asia or organization=Asia%20123
+        - name: categories
+          in: query
+          description: Investments in the "Foo" category. The param must match the category's display name (including capitalization and spaces). Multiple investment categories can be used like so &categories[]=Baz&categories[]=Foo.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: 'categories[]=Foo'
+        - name: size_range
+          in: query
+          description: Investments with more than 1 million dollars in spends. (Yes, that is a comma). Only 'greater than' ranges defined in Approval Routes are valid. Ranges with lower and upper bounds can be defined like so greater_than,$500k-less_than,$1M.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: 'size_range=greater_than,$1M'
+        - name: rounds
+          in: query
+          description: Investments that are fully approved. Other values '"Idea",' "Closed", "Denied", "Invalidated", "Pending", "Remanded", or the name of an approval round will return all investments currently in that round.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: rounds=Approved
+        - name: budgeted_status
+          in: query
+          description: Investments that have been added to a budget. The only other possible value is unbudgeted.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: budgeted_status=budgeted
+        - name: vendor
+          in: query
+          description: Investments with the vendor "Amazon" associated with any of the investment's costs. The value should match the Vendor's display name (including capitalization and spaces).
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: vendor=Amazon
+        - name: approved_before
+          in: query
+          description: Investments that were approved before the given date. Use with approved_after if selecting investments in a range of dates. Must follow year-month-date format.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: approved_before=2019-12-2
+        - name: approved_after
+          in: query
+          description: Investments that were approved after the given date. Use with approved_before if selsecting investments in a range of dates. Must follow year-month-date format.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: approved_after=2019-1-24
+        - name: Custom Fields
+          in: query
+          description: See custom fields for more information. Custom fields will only be optional parameters if they are turned on within your account. If you're unsure, ask your account manager whether or not you have access to custom fields.Custom fields are formatted with a c_ proceeding whatever you've named the custom field. The examplec_Funding=Cash will take you to the investments where the custom field "Funding" is set to "Cash' Parameter keys and values should match what you've defined in your custom fields
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: c_Funding=Cash
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Investments'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+          description: Cost Category not found.
+      summary: Get an Investment
+      tags:
+        - Investments
+    put:
+      description: Update an existing investment
+      operationId: UpdateInvestment
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvestmentId'
+      requestBody:
+        description: Acceptable Parameters
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvestmentPostPut'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvestmentsPostPut'
+        '422':
+          description: Organization Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+      summary: Update an Investment
+      tags:
+        - Investments
+
+  '/invoices':
+    get:
+      description: |
+        Retrieve list of invoices.
+
+        _This endpoint does not support pagination._
+
+        #### Query Parameters
+
+        These query parameters apply to the Investment the Invoices are
+        assigned to. If an Invoice is not assigned to an Investment, it will
+        not be returned while using these params.
+
+        All values should be encoded for URL; for example:
+
+        `token=your_token&closed=true&closed_within_days_ago=10`.
+      operationId: GetInvoices
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - name: closed
+          in: query
+          description: Returns Invoices assigned to Investments that are closed. Use closed=false to return Invoices assigned to open Investments.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: boolean
+          example: true
+        - name: closed_within_days_ago
+          in: query
+          description: Takes an integer value, x. Returns Invoices assigned to Investments that were closed in the last x days.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: number
+          example: 30
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoicesGetAll'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: List Invoices
+      tags:
+        - Invoices
+
+  '/invoices/{invoice-id}':
+    get:
+      description: Retrieve an invoice details
+      operationId: GetInvoice
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvoiceId'
+        - name: vendor_id
+          description: The unique identifier for the Vendor
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoices'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Get an Invoice
+      tags:
+        - Invoices
+
+  '/investments/{investment-id}/vendors/{vendor-id}/invoices':
+    post:
+      description: Create an invoice made by the vendor against an investment
+      operationId: CreateInvoice
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvestmentId'
+        - $ref: '#/components/parameters/VendorId'
+      requestBody:
+        description: 'Required Parameters <br/> amount, date, number'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoicePostPut'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoices'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Create an Invoice
+      tags:
+        - Invoices
+
+  '/investments/{investment-id}/vendors/{vendor-id}/invoices/{invoice-id}':
+    put:
+      description: Update an existing invoice
+      operationId: UpdateInvoiceById
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvestmentId'
+        - $ref: '#/components/parameters/VendorId'
+        - $ref: '#/components/parameters/InvoiceId'
+      requestBody:
+        description: 'Required Parameters <br/> amount, date, number'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoicePostPut'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Update an Invoice by ID
+      tags:
+        - Invoices
+
+#  '/investments/{investment-id}/vendors/{vendor-id}/invoices/{invoice-reference}':
+#    put:
+#      description: Update an existing invoice
+#      operationId: UpdateInvoiceByRef
+#      parameters:
+#        - $ref: '#/components/parameters/ContentType'
+#        - $ref: '#/components/parameters/FinarioHost'
+#        - $ref: '#/components/parameters/InvestmentId'
+#        - $ref: '#/components/parameters/VendorId'
+#        - $ref: '#/components/parameters/InvoiceReference'
+#      requestBody:
+#        description: 'Required Parameters <br/> amount, date, number'
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/InvoicePostPut'
+#      responses:
+#        '204':
+#          description: No Content
+#        '404':
+#          description: Not found
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/ErrorMessageDirect'
+#        '422':
+#          description: Unprocessable Entity
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/ErrorMessageDirect'
+#      summary: Update an Invoice by Ref.
+#      tags:
+#        - Invoices
+
+  '/organizations':
+    get:
+      description: Returns a list of all Organizations.
+      operationId: GetOrganizations
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organizations'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: List Organizations
+      tags:
+        - Organizations
+
+  '/{organization-id}/organizations':
+    post:
+      description: |
+        Create new organization.
+
+        An {organization-id} is required in the URL. A top-level organization
+        cannot be created through the API.
+      operationId: CreateOrganization
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/OrganizationId'
+      requestBody:
+        description: <strong>Required Parameters.</strong> <br/> name, org_code
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationPostPut'
+        required: true
+      responses:
+        '201':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationPosts'
+        '404':
+          description: Parent org not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+        '406':
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Create an Organization
+      tags:
+        - Organizations
+
+  '/payments':
+    get:
+      description: |
+        Retrieve list of payments
+
+        _This endpoint does not support pagination._
+
+        #### Query Parameters
+
+        These query parameters apply to the Investment the Payments are
+        assigned to. If a Payment is not assigned to an Investment, it will
+        not be returned while using these params.
+
+        All values should be encoded for URL; for example:
+
+        `token=your_token&closed=true&closed_within_days_ago=10`.
+      operationId: GetPayments
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - name: closed
+          in: query
+          description: Returns Payments assigned to Investments that are closed. Use closed=false to return Payments assigned to open Investments.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: boolean
+          example: true
+        - name: closed_within_days_ago
+          in: query
+          description: Takes an integer value, x. Returns Payments assigned to Investments that were closed in the last x days.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: number
+          example: 30
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payments'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: List Payments
+      tags:
+        - Payments
+    post:
+      description: Create new payment
+      operationId: CreatePayment
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+      requestBody:
+        description: 'Required Parameters <br/> amount, date, reference,'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentPostPut'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payments'
+        '404':
+          description: Unmatched Unique Cost ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Create a Payment
+      tags:
+        - Payments
+
+  '/investments/{investment-id}/costs/{cost-id}/payments':
+    post:
+      description: Create payment against an existing investment cost
+      operationId: CreatePaymentByCost
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvestmentId'
+        - $ref: '#/components/parameters/CostId'
+      requestBody:
+        description: 'Required Parameters <br/> amount, date, reference,'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentPostPut'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payments'
+        '404':
+          description: Unmatched Unique Cost ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Create a Payment by Cost
+      tags:
+        - Payments
+
+  '/investments/{investment-id}/payments':
+    post:
+      description: Create payment against an investment
+      operationId: CreatePaymentByInvestment
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvestmentId'
+        - name: unique_cost_id
+          description: The unique cost id
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+      requestBody:
+        description: 'Required Parameters <br/> amount, date, reference,'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentPostPut'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payments'
+        '404':
+          description: Unmatched Unique Cost ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Create a Payment by Investment
+      tags:
+        - Payments
+
+  '/payments/{payment-id}':
+    get:
+      description: Retrieve payment details
+      operationId: GetPayment
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/PaymentId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payments'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Get a Payment
+      tags:
+        - Payments
+
+  '/investments/{investment-id}/payments/{payment-id}':
+    put:
+      description: Update an existing payment details
+      operationId: UpdatePayment
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvestmentId'
+        - $ref: '#/components/parameters/PaymentId'
+      requestBody:
+        description: 'Required Parameters <br/> amount, date, reference,'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentPostPut'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Investment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Update a Payment
+      tags:
+        - Payments
+
+  '/purchase_orders':
+    get:
+      description: |
+        Retrieve list of purchase orders.
+
+        _This endpoint does not support pagination._
+
+        #### Query Parameters
+
+        These query parameters apply to the Investment the Purchase Orders
+        are assigned to. If a Purchase Order is not assigned to an Investment,
+        it will not be returned while using these params.
+
+        All values should be encoded for URL; for example:
+
+        `token=your_token&closed=true&closed_within_days_ago=10`.
+      operationId: GetPurchaseOrders
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - name: closed
+          in: query
+          description: Returns Purchase Orders assigned to Investments that are closed. Use closed=false to return PO's assigned to open Investments.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: boolean
+          example: true
+        - name: closed_within_days_ago
+          in: query
+          description: Takes an integer value, x. Returns Purchase Orders assigned to Investments that were closed in the last x days.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: number
+          example: 30
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrders'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: List Purchase Orders
+      tags:
+        - Purchase Orders
+
+  '/purchase_orders/{purchase-order-id}':
+    get:
+      description: Retrieve purchase order details
+      operationId: GetPurchaseOrder
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/PurchaseOrderId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrders'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Get a Purchase Order
+      tags:
+        - Purchase Orders
+
+  '/investments/{investment-id}/purchase_orders':
+    post:
+      description: Create a purchase order against an investment
+      operationId: CreatePurchaseOrder
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvestmentId'
+      requestBody:
+        description: Required Parameters <br/> amount, date, po_number, po_line, reference
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrderPostPut'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrders'
+        '402':
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+        '404':
+          description: Investment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Create a Purchase Order
+      tags:
+        - Purchase Orders
+
+  '/investments/{investment-id}/purchase_orders/{purchase-order-id}':
+    put:
+      description: Update an existing purchase order details of an investment
+      operationId: UpdatePurchaseOrder
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/InvestmentId'
+        - $ref: '#/components/parameters/PurchaseOrderId'
+      requestBody:
+        description: 'Required Parameters <br/> amount, date, po_number, po_line, reference'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrderPostPut'
+      responses:
+        '204':
+          description: No Content
+        '402':
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+        '404':
+          description: Investment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Update a Purchase Order
+      tags:
+        - Purchase Orders
+
+  '/users':
+    get:
+      description: Retrieve list of users
+      operationId: GetUsers
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: List Users
+      tags:
+        - Users
+
+  '/users/{user-email}':
+    get:
+      description: Retrieve user details
+      operationId: GetUser
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/UserEmail'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Get a User
+      tags:
+        - Users
+    put:
+      description: Update an existing user
+      operationId: UpdateUser
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/UserEmail'
+      requestBody:
+        description: <strong>Required Parameters.</strong> <br/> first_name, last_name
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPostPut'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+        '422':
+          description: Duplicate external id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Update a User
+      tags:
+        - Users
+
+  '/vendors':
+    get:
+      description: Returns a list of all Vendors.
+      operationId: GetVendors
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendors'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: List Vendors
+      tags:
+        - Vendors
+    post:
+      description: Create new vendor
+      operationId: CreateVendor
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+      requestBody:
+        description: Required Parameters <br/> name
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VendorPostPut'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendors'
+        '422':
+          description: Missing required field / Duplicate vendor_id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Create a Vendor
+      tags:
+        - Vendors
+
+  '/vendors/{vendor-id}':
+    put:
+      description: Update an existing vendor
+      operationId: UpdateVendor
+      parameters:
+        - $ref: '#/components/parameters/ContentType'
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/VendorId'
+      requestBody:
+        description: Required Parameters <br/> name
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VendorPostPut'
+      responses:
+        '204':
+          description: No Content
+        '422':
+          description: Missing required field
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDirect'
+      summary: Update a Vendor
+      tags:
+        - Vendors
+
+components:
+  parameters:
+    ContentType:
+      in: header
+      name: content-type
+      required: true
+      schema:
+        enum: ['application/json']
+        type: string
+
+    FinarioHost:
+      description: The host name you use to login to your Finario app. See [Required Headers](#required-headers) for more information.
+      in: header
+      name: x-finario-host
+      required: true
+      schema:
+        type: string
+
+    ApprovalId:
+      description: The unique identifier for the Approval
+      in: path
+      name: approval-id
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    CostCategoryId:
+      description: The unique identifier for the Cost Category.
+      in: path
+      name: cost-category-id
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    CostId:
+      description: The unique identifier for the Cost
+      in: path
+      name: cost-id
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    InvestmentId:
+      description: A unique ID from your external system. This is saved as the "Investment Code" in Finario, and can be used as a resource identifier for other API endpoints.
+      in: path
+      name: investment-id
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    InvoiceId:
+      description: The unique identifier for the Invoice
+      in: path
+      name: invoice-id
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    InvoiceReference:
+      description: The reference of an invoice
+      in: path
+      name: invoice-reference
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    OrganizationId:
+      description: The unique identifier for the Organization
+      in: path
+      name: organization-id
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    PaymentId:
+      description: The unique identifier for the Payment
+      in: path
+      name: payment-id
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    PurchaseOrderId:
+      description: The unique identifier for the Purchase Order
+      in: path
+      name: purchase-order-id
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    UserEmail:
+      description: The email address of the user
+      in: path
+      name: user-email
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+    VendorId:
+      description: The unique identifier for the Vendor
+      in: path
+      name: vendor-id
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+
+  schemas:
+    PostApprovalWebhook:
+      type: object
+      properties:
+        api_request:
+          description: Will always be true - indicates that the payload was generated by an API request.
+          type: boolean
+        approved_amount_base_currency:
+          description: The investment's default currency.
+          type: string
+        approved_amount_base_currency_amount:
+          description: The approved estimate in the investment's default currency.
+          type: string
+        approved_amount_org_currency:
+          description: The organization's default currency.
+          type: string
+        approved_amount_org_currency_amount:
+          description: The approved estimate in the organization's default currency.
+          type: string
+        approved_at:
+          type: string
+          description: When the investment was approved	time.
+        as_of_date:
+          description: Time when report was generated (will always be current time).
+          type: string
+        costs:
+          description: Costs associated with the investment array of cost hashes - see below for contents of cost hashes within array.
+          type: array
+          items:
+            type: object
+            properties:
+              account:
+                description: Name or code of account.
+                type: string
+              cost_category:
+                description: Cost category name.
+                type: string
+              expected_units:
+                description: Cost data.
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      description: Expected unit's entry date.
+                      type: array
+                      items:
+                        type: number
+                    quantity:
+                      description: Expected unit's entry date.
+                      type: string
+                    unit_cost:
+                      description: Cost amount.
+                      type: object
+                      properties:
+                        cents:
+                          type: number
+                        currency:
+                          type: string
+              name:
+                description: Name of cost.
+                type: string
+              unique_cost_id:
+                description: Unique id assigned to cost.
+                type: string
+              vendor:
+                description: Vendor code.
+                type: string
+        costs_path:
+          description: The investment's costs' API URL.
+          type: string
+        custom_field_values:
+          description: Pre-defined custom fields.
+          type: string
+        errors:
+          description: Any errors returned during the request.
+          type: string
+        estimated_completion_date:
+          description: The investment's estimated completion date
+          type: string
+        investment_category_name:
+          description: The investment's category's name.
+          type: string
+        investment_id:
+          description: The investment's id.
+          type: string
+        investment_path:
+          description: The investment's API URL.
+          type: string
+        name:
+          description: The investment's name.
+          type: string
+        organization_code:
+          description: The organization's unique code.
+          type: string
+        organization_name:
+          description: The organization's name.
+          type: string
+        owner:
+          description: The investment owner's ID.
+          type: string
+        project_start:
+          description: The investment's project start date.
+          type: array
+          items:
+            type: number
+        web_hook_user_fields:
+          description: Custom list of users associated with the webhook
+          type: string
+
+    Approval:
+      type: object
+      properties:
+        approval_round_id:
+          description: The approval round id.
+          type: string
+        approval_round_name_cache:
+          description: The name of round this approval belongs to.
+          type: string
+        approver_first_name_cache:
+          description: The first name of approver.
+          type: string
+        approver_last_name_cache:
+          description: The last name of approver.
+          type: string
+        approver_id:
+          description: The user id of approver.
+          type: string
+        comment_count_cache:
+          description: The number of comment in the cache.
+          type: number
+        created_at:
+          description: The timestamp when the approval is created.
+          type: string
+          format: date-time
+        creator_id:
+          description: The user id of approval creator.
+          type: string
+        id:
+          description: The unique identifier for the Approval.
+          type: string
+        invalidated_at:
+          description: The timestamp when the approval is invalidated.
+          type: string
+          format: date-time
+        investment_id:
+          description: The unique identifier for the Investment.
+          type: string
+        organization_id:
+          description: The unique identifier for the Organization.
+          type: string
+        status_cache:
+          description: The numeric value representing the current approval status.
+          type: number
+        updated_at:
+          description: The timestamp when the approval is updated.
+          type: string
+          format: date-time
+        updater_id:
+          description: The user id of last approval updater.
+          type: string
+
+    CostCategory:
+      type: object
+      properties:
+        category_code:
+          description: The category shortcode.
+          type: string
+        id:
+          description: Cost Category ID.
+          type: string
+        name:
+          description: The name of the Cost Category.
+          type: string
+
+    CostCategoryPostPut:
+      type: object
+      properties:
+        name:
+          description: The name of the Cost Category.
+          type: string
+        category_code:
+          description: The category shortcode.
+          type: string
+        parent_name:
+          description: If there is no category with the given name, a new category will be created.
+          type: string
+      required:
+        - name
+
+    CostPostPut:
+      type: object
+      properties:
+        account:
+          description: Must be the Name of an account that already exists in your Finario application.
+          type: string
+        apply_tax:
+          description: Send value yes if tax should be applied.
+          type: string
+        cost_category:
+          description: Must be the name of a Cost Category that already exists in your Finario application.
+          type: string
+        expected_units:
+          description: |
+            An array of Expected Unit objects, e.g. [{"quantity": 1, "project_month": "M3"}].
+            
+            If more than one `expected_unit` object is passed in, only the first in the array will be used.
+          type: array
+          items:
+            properties:
+              project_month:
+                type: string
+                description: This should be the project month of the investment the cost occurs in. For example, if the investment has a start_date of January 2016, and the cost falls in February 2016, the project_month is "M2"; February 2017 is "M14".
+              quantity:
+                type: number
+                description: The number of units for the month.
+            type: object
+        freight:
+          description: The freight cost.
+          properties:
+            currency:
+              type: string
+              description: For example "USD" or "EUR".
+            dollars:
+              description: The amount of the unit of currency (not only dollars).
+              type: number
+          type: object
+        name:
+          description: The name of the cost.
+          type: string
+        unit_price:
+          description: An object representing the cost price.
+          properties:
+            currency:
+              description: For example "USD" or "EUR".
+              type: string
+            dollars:
+              description: The amount of the unit of currency (not only dollars).
+              type: number
+          type: object
+        vendor_name:
+          description: Must be the Name of a vendor that already exists in your Finario application.
+          type: string
+      required:
+        - name
+        - account
+        - expected_units
+
+    Costs:
+      type: object
+      properties:
+        account_id:
+          description: The account id for the Cost.
+          type: string
+        approved:
+          description: The approve status for the Cost.
+          type: boolean
+        cost_category_id:
+          description: The cost category id for the Cost.
+          type: string
+        unit_price:
+          type: object
+          properties:
+            cents:
+              description: The cents equivalent value for the unit price.
+              type: number
+            currency:
+              description: The currency for the unit price.
+              type: string
+        freight:
+          type: object
+          properties:
+            cents:
+              description: The cents equivalent value of the amount for the freight.
+              type: number
+            currency:
+              description: The currency for the freight.
+              type: string
+        sales_tax_rule:
+          type: object
+          properties:
+            rate:
+              description: The rate for the sales tax rule.
+              type: number
+            taxable:
+              description: The taxable items for the sales tax rule.
+              type: array
+              items:
+                type: object
+        expected_units:
+          type: array
+          items:
+            properties:
+              date:
+                description: The date of the expected units.
+                type: array
+                items:
+                  type: number
+              quantity:
+                description: The quantity of the expected units.
+                type: string
+              unit_cost:
+                description: The unit cost of the expected units.
+                type: object
+                properties:
+                  cents:
+                    description: The cents equivalent value for the unit cost.
+                    type: number
+                  currency:
+                    description: The currency for the unit cost.
+                    type: string
+        id:
+          description: The unique identifier for the Cost.
+          type: string
+        name:
+          description: The name for the Cost.
+          type: string
+        vendor_id:
+          description: The vendor id.
+          type: string
+        depreciable_cache:
+          description: The depreciable cache for the Cost.
+          type: boolean
+        forecast_spends:
+          description: The forecast spends for the Cost.
+          type: array
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                cents:
+                  description: The cents equivalent value for the forecast spends.
+                  type: number
+                currency:
+                  description: The currency for the forecast spends.
+                  type: string
+        suspended_spends:
+          description: The suspended spends of the Cost.
+          type: array
+          items:
+            type: object
+        approved_spends:
+          description: The approved spends for the Cost.
+          type: array
+          items:
+            type: object
+        actual_spends:
+          description: The actual spends for the Cost.
+          type: array
+          items:
+            type: object
+        revised_forecast:
+          description: The revised forecast for the Cost.
+          type: array
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                cents:
+                  description: The cents equivalent value for the revised forecast.
+                  type: number
+                currency:
+                  description: The currency for the revised forecast.
+                  type: string
+        forecasted_by_id:
+          description: The user id that performed the forecasting.
+          type: string
+        forecasted_at:
+          description: The forecasted timestamp for the Cost.
+          type: string
+        base_forecast_total:
+          description: The base forcast total for the Cost.
+          type: object
+          properties:
+            cents:
+              description: The cents equivalent value for the base forecast total.
+              type: number
+            currency:
+              description: The currency for the base forecast total.
+              type: string
+        base_approved_total:
+          description: The base approved total for the Cost.
+          type: object
+          properties:
+            cents:
+              description: The cents equivalent value for the base approved total.
+              type: number
+            currency:
+              description: The currency for the base approved total.
+              type: string
+        base_spends:
+          description: The base spends for the Cost.
+          type: array
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                cents:
+                  description: The cents equivalent value for the base spendst.
+                  type: number
+                currency:
+                  description: The currency for the base spends.
+                  type: string
+        investment_closed_at:
+          description: The investment closed timestamp for the Cost.
+          type: string
+          format: date-time
+
+    CostsGet:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            description: The name for the Cost.
+            type: string
+          id:
+            description: The unique identifier for the Cost.
+            type: string
+          description:
+            description: The description for the Cost.
+            type: string
+          investment_id:
+            description: The investment id for the Cost.
+            type: string
+
+    ErrorMessage:
+      type: object
+      properties:
+        errors:
+          description: An array of error messages.
+          type: array
+          items:
+            type: string
+
+    ErrorMessageDirect:
+      type: object
+      properties:
+        message:
+          description: The error message.
+          type: string
+        success:
+          description: The response status of the request.
+          type: boolean
+
+    InvestmentPostPut:
+      type: object
+      properties:
+        api_request:
+          description: Providing a value here will automatically add the keyword "api" to the created investment.
+          type: string
+        description:
+          description: A description of the investment.
+          type: string
+        in_service_date_as_time:
+          description: e.g., "Oct-2015". Year must be 4 digits. Month must be Jan, Feb, Mar, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec. This date must be after project_start_as_time.
+          type: string
+        investment_category_name:
+          description: Must match a value that already exists in your Finario application.
+          type: string
+        investment_id:
+          description: A unique ID from your external system. This is saved as the "Investment Code" in Finario, and can be used as a resource identifier for other API endpoints.
+          type: string
+        name:
+          description: A name for the investment.
+          type: string
+        organization_code:
+          description: Either organization_code or organization_name is required. Must match a value that already exists in your Finario application.
+          type: string
+        organization_name:
+          description: Either organization_code or organization_name is required. Must match a value that already exists in your Finario application.
+          type: string
+        owner_email:
+          description: Either owner_name or owner_email is required. Must match a value that already exists in your Finario application.
+          type: string
+        owner_name:
+          description: Either owner_name or owner_email is required. Must match a value that already exists in your Finario application.
+          type: string
+        project_start_as_time:
+          description: e.g., "Oct-2015". Year must be 4 digits. Month must be Jan, Feb, Mar, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec.
+          type: string
+        rationale:
+          description: A background rationale for the investment.
+          type: string
+      required:
+        - in_service_date_as_time
+        - investment_category_name
+        - organization_code
+        - organization_name
+        - owner_email
+        - owner_name
+        - project_start_as_time
+
+    InvestmentsPostPut:
+      type: object
+      properties:
+        api_request:
+          description: The api request used to create the investment (if created via api).
+          type: string
+        costs_path:
+          description: The resource locator for costs.
+          type: string
+        id:
+          description: The unique identifier for the Investment.
+          type: string
+        investment_id:
+          description: The unique code for the Investment.
+          type: string
+        investment_category_name:
+          description: The category name for the Investment.
+          type: string
+        name:
+          description: The name for the Investment.
+          type: string
+        organization_code:
+          description: The organization code.
+          type: string
+
+    Investments:
+      type: array
+      items:
+        properties:
+          name:
+            description: The name for the Investment.
+            type: string
+          id:
+            description: The unique identifier for the Investment.
+            type: string
+          investment_id:
+            description: The unique code for the Investment.
+            type: string
+          investment_category_name:
+            description: The category name for the Investment.
+            type: string
+          api_request:
+            description: The api request used to create the investment (if created via api).
+            type: string
+          costs_path:
+            description: The resource locator for costs.
+            type: string
+          organization_code:
+            description: The organization code.
+            type: string
+
+    InvoicePostPut:
+      type: object
+      properties:
+        amount:
+          description: The total amount for the invoice.
+          type: number
+        currency_iso_code:
+          description: e.g., "USD" or "EUR". If no currency is given, your account's base currency will be used.
+          type: string
+        date:
+          description: The date formatted in ISO 8601 e.g., "2016-11-30".
+          type: string
+        description:
+          description: An overall description for the invoice.
+          type: string
+        gl_line:
+          description: General ledger line
+          type: string
+        number:
+          description: The unique reference ID for the invoice.
+          type: number
+        po_line:
+          description: Purchase order line.
+          type: string
+        po_number:
+          description: Purchase order number.
+          type: string
+        po_type:
+          description: Purchase order type.
+          type: string
+        reference:
+          description: A unique external reference ID.
+          type: string
+        unique_cost_id:
+          description: e.g., "abc123" This ID is used to match payments to a cost and must exist on the cost prior to using it for matching.
+          type: string
+        vendor_id:
+          description: Can use the internal Finario ID or your unique external vendor ID.
+          type: string
+      required:
+        - amount
+        - date
+        - number
+
+    Invoices:
+      type: array
+      items:
+        type: object
+        properties:
+          amount:
+            description: The amount for the Invoice.
+            type: object
+            properties:
+              cents:
+                description: The cents equivalent for the amount.
+                type: number
+              currency:
+                description: The currency for the the amount.
+                type: string
+          assignment:
+            description: THe assignment for the Invoice.
+            type: object
+            properties:
+              organization_id:
+                description: The organization id for the assignment.
+                type: string
+              user_id:
+                description: The user id for the assignment.
+                type: string
+              investment_id:
+                description: The investment id for the assignment.
+                type: string
+              cost_id:
+                description: The cost id for the assignment.
+                type: string
+              manually_unassigned:
+                description: The manually unassigned for the assignment.
+                type: string
+          date:
+            description: The date for the Invoice.
+            type: string
+            format: date
+          id:
+            description: The unique identifier for the Invoice.
+            type: string
+          number:
+            description: The number for the Invoice.
+            type: string
+          reference:
+            description: The reference for the Invoice.
+            type: string
+          vendor_id:
+            description: The vendor id for the Invoice.
+            type: string
+
+    InvoicesGetAll:
+      type: array
+      items:
+        type: object
+        properties:
+          amount:
+            description: The amount for the Invoice.
+            type: object
+            properties:
+              cents:
+                description: The cents equivalent for the amount.
+                type: number
+              currency:
+                description: The currency for the the amount.
+                type: string
+          assignment:
+            description: THe assignment for the Invoice.
+            type: object
+            properties:
+              organization_id:
+                description: The organization id for the assignment.
+                type: string
+              user_id:
+                description: The user id for the assignment.
+                type: string
+              investment_id:
+                description: The investment id for the assignment.
+                type: string
+              cost_id:
+                description: The cost id for the assignment.
+                type: string
+              manually_unassigned:
+                description: The manually unassigned for the assignment.
+                type: string
+          cost_category_id:
+            description: The cost category id for the Invoice.
+            type: string
+          date:
+            description: The date for the Invoice.
+            type: string
+            format: date
+          description:
+            description: The description for the Invoice.
+            type: string
+          gl_line:
+            description: The GL line for the Invoice.
+            type: string
+          id:
+            description: The unique identifier for the Invoice.
+            type: string
+          number:
+            description: The number for the Invoice.
+            type: string
+          po_line:
+            description: The PO line for the Invoice.
+            type: string
+          po_number:
+            description: The PO number for the Invoice.
+            type: string
+          po_type:
+            description: The PO type for the Invoice.
+            type: string
+          reference:
+            description: The reference for the Invoice.
+            type: string
+          vendor_id:
+            description: The vendor id for the Invoice.
+            type: string
+          unique_cost_id:
+            description: The unique cost id for the Invoice.
+            type: string
+
+    Organizations:
+      type: object
+      properties:
+        id:
+          description: The unique identifier for the Organization.
+          type: string
+        name:
+          description: The name for the Organization.
+          type: string
+        parent_id:
+          description: The parent id for the Organization.
+          type: string
+
+    OrganizationPostPut:
+      type: object
+      properties:
+        default_currency_code:
+          type: string
+          description: 'ISO code. e.g., ''USD'' or ''EUR'''
+        name:
+          type: string
+          description: The organization name.
+        org_code:
+          type: string
+          description: The short code for the organization.
+      required:
+        - name
+        - org_code
+
+    OrganizationPosts:
+      type: object
+      properties:
+        id:
+          description: The unique identifier created for the Organization.
+          type: string
+
+    PaymentPostPut:
+      type: object
+      properties:
+        account_id:
+          description: e.g., "abc123" This ID is used to match payments to a cost.
+          type: string
+        amount:
+          description: The total amount for the payment.
+          type: number
+        check_number:
+          description: The unique check reference.
+          type: string
+        cost_category_name:
+          description: e.g., "Information Technology"
+          type: string
+        currency_iso_code:
+          description: e.g., "USD" or "EUR". If no currency is given, your account's base currency will be used.
+          type: string
+        date:
+          description: The date formatted in ISO 8601 e.g., "2016-11-30".
+          type: string
+        description:
+          description: An overall description for the invoice.
+          type: string
+        invoice_number:
+          description: The unique reference ID for the invoice.
+          type: string
+        po_line:
+          description: Purchase order line.
+          type: string
+        po_number:
+          description: Purchase order number.
+          type: string
+        po_type:
+          description: Purchase order type.
+          type: string
+        reference:
+          description: A unique external reference ID.
+          type: string
+        unique_cost_id:
+          type: string
+          description: e.g., "abc123" This ID is used to match payments to a cost and must exist on the cost prior to using it for matching.
+        vendor_id:
+          description: Can use the internal Finario ID or your unique external vendor ID.
+          type: string
+      required:
+        - amount
+        - date
+        - reference
+
+    Payments:
+      type: array
+      items:
+        type: object
+        properties:
+          amount:
+            description: The amount for the Payment.
+            type: object
+            properties:
+              cents:
+                description: The cents equivalent for the amount.
+                type: number
+              currency:
+                description: The currency for the the amount.
+                type: string
+          assignment:
+            description: THe assignment for the Payment.
+            type: object
+            properties:
+              organization_id:
+                description: The organization id for the assignment.
+                type: string
+              user_id:
+                description: The user id for the assignment.
+                type: string
+              investment_id:
+                description: The investment id for the assignment.
+                type: string
+              cost_id:
+                description: The cost id for the assignment.
+                type: string
+              manually_unassigned:
+                description: The manually unassigned for the assignment.
+                type: string
+          check_number:
+            description: The check number for the Payment.
+            type: string
+          date:
+            description: The date for the Payment.
+            type: string
+            format: date
+          description:
+            description: The description for the Payment.
+            type: string
+          id:
+            description: The unique identifier for the Payment.
+            type: string
+          invoice_number:
+            description: The invoice number for the Payment.
+            type: string
+          po_line:
+            description: The PO line for the Payment.
+            type: string
+          po_number:
+            description: The PO number for the Payment.
+            type: string
+          po_type:
+            description: The type of PO for the Payment.
+            type: string
+          reference:
+            description: The reference for the Payment.
+            type: string
+          vendor_id:
+            description: The vendor id for the Payment.
+            type: string
+          cost_category_name:
+            description: The cost category name for the Payment.
+            type: string
+          unique_cost_id:
+            description: The unique cost id for the Payment.
+            type: string
+          account_id:
+            description: The account id for the Payment.
+            type: string
+
+    PurchaseOrderPostPut:
+      type: object
+      properties:
+        amount:
+          description: The total amount for the PO.
+          type: number
+        currency_iso_code:
+          description: e.g., "USD" or "EUR". If no currency is given, your account's base currency will be used.
+          type: string
+        date:
+          description: The date formatted in ISO 8601 e.g., "2016-11-30".
+          type: string
+        description:
+          description: An overall description for the PO.
+          type: string
+        po_line:
+          description: Purchase order line.
+          type: string
+        po_number:
+          description: Purchase order number.
+          type: string
+        po_type:
+          description: Purchase order type.
+          type: string
+        reference:
+          description: A unique external reference ID.
+          type: string
+        unique_cost_id:
+          description: e.g., "abc123" This ID is used to match payments to a cost and must exist on the cost prior to using it for matching.
+          type: string
+        vendor_id:
+          description: Can use the internal Finario ID or your unique external vendor ID.
+          type: string
+      required:
+        - amount
+        - date
+        - po_line
+        - po_number
+        - reference
+
+    PurchaseOrders:
+      type: array
+      items:
+        type: object
+        properties:
+          amount:
+            description: The amount for the Purchase Orders.
+            type: object
+            properties:
+              cents:
+                description: The cents equivalent for the amount.
+                type: number
+              currency:
+                description: The currency for the the amount.
+                type: string
+          assignment:
+            description: THe assignment for the Purchase Orders.
+            type: object
+            properties:
+              organization_id:
+                description: The organization id for the assignment.
+                type: string
+              user_id:
+                description: The user id for the assignment.
+                type: string
+              investment_id:
+                description: The investment id for the assignment.
+                type: string
+              cost_id:
+                description: The cost id for the assignment.
+                type: string
+              manually_unassigned:
+                description: The manually unassigned for the assignment.
+                type: string
+          date:
+            description: The date for the Purchase Orders.
+            type: string
+            format: date
+          description:
+            description: The description for the Purchase Oders.
+            type: string
+          id:
+            description: The unique identifier for the Purchase Orders.
+            type: string
+          po_line:
+            description: The PO line for the Purchase Orders.
+            type: string
+          po_number:
+            description: The PO number for the Purchase Orders.
+            type: string
+          po_type:
+            description: The type of PO for the Purchase Orders.
+            type: string
+          reference:
+            description: The reference for the Purchase Orders.
+            type: string
+          vendor_id:
+            description: The vendor id for the Pruchase Orders.
+            type: string
+
+    UserPostPut:
+      type: object
+      properties:
+        authority_assignments:
+          description: |
+            An array of Authority Assignment objects, e.g., [{"authority": "foo", "organization": "bar"}]
+          items:
+            properties:
+              authority:
+                description: Must match an authority assignment name that already exists in your Finario application.
+                type: string
+              organization:
+                description: Must match an organization name that already exists in your Finario application.
+                type: string
+            type: object
+          type: array
+        external_id:
+          description: The external id for the User.
+          type: string
+        first_name:
+          description: The users first name.
+          type: string
+        has_actual_costs_feature:
+          description: The has actual costs feature id for the User.
+          type: boolean
+        has_approvals:
+          description: The has approvals for the User.
+          type: boolean
+        has_budgets_feature:
+          description: The has budgets feature for the User.
+          type: boolean
+        has_portfolios_feature:
+          description: The has portfolios feature for the User.
+          type: boolean
+        has_reports:
+          description: The has reports for the User.
+          type: boolean
+        last_name:
+          description: The users last name.
+          type: string
+        permissions:
+          description: Must match an organization name that already exists in your Finario application.
+          items:
+            properties:
+              name:
+                description: As of now, "Edit" is the only level of permissions supported.
+                type: string
+              organization:
+                description: Must match an organization name that already exists in your Finario application.
+                type: string
+            type: object
+          type: array
+      required:
+        - first_name
+        - last_name
+
+    Users:
+      type: array
+      items:
+        type: object
+        properties:
+          active_for_authentication:
+            description: The active for authentication for the User.
+            type: boolean
+          authority_assignments:
+            description: The authority assignments for the User.
+            type: array
+            items:
+              type: object
+              properties:
+                authority:
+                  description: The authority for the assigments.
+                  type: string
+                organization:
+                  description: The organization for the assignments.
+                  type: string
+          email:
+            description: The email address for the User.
+            type: string
+          external_id:
+            description: The external id for the User.
+            type: string
+          has_actual_costs_feature:
+            description: The has actual costs feature id for the User.
+            type: boolean
+          has_approvals:
+            description: The has approvals for the User.
+            type: boolean
+          has_budgets_feature:
+            description: The has budgets feature for the User.
+            type: boolean
+          has_portfolios_feature:
+            description: The has portfolios feature for the User.
+            type: boolean
+          has_reports:
+            description: The has reports for the User.
+            type: boolean
+          id:
+            description: The unique identifier for the User.
+            type: string
+          last_modified:
+            description: The last modified timestamp for the User.
+            type: string
+            format: date-time
+          name:
+            description: The full name for the User.
+            type: string
+          permissions:
+            description: The permissions for the User.
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  description: The name for the permissions.
+                  type: string
+                organization:
+                  description: The organization for the permissions.
+                  type: string
+
+    VendorPostPut:
+      properties:
+        address:
+          description: The address of the vendor.
+          type: string
+        city:
+          description: The city as part of the address of the vendor.
+          type: string
+        contact_email:
+          description: The vendors contact email address
+          type: string
+        contact_name:
+          description: The responsible individual at the vendor.
+          type: string
+        country_code:
+          description: The ISO country code as part of the address of the vendor.
+          type: string
+        external_ids:
+          type: string
+          description: If the same vendor has different IDs in different external systems, you can add more than one. Any of the values in this array would work as a Vendor ID for POST & PUT requests.
+        name:
+          description: The name of the vendor.
+          type: string
+        notes:
+          description: Any additional notes you want to maintain about the vendor.
+          type: string
+        phone_number:
+          description: The vendors phone number - could be main number or the number of the contact.
+          type: string
+        postal_code:
+          description: The postal code / zip as part of the address of the vendor.
+          type: string
+        state:
+          description: The state as part of the address of the vendor.
+          type: string
+        vendor_id:
+          description: If available, this should be a unique ID from your external system. If not provided, a parameterized version of the vendor name will be created.
+          type: string
+        web_address:
+          description: The vendors homepage URL.
+          type: string
+      required:
+        - name
+      type: object
+
+    Vendors:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            description: The unique identifier for the Vendor.
+            type: string
+          external_ids:
+            description: The lists of external ids for the Vendor.
+            type: array
+            items:
+              type: string
+          name:
+            description: The name for the Vendor.
+            type: string
+          vendor_id:
+            description: The external Vendor id.
+            type: string
+
+  securitySchemes:
+    ApiToken:
+      description: Find out [how to generate your API Token here](/#generate-your-api-token).
+      in: header
+      name: x-api-token
+      type: apiKey
+
+security:
+  - ApiToken: []
+
+x-webhooks:
+  PostApproval:
+    post:
+      description: |
+        After an investment is approved, Finario can send the investment's
+        data to an API endpoint of your choosing.
+
+        #### Set Up
+
+        Setup is performed within the Finario app. An Administrator can set up
+        Web Hooks at:
+
+        `https://<your_host>.finario.com/web_hooks`.
+
+        The information required is as follows:
+
+        - Endpoint (the URL Finario will send the investment payload to after approval)
+        - API Key (if needed for your endpoint)
+        - API Secret (if needed for your endpoint)
+        - The conditions that will trigger the payload being sent. These
+        conditions will only be matched after an investment has been fully
+        approved.
+
+        > You can also send test requests to the endpoint you set up from
+        within the Finario app.
+
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostApprovalWebhook'
+
+      summary: Post Approval
+      tags:
+        - Webhooks
