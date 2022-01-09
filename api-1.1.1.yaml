@@ -114,7 +114,7 @@ servers:
     description: Production URL
 
 paths:
-  '/investments/{investment-id}/approvals':
+  '/investments/{investment_id}/approvals':
     post:
       description: This operation will submit the investment to the first approver in the approval list. It changes the investment's status from **Idea** to **Pending**.
       operationId: CreateApproval
@@ -139,9 +139,9 @@ paths:
       tags:
         - Approvals
 
-  '/investments/{investment-id}/approvals/{approval-id}':
+  '/investments/{investment_id}/approvals/{approval_id}':
     get:
-      description: Retrieve approval details of an investment
+      description: Retrieve approval details of an investment.
       operationId: GetApproval
       parameters:
         - $ref: '#/components/parameters/ContentType'
@@ -223,7 +223,7 @@ paths:
       tags:
         - Cost Categories
 
-  '/cost_categories/{cost-category-id}':
+  '/cost_categories/{cost_category_id}':
     put:
       description: Update an existing cost category
       operationId: UpdateCostCategory
@@ -260,7 +260,7 @@ paths:
       tags:
         - Cost Categories
 
-  '/investments/{investment-id}/costs':
+  '/investments/{investment_id}/costs':
     get:
       description: Returns a list of all costs for a given investment.
       operationId: GetCosts
@@ -329,7 +329,7 @@ paths:
       tags:
         - Costs
 
-  '/investments/{investment-id}/costs/{cost-id}':
+  '/investments/{investment_id}/costs/{cost_id}':
     get:
       description: Retrieve cost details of an investment
       operationId: GetCost
@@ -540,7 +540,7 @@ paths:
       tags:
         - Investments
 
-  '/investments/{investment-id}':
+  '/investments/{investment_id}':
     get:
       description: Retrieve an investment
       operationId: GetInvestment
@@ -776,7 +776,7 @@ paths:
       tags:
         - Invoices
 
-  '/invoices/{invoice-id}':
+  '/invoices/{invoice_id}':
     get:
       description: Retrieve an invoice details
       operationId: GetInvoice
@@ -809,7 +809,7 @@ paths:
       tags:
         - Invoices
 
-  '/investments/{investment-id}/vendors/{vendor-id}/invoices':
+  '/investments/{investment_id}/vendors/{vendor_id}/invoices':
     post:
       description: Create an invoice made by the vendor against an investment
       operationId: CreateInvoice
@@ -847,7 +847,7 @@ paths:
       tags:
         - Invoices
 
-  '/investments/{investment-id}/vendors/{vendor-id}/invoices/{invoice-id}':
+  '/investments/{investment_id}/vendors/{vendor_id}/invoices/{invoice_id}':
     put:
       description: Update an existing invoice
       operationId: UpdateInvoiceById
@@ -882,7 +882,7 @@ paths:
       tags:
         - Invoices
 
-#  '/investments/{investment-id}/vendors/{vendor-id}/invoices/{invoice-reference}':
+#  '/investments/{investment_id}/vendors/{vendor_id}/invoices/{invoice_reference}':
 #    put:
 #      description: Update an existing invoice
 #      operationId: UpdateInvoiceByRef
@@ -941,12 +941,12 @@ paths:
       tags:
         - Organizations
 
-  '/{organization-id}/organizations':
+  '/{organization_id}/organizations':
     post:
       description: |
         Create new organization.
 
-        An {organization-id} is required in the URL. A top-level organization
+        An {organization_id} is required in the URL. A top-level organization
         cannot be created through the API.
       operationId: CreateOrganization
       parameters:
@@ -1072,7 +1072,7 @@ paths:
       tags:
         - Payments
 
-  '/investments/{investment-id}/costs/{cost-id}/payments':
+  '/investments/{investment_id}/costs/{cost_id}/payments':
     post:
       description: Create payment against an existing investment cost
       operationId: CreatePaymentByCost
@@ -1110,7 +1110,7 @@ paths:
       tags:
         - Payments
 
-  '/investments/{investment-id}/payments':
+  '/investments/{investment_id}/payments':
     post:
       description: Create payment against an investment
       operationId: CreatePaymentByInvestment
@@ -1155,7 +1155,7 @@ paths:
       tags:
         - Payments
 
-  '/payments/{payment-id}':
+  '/payments/{payment_id}':
     get:
       description: Retrieve payment details
       operationId: GetPayment
@@ -1180,7 +1180,7 @@ paths:
       tags:
         - Payments
 
-  '/investments/{investment-id}/payments/{payment-id}':
+  '/investments/{investment_id}/payments/{payment_id}':
     put:
       description: Update an existing payment details
       operationId: UpdatePayment
@@ -1269,7 +1269,7 @@ paths:
       tags:
         - Purchase Orders
 
-  '/purchase_orders/{purchase-order-id}':
+  '/purchase_orders/{purchase_order_id}':
     get:
       description: Retrieve purchase order details
       operationId: GetPurchaseOrder
@@ -1294,7 +1294,7 @@ paths:
       tags:
         - Purchase Orders
 
-  '/investments/{investment-id}/purchase_orders':
+  '/investments/{investment_id}/purchase_orders':
     post:
       description: Create a purchase order against an investment
       operationId: CreatePurchaseOrder
@@ -1331,7 +1331,7 @@ paths:
       tags:
         - Purchase Orders
 
-  '/investments/{investment-id}/purchase_orders/{purchase-order-id}':
+  '/investments/{investment_id}/purchase_orders/{purchase_order_id}':
     put:
       description: Update an existing purchase order details of an investment
       operationId: UpdatePurchaseOrder
@@ -1389,7 +1389,7 @@ paths:
       tags:
         - Users
 
-  '/users/{user-email}':
+  '/users/{user_email}':
     get:
       description: Retrieve user details
       operationId: GetUser
@@ -1497,7 +1497,7 @@ paths:
       tags:
         - Vendors
 
-  '/vendors/{vendor-id}':
+  '/vendors/{vendor_id}':
     put:
       description: Update an existing vendor
       operationId: UpdateVendor
@@ -1545,7 +1545,7 @@ components:
     ApprovalId:
       description: The unique identifier for the Approval
       in: path
-      name: approval-id
+      name: approval_id
       required: true
       style: simple
       explode: false
@@ -1555,7 +1555,7 @@ components:
     CostCategoryId:
       description: The unique identifier for the Cost Category.
       in: path
-      name: cost-category-id
+      name: cost_category_id
       required: true
       style: simple
       explode: false
@@ -1565,7 +1565,7 @@ components:
     CostId:
       description: The unique identifier for the Cost
       in: path
-      name: cost-id
+      name: cost_id
       required: true
       style: simple
       explode: false
@@ -1575,7 +1575,7 @@ components:
     InvestmentId:
       description: A unique ID from your external system. This is saved as the "Investment Code" in Finario, and can be used as a resource identifier for other API endpoints.
       in: path
-      name: investment-id
+      name: investment_id
       required: true
       style: simple
       explode: false
@@ -1585,7 +1585,7 @@ components:
     InvoiceId:
       description: The unique identifier for the Invoice
       in: path
-      name: invoice-id
+      name: invoice_id
       required: true
       style: simple
       explode: false
@@ -1595,7 +1595,7 @@ components:
     InvoiceReference:
       description: The reference of an invoice
       in: path
-      name: invoice-reference
+      name: invoice_reference
       required: true
       style: simple
       explode: false
@@ -1605,7 +1605,7 @@ components:
     OrganizationId:
       description: The unique identifier for the Organization
       in: path
-      name: organization-id
+      name: organization_id
       required: true
       style: simple
       explode: false
@@ -1615,7 +1615,7 @@ components:
     PaymentId:
       description: The unique identifier for the Payment
       in: path
-      name: payment-id
+      name: payment_id
       required: true
       style: simple
       explode: false
@@ -1625,7 +1625,7 @@ components:
     PurchaseOrderId:
       description: The unique identifier for the Purchase Order
       in: path
-      name: purchase-order-id
+      name: purchase_order_id
       required: true
       style: simple
       explode: false
@@ -1635,7 +1635,7 @@ components:
     UserEmail:
       description: The email address of the user
       in: path
-      name: user-email
+      name: user_email
       required: true
       style: simple
       explode: false
@@ -1645,7 +1645,7 @@ components:
     VendorId:
       description: The unique identifier for the Vendor
       in: path
-      name: vendor-id
+      name: vendor_id
       required: true
       style: simple
       explode: false
