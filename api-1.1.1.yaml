@@ -58,43 +58,43 @@ info:
     
     This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with the [W3C spec](https://www.w3.org/TR/cors/). And that allows cross-domain communication from the browser. All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
     
-#    ## Post-Approval Webhook
-#
-#    After an investment is approved, Finario can send the investment's data to an API endpoint of your choosing.
-#
-#    ### Set Up
-#
-#    Setup is performed within the Finario app. An Administrator can set up Web Hooks at:
-#
-#    `https://<your_host>.finario.com/web_hooks`.
-#
-#    The information required is as follows:
-#
-#    - Endpoint (the URL Finario will send the investment payload to after approval)
-#    - API Key (if needed for your endpoint)
-#    - API Secret (if needed for your endpoint)
-#    - The conditions that will trigger the payload being sent. These conditions will only be matched after an investment has been fully approved.
-#
-#    _You can also send test requests to the endpoint you set up from within the Finario app._
-#
-#    ### Response Format
-#
-#    The content type of the response will be `application/json`.
-#
-#    The format of the response can be found under `Schemas/PostApprovalWebhook`.
-#
     ## Authentication
-
+    
     You are required to authenticate when calling any of the Endpoints in the Finario API. This is performed via an **API Token**, as described below.
-
+    
     ### Generate your API Token
-
+    
     To generate an API Token, follow the steps below:
-
+    
       1. Visit your **Profile** in the Finario app: `https://<your-host>.finario.com/profile/api-token`.
       2. Generate your API Token.
       3. Configure a white list of IP addresses if you want to add additional security to your Finario API endpoint. This is not required, but here if you want the additional security.
       4. Add your token as a header in each HTTP request `--header 'x-api-token: <API Token>'.
+
+  #    ## Post-Approval Webhook
+  #
+  #    After an investment is approved, Finario can send the investment's data to an API endpoint of your choosing.
+  #
+  #    ### Set Up
+  #
+  #    Setup is performed within the Finario app. An Administrator can set up Web Hooks at:
+  #
+  #    `https://<your_host>.finario.com/web_hooks`.
+  #
+  #    The information required is as follows:
+  #
+  #    - Endpoint (the URL Finario will send the investment payload to after approval)
+  #    - API Key (if needed for your endpoint)
+  #    - API Secret (if needed for your endpoint)
+  #    - The conditions that will trigger the payload being sent. These conditions will only be matched after an investment has been fully approved.
+  #
+  #    _You can also send test requests to the endpoint you set up from within the Finario app._
+  #
+  #    ### Response Format
+  #
+  #    The content type of the response will be `application/json`.
+  #
+  #    The format of the response can be found under `Schemas/PostApprovalWebhook`.
 
   license:
     name: &copy; Finario
