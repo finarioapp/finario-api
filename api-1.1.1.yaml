@@ -49,7 +49,7 @@ info:
       1. Visit your **Profile** in the Finario app: `https://<your-host>.finario.com/profile/api-token`.
       2. Generate your API Token.
       3. Configure a white list of IP addresses if you want to add additional security to your Finario API endpoint. This is not required, but here if you want the additional security.
-      4. Add your token as a header in each HTTP request `--header 'x-api-token: <API Token>'.    
+      4. Add your token as a header in each HTTP request `--header 'x-api-token: <API Token>'.
 
     ## Required Headers
     
@@ -96,7 +96,6 @@ info:
     
     The format of the response can be found under `Schemas/PostApprovalWebhook`.  
 
-
   license:
     name: &copy; Finario
     url: https://finario.com
@@ -112,6 +111,23 @@ servers:
     description: Sandbox URL
   - url: 'https://finarioapi.com/1.1'
     description: Production URL
+
+x-tagGroups:
+  - name: Endpoints
+    tags:
+      - Approvals
+      - Cost Categories
+      - Costs
+      - Investments
+      - Invoices
+      - Organizations
+      - Payments
+      - Purchase Orders
+      - Users
+      - Vendors
+  - name: Events
+    tags:
+      - Webhooks
 
 paths:
   '/investments/{investment_id}/approvals':
@@ -134,7 +150,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Create an Approval
       tags:
         - Approvals
@@ -160,7 +176,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Get an Approval
       tags:
         - Approvals
@@ -189,7 +205,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: List Cost Categories
       tags:
         - Cost Categories
@@ -217,7 +233,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/ErrorMessageArray'
           description: Missing required fields.
       summary: Create a Cost Category
       tags:
@@ -238,7 +254,7 @@ paths:
               $ref: '#/components/schemas/CostCategoryPostPut'
         description: The Cost Category details to update.
       responses:
-        '201':
+        '200':
           content:
             application/json:
               schema:
@@ -248,13 +264,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/ErrorMessageArray'
           description: Cost Category not found.
         '422':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/ErrorMessageArray'
           description: Missing required fields.
       summary: Update a Cost Category
       tags:
@@ -280,7 +296,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: List Costs
       tags:
         - Costs
@@ -312,19 +328,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
         '406':
           description: Account not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
         '422':
           description: Missing required field
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/ErrorMessageObjectTwo'
       summary: Create a Cost
       tags:
         - Costs
@@ -350,7 +366,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Get a Cost
       tags:
         - Costs
@@ -479,9 +495,9 @@ paths:
           schema:
             type: string
           example: approved_after=2019-1-24
-        - name: Custom Fields
+        - name: x Custom Fields
           in: query
-          description: See custom fields for more information. Custom fields will only be optional parameters if they are turned on within your account. If you're unsure, ask your account manager whether or not you have access to custom fields.Custom fields are formatted with a c_ proceeding whatever you've named the custom field. The examplec_Funding=Cash will take you to the investments where the custom field "Funding" is set to "Cash' Parameter keys and values should match what you've defined in your custom fields
+          description: Custom fields will only be optional parameters if they are turned on within your account. If you're unsure, ask your account manager whether or not you have access to custom fields. Custom fields are formatted with a `c_` proceeding whatever you've named the custom field. The example `c_Funding=Cash` will take you to the investments where the custom field **Funding** is set to **Cash** Parameter keys and values should match what you've defined in your custom fields.
           required: false
           style: form
           explode: true
@@ -499,7 +515,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/ErrorMessageArray'
           description: Investment not found.
       summary: List Investments
       tags:
@@ -529,13 +545,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
         '422':
           description: Missing required fields
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/ErrorMessageArray'
       summary: Create an Investment
       tags:
         - Investments
@@ -685,7 +701,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/ErrorMessageArray'
           description: Cost Category not found.
       summary: Get an Investment
       tags:
@@ -716,7 +732,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessage'
+                $ref: '#/components/schemas/ErrorMessageArray'
       summary: Update an Investment
       tags:
         - Investments
@@ -736,7 +752,7 @@ paths:
 
         All values should be encoded for URL; for example:
 
-        `token=your_token&closed=true&closed_within_days_ago=10`.
+        `closed=true&closed_within_days_ago=10`
       operationId: GetInvoices
       parameters:
         - $ref: '#/components/parameters/ContentType'
@@ -768,17 +784,13 @@ paths:
                 $ref: '#/components/schemas/InvoicesGetAll'
         '404':
           description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
       summary: List Invoices
       tags:
         - Invoices
 
   '/invoices/{invoice_id}':
     get:
-      description: Retrieve an invoice details
+      description: Retrieve an invoice details.
       operationId: GetInvoice
       parameters:
         - $ref: '#/components/parameters/ContentType'
@@ -804,14 +816,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Get an Invoice
       tags:
         - Invoices
 
   '/investments/{investment_id}/vendors/{vendor_id}/invoices':
     post:
-      description: Create an invoice made by the vendor against an investment
+      description: Create an invoice made by the vendor against an investment.
       operationId: CreateInvoice
       parameters:
         - $ref: '#/components/parameters/ContentType'
@@ -836,20 +848,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
         '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageArray'
       summary: Create an Invoice
       tags:
         - Invoices
 
   '/investments/{investment_id}/vendors/{vendor_id}/invoices/{invoice_id}':
     put:
-      description: Update an existing invoice
+      description: Update an existing invoice.
       operationId: UpdateInvoiceById
       parameters:
         - $ref: '#/components/parameters/ContentType'
@@ -871,13 +883,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
         '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageArray'
       summary: Update an Invoice by ID
       tags:
         - Invoices
@@ -906,13 +918,13 @@ paths:
 #          content:
 #            application/json:
 #              schema:
-#                $ref: '#/components/schemas/ErrorMessageDirect'
+#                $ref: '#/components/schemas/ErrorMessageObjectOne'
 #        '422':
 #          description: Unprocessable Entity
 #          content:
 #            application/json:
 #              schema:
-#                $ref: '#/components/schemas/ErrorMessageDirect'
+#                $ref: '#/components/schemas/ErrorMessageObjectOne'
 #      summary: Update an Invoice by Ref.
 #      tags:
 #        - Invoices
@@ -933,10 +945,6 @@ paths:
                 $ref: '#/components/schemas/Organizations'
         '404':
           description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
       summary: List Organizations
       tags:
         - Organizations
@@ -972,13 +980,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageArray'
         '406':
           description: Missing required fields
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageArray'
       summary: Create an Organization
       tags:
         - Organizations
@@ -998,7 +1006,7 @@ paths:
 
         All values should be encoded for URL; for example:
 
-        `token=your_token&closed=true&closed_within_days_ago=10`.
+        `closed=true&closed_within_days_ago=10`.
       operationId: GetPayments
       parameters:
         - $ref: '#/components/parameters/ContentType'
@@ -1030,10 +1038,6 @@ paths:
                 $ref: '#/components/schemas/Payments'
         '404':
           description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
       summary: List Payments
       tags:
         - Payments
@@ -1055,19 +1059,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payments'
+                $ref: '#/components/schemas/Payment'
         '404':
           description: Unmatched Unique Cost ID
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
         '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Create a Payment
       tags:
         - Payments
@@ -1093,19 +1097,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payments'
+                $ref: '#/components/schemas/Payment'
         '404':
           description: Unmatched Unique Cost ID
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
         '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Create a Payment by Cost
       tags:
         - Payments
@@ -1138,19 +1142,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payments'
+                $ref: '#/components/schemas/Payment'
         '404':
           description: Unmatched Unique Cost ID
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
         '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Create a Payment by Investment
       tags:
         - Payments
@@ -1169,13 +1173,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payments'
+                $ref: '#/components/schemas/Payment'
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Get a Payment
       tags:
         - Payments
@@ -1190,7 +1194,6 @@ paths:
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/PaymentId'
       requestBody:
-        description: 'Required Parameters <br/> amount, date, reference,'
         content:
           application/json:
             schema:
@@ -1203,13 +1206,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
         '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Update a Payment
       tags:
         - Payments
@@ -1229,7 +1232,7 @@ paths:
 
         All values should be encoded for URL; for example:
 
-        `token=your_token&closed=true&closed_within_days_ago=10`.
+        `closed=true&closed_within_days_ago=10`.
       operationId: GetPurchaseOrders
       parameters:
         - $ref: '#/components/parameters/ContentType'
@@ -1261,10 +1264,6 @@ paths:
                 $ref: '#/components/schemas/PurchaseOrders'
         '404':
           description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
       summary: List Purchase Orders
       tags:
         - Purchase Orders
@@ -1289,7 +1288,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Get a Purchase Order
       tags:
         - Purchase Orders
@@ -1303,7 +1302,6 @@ paths:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
       requestBody:
-        description: Required Parameters <br/> amount, date, po_number, po_line, reference
         content:
           application/json:
             schema:
@@ -1315,18 +1313,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
-        '402':
-          description: Missing required fields
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
         '404':
           description: Investment not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
+        '422':
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Create a Purchase Order
       tags:
         - Purchase Orders
@@ -1341,7 +1339,6 @@ paths:
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/PurchaseOrderId'
       requestBody:
-        description: 'Required Parameters <br/> amount, date, po_number, po_line, reference'
         content:
           application/json:
             schema:
@@ -1349,18 +1346,18 @@ paths:
       responses:
         '204':
           description: No Content
-        '402':
-          description: Missing required fields
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
         '404':
           description: Investment not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
+        '422':
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Update a Purchase Order
       tags:
         - Purchase Orders
@@ -1381,10 +1378,6 @@ paths:
                 $ref: '#/components/schemas/Users'
         '404':
           description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
       summary: List Users
       tags:
         - Users
@@ -1409,7 +1402,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Get a User
       tags:
         - Users
@@ -1421,7 +1414,6 @@ paths:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/UserEmail'
       requestBody:
-        description: <strong>Required Parameters.</strong> <br/> first_name, last_name
         content:
           application/json:
             schema:
@@ -1434,13 +1426,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
         '422':
           description: Duplicate external id
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Update a User
       tags:
         - Users
@@ -1461,10 +1453,6 @@ paths:
                 $ref: '#/components/schemas/Vendors'
         '404':
           description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
       summary: List Vendors
       tags:
         - Vendors
@@ -1475,7 +1463,6 @@ paths:
         - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
       requestBody:
-        description: Required Parameters <br/> name
         content:
           application/json:
             schema:
@@ -1492,7 +1479,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Create a Vendor
       tags:
         - Vendors
@@ -1506,7 +1493,6 @@ paths:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/VendorId'
       requestBody:
-        description: Required Parameters <br/> name
         content:
           application/json:
             schema:
@@ -1519,7 +1505,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageDirect'
+                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Update a Vendor
       tags:
         - Vendors
@@ -1830,11 +1816,11 @@ components:
     CostCategoryPostPut:
       type: object
       properties:
-        name:
-          description: The name of the Cost Category.
-          type: string
         category_code:
           description: The category shortcode.
+          type: string
+        name:
+          description: The name of the Cost Category.
           type: string
         parent_name:
           description: If there is no category with the given name, a new category will be created.
@@ -1906,134 +1892,19 @@ components:
         account_id:
           description: The account id for the Cost.
           type: string
-        approved:
-          description: The approve status for the Cost.
-          type: boolean
-        cost_category_id:
-          description: The cost category id for the Cost.
-          type: string
-        unit_price:
-          type: object
-          properties:
-            cents:
-              description: The cents equivalent value for the unit price.
-              type: number
-            currency:
-              description: The currency for the unit price.
-              type: string
-        freight:
-          type: object
-          properties:
-            cents:
-              description: The cents equivalent value of the amount for the freight.
-              type: number
-            currency:
-              description: The currency for the freight.
-              type: string
-        sales_tax_rule:
-          type: object
-          properties:
-            rate:
-              description: The rate for the sales tax rule.
-              type: number
-            taxable:
-              description: The taxable items for the sales tax rule.
-              type: array
-              items:
-                type: object
-        expected_units:
-          type: array
-          items:
-            properties:
-              date:
-                description: The date of the expected units.
-                type: array
-                items:
-                  type: number
-              quantity:
-                description: The quantity of the expected units.
-                type: string
-              unit_cost:
-                description: The unit cost of the expected units.
-                type: object
-                properties:
-                  cents:
-                    description: The cents equivalent value for the unit cost.
-                    type: number
-                  currency:
-                    description: The currency for the unit cost.
-                    type: string
-        id:
-          description: The unique identifier for the Cost.
-          type: string
-        name:
-          description: The name for the Cost.
-          type: string
-        vendor_id:
-          description: The vendor id.
-          type: string
-        depreciable_cache:
-          description: The depreciable cache for the Cost.
-          type: boolean
-        forecast_spends:
-          description: The forecast spends for the Cost.
-          type: array
-          items:
-            type: array
-            items:
-              type: object
-              properties:
-                cents:
-                  description: The cents equivalent value for the forecast spends.
-                  type: number
-                currency:
-                  description: The currency for the forecast spends.
-                  type: string
-        suspended_spends:
-          description: The suspended spends of the Cost.
-          type: array
-          items:
-            type: object
-        approved_spends:
-          description: The approved spends for the Cost.
-          type: array
-          items:
-            type: object
         actual_spends:
           description: The actual spends for the Cost.
           type: array
           items:
             type: object
-        revised_forecast:
-          description: The revised forecast for the Cost.
+        approved:
+          description: The approved status for the Cost.
+          type: boolean
+        approved_spends:
+          description: The approved spends for the Cost.
           type: array
           items:
-            type: array
-            items:
-              type: object
-              properties:
-                cents:
-                  description: The cents equivalent value for the revised forecast.
-                  type: number
-                currency:
-                  description: The currency for the revised forecast.
-                  type: string
-        forecasted_by_id:
-          description: The user id that performed the forecasting.
-          type: string
-        forecasted_at:
-          description: The forecasted timestamp for the Cost.
-          type: string
-        base_forecast_total:
-          description: The base forcast total for the Cost.
-          type: object
-          properties:
-            cents:
-              description: The cents equivalent value for the base forecast total.
-              type: number
-            currency:
-              description: The currency for the base forecast total.
-              type: string
+            type: object
         base_approved_total:
           description: The base approved total for the Cost.
           type: object
@@ -2043,6 +1914,16 @@ components:
               type: number
             currency:
               description: The currency for the base approved total.
+              type: string
+        base_forecast_total:
+          description: The base forcast total for the Cost.
+          type: object
+          properties:
+            cents:
+              description: The cents equivalent value for the base forecast total.
+              type: number
+            currency:
+              description: The currency for the base forecast total.
               type: string
         base_spends:
           description: The base spends for the Cost.
@@ -2062,35 +1943,140 @@ components:
           description: The investment closed timestamp for the Cost.
           type: string
           format: date-time
+        cost_category_id:
+          description: The cost category id for the Cost.
+          type: string
+        depreciable_cache:
+          description: The depreciable cache for the Cost.
+          type: boolean
+        expected_units:
+          type: array
+          items:
+            properties:
+              date:
+                description: The date of the expected units in array format `[ YYYY, MM ]`, e.g., `[ 2015, 10 ]`.
+                type: array
+                items:
+                  type: number
+              quantity:
+                description: The quantity of the expected units.
+                type: string
+              unit_cost:
+                description: The unit cost of the expected units.
+                type: object
+                properties:
+                  cents:
+                    description: The cents equivalent value for the unit cost.
+                    type: number
+                  currency:
+                    description: The currency for the unit cost.
+                    type: string
+        forecast_spends:
+          description: The forecast spends for the Cost.
+          type: array
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                cents:
+                  description: The cents equivalent value for the forecast spends.
+                  type: number
+                currency:
+                  description: The currency for the forecast spends.
+                  type: string
+        forecasted_at:
+          description: The forecasted timestamp for the Cost.
+          type: string
+        forecasted_by_id:
+          description: The user id that performed the forecasting.
+          type: string
+        freight:
+          type: object
+          properties:
+            cents:
+              description: The cents equivalent value of the amount for the freight.
+              type: number
+            currency:
+              description: The currency for the freight.
+              type: string
+        id:
+          description: The unique identifier for the Cost.
+          type: string
+        name:
+          description: The name for the Cost.
+          type: string
+        revised_forecast:
+          description: The revised forecast for the Cost.
+          type: array
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                cents:
+                  description: The cents equivalent value for the revised forecast.
+                  type: number
+                currency:
+                  description: The currency for the revised forecast.
+                  type: string
+        sales_tax_rule:
+          type: object
+          properties:
+            rate:
+              description: The rate for the sales tax rule.
+              type: number
+            taxable:
+              description: The taxable items for the sales tax rule.
+              type: array
+              items:
+                type: object
+        suspended_spends:
+          description: The suspended spends of the Cost.
+          type: array
+          items:
+            type: object
+        unit_price:
+          type: object
+          properties:
+            cents:
+              description: The cents equivalent value for the unit price.
+              type: number
+            currency:
+              description: The currency for the unit price.
+              type: string
+        vendor_id:
+          description: The vendor id.
+          type: string
 
     CostsGet:
       type: array
       items:
         type: object
         properties:
-          name:
-            description: The name for the Cost.
+          description:
+            description: The description for the Cost.
             type: string
           id:
             description: The unique identifier for the Cost.
             type: string
-          description:
-            description: The description for the Cost.
-            type: string
           investment_id:
             description: The investment id for the Cost.
             type: string
+          name:
+            description: The name for the Cost.
+            type: string
 
-    ErrorMessage:
+    ErrorMessageArray:
       type: object
       properties:
         errors:
-          description: An array of error messages.
+          description: An array of error message strings.
           type: array
           items:
             type: string
 
-    ErrorMessageDirect:
+    ErrorMessageObjectOne:
       type: object
       properties:
         message:
@@ -2099,6 +2085,18 @@ components:
         success:
           description: The response status of the request.
           type: boolean
+
+    ErrorMessageObjectTwo:
+      type: object
+      properties:
+        errors:
+          description: An object of error messages.
+          properties:
+            name:
+              type: array
+              items:
+                type: string
+          type: object
 
     InvestmentPostPut:
       type: object
@@ -2110,31 +2108,31 @@ components:
           description: A description of the investment.
           type: string
         in_service_date_as_time:
-          description: e.g., "Oct-2015". Year must be 4 digits. Month must be Jan, Feb, Mar, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec. This date must be after project_start_as_time.
+          description: e.g., `Oct-2015`. Year must be 4 digits. Month must be one of `Jan`, `Feb`, `Mar`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov` or `Dec`. This date must be after `project_start_as_time`.
           type: string
         investment_category_name:
           description: Must match a value that already exists in your Finario application.
           type: string
         investment_id:
-          description: A unique ID from your external system. This is saved as the "Investment Code" in Finario, and can be used as a resource identifier for other API endpoints.
+          description: A unique ID from your external system. This is saved as the **Investment Code** in Finario, and can be used as a resource identifier for other API endpoints.
           type: string
         name:
           description: A name for the investment.
           type: string
         organization_code:
-          description: Either organization_code or organization_name is required. Must match a value that already exists in your Finario application.
+          description: Either `organization_code` or `organization_name` is required. Must match a value that already exists in your Finario application.
           type: string
         organization_name:
-          description: Either organization_code or organization_name is required. Must match a value that already exists in your Finario application.
+          description: Either `organization_code` or `organization_name` is required. Must match a value that already exists in your Finario application.
           type: string
         owner_email:
-          description: Either owner_name or owner_email is required. Must match a value that already exists in your Finario application.
+          description: Either `owner_name` or `owner_email` is required. Must match a value that already exists in your Finario application.
           type: string
         owner_name:
-          description: Either owner_name or owner_email is required. Must match a value that already exists in your Finario application.
+          description: Either `owner_name` or `owner_email` is required. Must match a value that already exists in your Finario application.
           type: string
         project_start_as_time:
-          description: e.g., "Oct-2015". Year must be 4 digits. Month must be Jan, Feb, Mar, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec.
+          description: e.g., `Oct-2015`. Year must be 4 digits. Month must be one of `Jan`, `Feb`, `Mar`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov` or `Dec`.
           type: string
         rationale:
           description: A background rationale for the investment.
@@ -2142,10 +2140,6 @@ components:
       required:
         - in_service_date_as_time
         - investment_category_name
-        - organization_code
-        - organization_name
-        - owner_email
-        - owner_name
         - project_start_as_time
 
     InvestmentsPostPut:
@@ -2177,23 +2171,23 @@ components:
       type: array
       items:
         properties:
-          name:
-            description: The name for the Investment.
-            type: string
-          id:
-            description: The unique identifier for the Investment.
-            type: string
-          investment_id:
-            description: The unique code for the Investment.
-            type: string
-          investment_category_name:
-            description: The category name for the Investment.
-            type: string
           api_request:
             description: The api request used to create the investment (if created via api).
             type: string
           costs_path:
             description: The resource locator for costs.
+            type: string
+          id:
+            description: The unique identifier for the Investment.
+            type: string
+          investment_category_name:
+            description: The category name for the Investment.
+            type: string
+          investment_id:
+            description: The unique code for the Investment.
+            type: string
+          name:
+            description: The name for the Investment.
             type: string
           organization_code:
             description: The organization code.
@@ -2262,33 +2256,36 @@ components:
             description: THe assignment for the Invoice.
             type: object
             properties:
+              cost_id:
+                description: The cost id for the assignment.
+                type: string
+              investment_id:
+                description: The investment id for the assignment.
+                type: string
+              manually_unassigned:
+                description: The manually unassigned for the assignment.
+                type: string
               organization_id:
                 description: The organization id for the assignment.
                 type: string
               user_id:
                 description: The user id for the assignment.
                 type: string
-              investment_id:
-                description: The investment id for the assignment.
-                type: string
-              cost_id:
-                description: The cost id for the assignment.
-                type: string
-              manually_unassigned:
-                description: The manually unassigned for the assignment.
-                type: string
           date:
             description: The date for the Invoice.
             type: string
             format: date
+          cost_category_id:
+            description: The ID of the associated cost category.
+            type: string
           id:
             description: The unique identifier for the Invoice.
             type: string
-          number:
-            description: The number for the Invoice.
+          po_type:
+            description: The type of Purchase Order.
             type: string
-          reference:
-            description: The reference for the Invoice.
+          unique_cost_id:
+            description: e.g., "abc123" This ID is used to match payments to a cost and must exist on the cost prior to using it for matching.
             type: string
           vendor_id:
             description: The vendor id for the Invoice.
@@ -2313,20 +2310,20 @@ components:
             description: THe assignment for the Invoice.
             type: object
             properties:
+              cost_id:
+                description: The cost id for the assignment.
+                type: string
+              investment_id:
+                description: The investment id for the assignment.
+                type: string
+              manually_unassigned:
+                description: The manually unassigned for the assignment.
+                type: string
               organization_id:
                 description: The organization id for the assignment.
                 type: string
               user_id:
                 description: The user id for the assignment.
-                type: string
-              investment_id:
-                description: The investment id for the assignment.
-                type: string
-              cost_id:
-                description: The cost id for the assignment.
-                type: string
-              manually_unassigned:
-                description: The manually unassigned for the assignment.
                 type: string
           cost_category_id:
             description: The cost category id for the Invoice.
@@ -2402,6 +2399,58 @@ components:
           description: The unique identifier created for the Organization.
           type: string
 
+    Payment:
+      type: object
+      properties:
+        account_id:
+          description: The account id for the Payment.
+          type: string
+        amount:
+          description: The amount for the Payment.
+          type: object
+          properties:
+            cents:
+              description: The cents equivalent for the amount.
+              type: number
+            currency:
+              description: The currency for the the amount.
+              type: string
+        assignment:
+          description: THe assignment for the Payment.
+          type: object
+          properties:
+            cost_id:
+              description: The cost id for the assignment.
+              type: string
+            investment_id:
+              description: The investment id for the assignment.
+              type: string
+            manually_unassigned:
+              description: The manually unassigned for the assignment.
+              type: string
+            organization_id:
+              description: The organization id for the assignment.
+              type: string
+            user_id:
+              description: The user id for the assignment.
+              type: string
+        cost_category_name:
+          description: The cost category name for the Payment.
+          type: string
+        date:
+          description: The date for the Payment.
+          type: string
+          format: date
+        id:
+          description: The unique identifier for the Payment.
+          type: string
+        unique_cost_id:
+          description: The unique cost id for the Payment.
+          type: string
+        vendor_id:
+          description: The vendor id for the Payment.
+          type: string
+
     PaymentPostPut:
       type: object
       properties:
@@ -2457,6 +2506,9 @@ components:
       items:
         type: object
         properties:
+          account_id:
+            description: The account id for the Payment.
+            type: string
           amount:
             description: The amount for the Payment.
             type: object
@@ -2471,23 +2523,26 @@ components:
             description: THe assignment for the Payment.
             type: object
             properties:
+              cost_id:
+                description: The cost id for the assignment.
+                type: string
+              investment_id:
+                description: The investment id for the assignment.
+                type: string
+              manually_unassigned:
+                description: The manually unassigned for the assignment.
+                type: string
               organization_id:
                 description: The organization id for the assignment.
                 type: string
               user_id:
                 description: The user id for the assignment.
                 type: string
-              investment_id:
-                description: The investment id for the assignment.
-                type: string
-              cost_id:
-                description: The cost id for the assignment.
-                type: string
-              manually_unassigned:
-                description: The manually unassigned for the assignment.
-                type: string
           check_number:
             description: The check number for the Payment.
+            type: string
+          cost_category_name:
+            description: The cost category name for the Payment.
             type: string
           date:
             description: The date for the Payment.
@@ -2514,17 +2569,11 @@ components:
           reference:
             description: The reference for the Payment.
             type: string
-          vendor_id:
-            description: The vendor id for the Payment.
-            type: string
-          cost_category_name:
-            description: The cost category name for the Payment.
-            type: string
           unique_cost_id:
             description: The unique cost id for the Payment.
             type: string
-          account_id:
-            description: The account id for the Payment.
+          vendor_id:
+            description: The vendor id for the Payment.
             type: string
 
     PurchaseOrderPostPut:
@@ -2586,20 +2635,20 @@ components:
             description: THe assignment for the Purchase Orders.
             type: object
             properties:
+              cost_id:
+                description: The cost id for the assignment.
+                type: string
+              investment_id:
+                description: The investment id for the assignment.
+                type: string
+              manually_unassigned:
+                description: The manually unassigned for the assignment.
+                type: string
               organization_id:
                 description: The organization id for the assignment.
                 type: string
               user_id:
                 description: The user id for the assignment.
-                type: string
-              investment_id:
-                description: The investment id for the assignment.
-                type: string
-              cost_id:
-                description: The cost id for the assignment.
-                type: string
-              manually_unassigned:
-                description: The manually unassigned for the assignment.
                 type: string
           date:
             description: The date for the Purchase Orders.
