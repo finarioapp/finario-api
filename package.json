@@ -1,12 +1,14 @@
 {
   "name": "finario-api",
-  "version": "2.0.0",
+  "version": "1.1.1",
   "description": "Describes the Finario API >= v1.1.0",
-  "main": "index",
+  "main": "index.html",
   "scripts": {
-    "gen": "redoc-cli bundle api-2.0.0.yaml",
-    "lint": "openapi lint api-2.0.0.yaml",
-    "serve": "redoc-cli serve --watch api-2.0.0.yaml"
+    "clean": "rm -rf gen",
+    "clean:all": "npm run clean && rm -rf node_modules",
+    "lint": "openapi lint api-1.1.1.yaml",
+    "serve": "wds",
+    "redoc": "redoc-cli serve --watch api-1.1.1.yaml"
   },
   "repository": {
     "type": "git",
@@ -19,13 +21,14 @@
     "swagger"
   ],
   "author": "Finario & IntegrationWorks Development",
-  "license": "&copy Finario Corp 2021",
+  "license": "&copy; Finario Corp 2021",
   "bugs": {
     "url": "https://github.com/integrationworks-uk/finario-api/issues"
   },
   "homepage": "https://github.com/integrationworks-uk/finario-api#readme",
-  "dependencies": {
+  "devDependencies": {
     "@redocly/openapi-cli": "^1.0.0-beta.69",
+    "@web/dev-server": "^0.1.29",
     "redoc-cli": "^0.13.1"
   }
 }
