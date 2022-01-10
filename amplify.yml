@@ -1,0 +1,10 @@
+version: 1
+frontend:
+  phases:
+    build:
+      commands:
+        - mv index.${UI_TOOL}.html index.html
+  artifacts:
+    baseDirectory: /
+    files:
+      - '**/*'

@@ -17,8 +17,8 @@ info:
     
     1. Ensure you have a Finario account.
     2. Familiarize yourself with the API **Endpoints** and **Webhooks**.
-    3. Familiarize yourself with the [headers required](#required-headers) to be sent with each request. 
-    4. Familiarize yourself with [how to authenticate](#authentication) when using the API.
+    3. Familiarize yourself with the [headers required](#section/Required-Headers) to be sent with each request. 
+    4. Familiarize yourself with [how to authenticate](#section/Aauthentication) when using the API.
     5. [Generate](#authentication) your API Token.
     6. Start using the API, either in your code or via your tooling of choice.
     
@@ -28,29 +28,16 @@ info:
     
     However, for completeness, below we provide some links to tooling that we use and would recommend when building and testing APIs.
     
-    You can [import this specification](./api-1.1.1.yaml) into an API testing tool such as **Postman** or **Paw**. You can also use command-line tools such as **curl**, **wget** or **httpie**. By using tools such as Postman or Paw, you will be able to genereate code stubs for a variety of popular languages to speed your development and testing efforts.
+    You can [import this specification](/api-1.1.1.yaml) into an API testing tool such as **Postman** or **Paw**. You can also use command-line tools such as **curl**, **wget** or **httpie**. By using tools such as Postman or Paw, you will be able to genereate code stubs for a variety of popular languages to speed your development and testing efforts.
     
     - [Postman](https://www.postman.com) // [Paw](https://paw.cloud) // [curl](https://curl.se) // [wget](https://www.gnu.org/software/wget/) // [httpie](https://httpie.io)
 
     ## Download the API Spec
     
-    **[Download](./api-1.1.1.yaml)** version 1.1.1 of the specification for use in your chosen API development and testing tools.
+    **[Download](/api-1.1.1.yaml)** version 1.1.1 of the specification for use in your chosen API development and testing tools.
     
     - For versions 1.0 and earlier, please see this [GitHub repository](https://github.com/finarioapp/api).
     
-    ## Authentication
-    
-    You are required to authenticate when calling any of the Endpoints in the Finario API. This is performed via an **API Token**, as described below.
-    
-    ### Generate your API Token
-
-    To generate an API Token, follow the steps below:
-
-      1. Visit your **Profile** in the Finario app: `https://<your-host>.finario.com/profile/api-token`.
-      2. Generate your API Token.
-      3. Configure a white list of IP addresses if you want to add additional security to your Finario API endpoint. This is not required, but here if you want the additional security.
-      4. Add your token as a header in each HTTP request `--header 'x-api-token: <API Token>'.
-
     ## Required Headers
     
     ### Request
@@ -60,7 +47,7 @@ info:
     | <div style="width:130px">Header Name</div> | Description |
     | ---------------- | --- |
     | `content-type`   | Must be `application/json`. |
-    | `x-api-token`    | As described in the [Authentication](#authentication) section below. |
+    | `x-api-token`    | As described in the [Authentication](#section/Aauthentication) section below. |
     | `x-finario-host` | The Finario host name that you use to login to your Finario app. For example, if you login to the Finario app at `example-co.finario.com`, then your `x-finario-host` will be `example-co`. |
     
     ### Response
@@ -71,30 +58,43 @@ info:
     
     This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with the [W3C spec](https://www.w3.org/TR/cors/). And that allows cross-domain communication from the browser. All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
     
-    ## Post-Approval Webhook
-    
-    After an investment is approved, Finario can send the investment's data to an API endpoint of your choosing.
+#    ## Post-Approval Webhook
+#
+#    After an investment is approved, Finario can send the investment's data to an API endpoint of your choosing.
+#
+#    ### Set Up
+#
+#    Setup is performed within the Finario app. An Administrator can set up Web Hooks at:
+#
+#    `https://<your_host>.finario.com/web_hooks`.
+#
+#    The information required is as follows:
+#
+#    - Endpoint (the URL Finario will send the investment payload to after approval)
+#    - API Key (if needed for your endpoint)
+#    - API Secret (if needed for your endpoint)
+#    - The conditions that will trigger the payload being sent. These conditions will only be matched after an investment has been fully approved.
+#
+#    _You can also send test requests to the endpoint you set up from within the Finario app._
+#
+#    ### Response Format
+#
+#    The content type of the response will be `application/json`.
+#
+#    The format of the response can be found under `Schemas/PostApprovalWebhook`.
+#
+    ## Authentication
 
-    ### Set Up
+    You are required to authenticate when calling any of the Endpoints in the Finario API. This is performed via an **API Token**, as described below.
 
-    Setup is performed within the Finario app. An Administrator can set up Web Hooks at:
+    ### Generate your API Token
 
-    `https://<your_host>.finario.com/web_hooks`.
+    To generate an API Token, follow the steps below:
 
-    The information required is as follows:
-
-    - Endpoint (the URL Finario will send the investment payload to after approval)
-    - API Key (if needed for your endpoint)
-    - API Secret (if needed for your endpoint)
-    - The conditions that will trigger the payload being sent. These conditions will only be matched after an investment has been fully approved.
-
-    _You can also send test requests to the endpoint you set up from within the Finario app._
-
-    ### Response Format
-    
-    The content type of the response will be `application/json`.
-    
-    The format of the response can be found under `Schemas/PostApprovalWebhook`.  
+      1. Visit your **Profile** in the Finario app: `https://<your-host>.finario.com/profile/api-token`.
+      2. Generate your API Token.
+      3. Configure a white list of IP addresses if you want to add additional security to your Finario API endpoint. This is not required, but here if you want the additional security.
+      4. Add your token as a header in each HTTP request `--header 'x-api-token: <API Token>'.
 
   license:
     name: &copy; Finario
