@@ -1421,14 +1421,8 @@ paths:
       responses:
         '204':
           description: No Content
-        '404':
-          description: Missing required fields
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessageObjectOne'
         '422':
-          description: Duplicate external id
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
