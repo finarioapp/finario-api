@@ -2239,58 +2239,73 @@ components:
         - number
 
     Invoices:
-      type: array
-      items:
-        type: object
-        properties:
-          amount:
-            description: The amount for the Invoice.
-            type: object
-            properties:
-              cents:
-                description: The cents equivalent for the amount.
-                type: number
-              currency:
-                description: The currency for the the amount.
-                type: string
-          assignment:
-            description: THe assignment for the Invoice.
-            type: object
-            properties:
-              cost_id:
-                description: The cost id for the assignment.
-                type: string
-              investment_id:
-                description: The investment id for the assignment.
-                type: string
-              manually_unassigned:
-                description: The manually unassigned for the assignment.
-                type: string
-              organization_id:
-                description: The organization id for the assignment.
-                type: string
-              user_id:
-                description: The user id for the assignment.
-                type: string
-          date:
-            description: The date for the Invoice.
-            type: string
-            format: date
-          cost_category_id:
-            description: The ID of the associated cost category.
-            type: string
-          id:
-            description: The unique identifier for the Invoice.
-            type: string
-          po_type:
-            description: The type of Purchase Order.
-            type: string
-          unique_cost_id:
-            description: e.g., "abc123" This ID is used to match payments to a cost and must exist on the cost prior to using it for matching.
-            type: string
-          vendor_id:
-            description: The vendor id for the Invoice.
-            type: string
+      type: object
+      properties:
+        account_id:
+          description: The account id for the Invoice.
+          type: string
+        amount:
+          description: The amount for the Invoice.
+          type: object
+          properties:
+            cents:
+              description: The cents equivalent for the amount.
+              type: number
+            currency:
+              description: The currency for the the amount.
+              type: string
+        assignment:
+          description: THe assignment for the Invoice.
+          type: object
+          properties:
+            cost_id:
+              description: The cost id for the assignment.
+              type: string
+            investment_id:
+              description: The investment id for the assignment.
+              type: string
+            manually_unassigned:
+              description: The manually unassigned for the assignment.
+              type: string
+            organization_id:
+              description: The organization id for the assignment.
+              type: string
+            user_id:
+              description: The user id for the assignment.
+              type: string
+        cost_category_id:
+          description: The ID of the associated cost category.
+          type: string
+        cost_category_name:
+          description: The name for the cost category.
+          type: string
+        description:
+          description: The description for the Invoice.
+          type: string
+        date:
+          description: The date for the Invoice.
+          type: string
+          format: date
+        gl_line:
+          description: The line number in the General Ledger.
+          type: string
+        id:
+          description: The unique identifier for the Invoice.
+          type: string
+        number:
+          type: string
+        po_line:
+          description: The line of Purchase Order.
+          type: string
+        po_number:
+          description: The unique number of the Purchase Order.
+          type: string
+        reference:
+          description: The reference for the Invoice.
+          type:  string
+        vendor_id:
+          description: The vendor id for the Invoice.
+          type: string
 
     InvoicesGetAll:
       type: array
