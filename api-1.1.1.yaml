@@ -2069,6 +2069,9 @@ components:
           type: array
           items:
             type: string
+        success:
+          description: The response status of the request.
+          type: boolean
 
     ErrorMessageObjectOne:
       type: object
