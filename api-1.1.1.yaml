@@ -264,7 +264,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageArray'
+                $ref: '#/components/schemas/ErrorMessageObjectThree'
           description: Cost Category not found.
         '422':
           content:
@@ -2091,6 +2091,16 @@ components:
               items:
                 type: string
           type: object
+
+    ErrorMessageObjectThree:
+      type: object
+      properties:
+        errors:
+          description: The error message.
+          type: string
+        success:
+          description: The response status of the request.
+          type: boolean
 
     InvestmentPostPut:
       type: object
