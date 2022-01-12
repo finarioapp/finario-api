@@ -978,7 +978,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageArrayOne'
+                $ref: '#/components/schemas/ErrorMessageObjectThree'
       summary: Create an Organization
       tags:
         - Organizations
