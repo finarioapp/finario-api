@@ -200,12 +200,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CostCategory'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: List Cost Categories
       tags:
         - Cost Categories
