@@ -227,7 +227,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageArray'
+                $ref: '#/components/schemas/ErrorMessageArrayOne'
           description: Missing required fields.
       summary: Create a Cost Category
       tags:
@@ -264,7 +264,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageArray'
+                $ref: '#/components/schemas/ErrorMessageArrayOne'
           description: Missing required fields.
       summary: Update a Cost Category
       tags:
@@ -509,7 +509,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageArray'
+                $ref: '#/components/schemas/ErrorMessageArrayOne'
           description: Investment not found.
       summary: List Investments
       tags:
@@ -545,7 +545,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageArray'
+                $ref: '#/components/schemas/ErrorMessageArrayOne'
       summary: Create an Investment
       tags:
         - Investments
@@ -695,7 +695,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageArray'
+                $ref: '#/components/schemas/ErrorMessageArrayOne'
           description: Cost Category not found.
       summary: Get an Investment
       tags:
@@ -726,7 +726,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageArray'
+                $ref: '#/components/schemas/ErrorMessageArrayOne'
       summary: Update an Investment
       tags:
         - Investments
@@ -848,7 +848,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageArray'
+                $ref: '#/components/schemas/ErrorMessageArrayTwo'
       summary: Create an Invoice
       tags:
         - Invoices
@@ -883,7 +883,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageArray'
+                $ref: '#/components/schemas/ErrorMessageArrayOne'
       summary: Update an Invoice by ID
       tags:
         - Invoices
@@ -974,13 +974,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageArray'
+                $ref: '#/components/schemas/ErrorMessageArrayOne'
         '406':
           description: Missing required fields
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageArray'
+                $ref: '#/components/schemas/ErrorMessageArrayOne'
       summary: Create an Organization
       tags:
         - Organizations
@@ -2055,7 +2055,7 @@ components:
             description: The name for the Cost.
             type: string
 
-    ErrorMessageArray:
+    ErrorMessageArrayOne:
       type: object
       properties:
         errors:
@@ -2066,6 +2066,14 @@ components:
         success:
           description: The response status of the request.
           type: boolean
+    ErrorMessageArrayTwo:
+      type: object
+      properties:
+        errors:
+          description: An array of error message strings.
+          type: array
+          items:
+            type: string
 
     ErrorMessageObjectOne:
       type: object
