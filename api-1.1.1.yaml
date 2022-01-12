@@ -2297,6 +2297,9 @@ components:
       items:
         type: object
         properties:
+          account_id:
+            description: The account id for the invoice.
+            type: string
           amount:
             description: The amount for the Invoice.
             type: object
@@ -2360,8 +2363,8 @@ components:
           vendor_id:
             description: The vendor id for the Invoice.
             type: string
-          unique_cost_id:
-            description: The unique cost id for the Invoice.
+          cost_category_name:
+            description: The cost category name for the Invoice.
             type: string
 
     Organizations:
