@@ -2393,9 +2393,17 @@ components:
     Organizations:
       type: object
       properties:
+        friendly_ids:
+          description: The human readable id for the Organization.
+          type: array
+          items:
+            type: string
         id:
           description: The unique identifier for the Organization.
           type: string
+        level:
+          description: The level for the Organization.
+          type: number
         name:
           description: The name for the Organization.
           type: string
