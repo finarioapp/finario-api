@@ -135,7 +135,6 @@ paths:
       description: This operation will submit the investment to the first approver in the approval list. It changes the investment's status from **Idea** to **Pending**.
       operationId: CreateApproval
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
       responses:
@@ -160,7 +159,6 @@ paths:
       description: Retrieve approval details of an investment.
       operationId: GetApproval
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/ApprovalId'
@@ -189,7 +187,6 @@ paths:
         _This endpoint does not support pagination._
       operationId: GetCostCategories
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
       responses:
         '200':
@@ -207,7 +204,6 @@ paths:
       description: Create a new cost category.
       operationId: CreateCostCategory
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
       requestBody:
         content:
@@ -238,7 +234,6 @@ paths:
       description: Update an existing cost category
       operationId: UpdateCostCategory
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/CostCategoryId'
       requestBody:
@@ -275,7 +270,6 @@ paths:
       description: Returns a list of all costs for a given investment.
       operationId: GetCosts
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
       responses:
@@ -298,7 +292,6 @@ paths:
       description: Add a new Cost to an investment
       operationId: CreateCost
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
       requestBody:
@@ -344,7 +337,6 @@ paths:
       description: Retrieve cost details of an investment
       operationId: GetCost
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/CostId'
@@ -370,7 +362,6 @@ paths:
       description: Retrieve list of investments
       operationId: GetInvestments
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - name: start_month
           in: query
@@ -518,7 +509,6 @@ paths:
       description: Create a new investment
       operationId: CreateInvestment
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
       requestBody:
         description: Acceptable Parameters
@@ -555,7 +545,6 @@ paths:
       description: Retrieve an investment
       operationId: GetInvestment
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - name: start_month
@@ -704,7 +693,6 @@ paths:
       description: Update an existing investment
       operationId: UpdateInvestment
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
       requestBody:
@@ -749,7 +737,6 @@ paths:
         `closed=true&closed_within_days_ago=10`
       operationId: GetInvoices
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - name: closed
           in: query
@@ -787,7 +774,6 @@ paths:
       description: Retrieve an invoice details.
       operationId: GetInvoice
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvoiceId'
         - name: vendor_id
@@ -820,7 +806,6 @@ paths:
       description: Create an invoice made by the vendor against an investment.
       operationId: CreateInvoice
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/VendorId'
@@ -858,7 +843,6 @@ paths:
       description: Update an existing invoice.
       operationId: UpdateInvoiceById
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/VendorId'
@@ -893,8 +877,7 @@ paths:
 #      description: Update an existing invoice
 #      operationId: UpdateInvoiceByRef
 #      parameters:
-#        - $ref: '#/components/parameters/ContentType'
-#        - $ref: '#/components/parameters/FinarioHost'
+##        - $ref: '#/components/parameters/FinarioHost'
 #        - $ref: '#/components/parameters/InvestmentId'
 #        - $ref: '#/components/parameters/VendorId'
 #        - $ref: '#/components/parameters/InvoiceReference'
@@ -928,7 +911,6 @@ paths:
       description: Returns a list of all Organizations.
       operationId: GetOrganizations
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
       responses:
         '200':
@@ -950,7 +932,6 @@ paths:
         cannot be created through the API.
       operationId: CreateOrganization
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/OrganizationId'
       requestBody:
@@ -1001,7 +982,6 @@ paths:
         `closed=true&closed_within_days_ago=10`.
       operationId: GetPayments
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - name: closed
           in: query
@@ -1037,7 +1017,6 @@ paths:
       description: Create new payment
       operationId: CreatePayment
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
       requestBody:
         description: 'Required Parameters <br/> amount, date, reference,'
@@ -1073,7 +1052,6 @@ paths:
       description: Create payment against an existing investment cost
       operationId: CreatePaymentByCost
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/CostId'
@@ -1111,7 +1089,6 @@ paths:
       description: Create payment against an investment
       operationId: CreatePaymentByInvestment
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - name: unique_cost_id
@@ -1156,7 +1133,6 @@ paths:
       description: Retrieve payment details
       operationId: GetPayment
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/PaymentId'
       responses:
@@ -1181,7 +1157,6 @@ paths:
       description: Update an existing payment details
       operationId: UpdatePayment
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/PaymentId'
@@ -1227,7 +1202,6 @@ paths:
         `closed=true&closed_within_days_ago=10`.
       operationId: GetPurchaseOrders
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - name: closed
           in: query
@@ -1265,7 +1239,6 @@ paths:
       description: Retrieve purchase order details
       operationId: GetPurchaseOrder
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/PurchaseOrderId'
       responses:
@@ -1290,7 +1263,6 @@ paths:
       description: Create a purchase order against an investment
       operationId: CreatePurchaseOrder
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
       requestBody:
@@ -1326,7 +1298,6 @@ paths:
       description: Update an existing purchase order details of an investment
       operationId: UpdatePurchaseOrder
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/PurchaseOrderId'
@@ -1359,7 +1330,6 @@ paths:
       description: Retrieve list of users
       operationId: GetUsers
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
       responses:
         '200':
@@ -1379,7 +1349,6 @@ paths:
       description: Retrieve user details
       operationId: GetUser
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/UserEmail'
       responses:
@@ -1402,7 +1371,6 @@ paths:
       description: Update an existing user
       operationId: UpdateUser
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/UserEmail'
       requestBody:
@@ -1428,7 +1396,6 @@ paths:
       description: Returns a list of all Vendors.
       operationId: GetVendors
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
       responses:
         '200':
@@ -1446,7 +1413,6 @@ paths:
       description: Create new vendor
       operationId: CreateVendor
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
       requestBody:
         content:
@@ -1475,7 +1441,6 @@ paths:
       description: Update an existing vendor
       operationId: UpdateVendor
       parameters:
-        - $ref: '#/components/parameters/ContentType'
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/VendorId'
       requestBody:
