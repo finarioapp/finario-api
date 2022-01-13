@@ -1715,9 +1715,16 @@ components:
         approver_id:
           description: The user id of approver.
           type: string
-        comment_count_cache:
-          description: The number of comment in the cache.
-          type: number
+        authority_ids:
+          description: The authority ids of approver.
+          type: array
+          items:
+            type: string
+        authority_names:
+          description: The authority names of approver.
+          type: array
+          items:
+            type: string
         created_at:
           description: The timestamp when the approval is created.
           type: string
@@ -1725,19 +1732,38 @@ components:
         creator_id:
           description: The user id of approval creator.
           type: string
+        force_approved:
+          description: The force approved status.
+          type: boolean
         id:
           description: The unique identifier for the Approval.
           type: string
-        invalidated_at:
-          description: The timestamp when the approval is invalidated.
-          type: string
-          format: date-time
         investment_id:
           description: The unique identifier for the Investment.
           type: string
         organization_id:
           description: The unique identifier for the Organization.
           type: string
+        latest_comment_id:
+          description: The unique identifier of the latest comment.
+          type: string
+        pending_at:
+          description: The timestamp when the approval status is change to pending.
+          type: string
+          format: date-time
+        revoking:
+          description: The revoke status.
+          type: boolean
+        route_ids:
+          description: The route ids.
+          type: array
+          items:
+            type: string
+        route_names:
+          description: The route names.
+          type: array
+          items:
+            type: string
         status_cache:
           description: The numeric value representing the current approval status.
           type: number
