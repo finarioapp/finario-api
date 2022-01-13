@@ -160,6 +160,13 @@ paths:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/ApprovalId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApprovalPayload'
+        description: The unique identifier of the approver.
+        required: true
       responses:
         '200':
           description: Success
@@ -1773,6 +1780,13 @@ components:
           format: date-time
         updater_id:
           description: The user id of last approval updater.
+          type: string
+
+    ApprovalPayload:
+      type: object
+      properties:
+        approver_id:
+          description: The unique identifier of the approver.
           type: string
 
     CostCategory:
