@@ -1243,7 +1243,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PurchaseOrders'
+                $ref: '#/components/schemas/PurchaseOrderPostPutResponse'
         '404':
           description: Investment not found
           content:
@@ -2771,6 +2771,73 @@ components:
           vendor_id:
             description: The vendor id for the Pruchase Orders.
             type: string
+
+    PurchaseOrderPostPutResponse:
+      type: object
+      properties:
+        account_id:
+          description: The account id.
+          type: string
+        amount:
+          description: The amount for the Purchase Orders.
+          type: object
+          properties:
+            cents:
+              description: The cents equivalent for the amount.
+              type: number
+            currency:
+              description: The currency for the the amount.
+              type: string
+        assignment:
+          description: THe assignment for the Purchase Orders.
+          type: object
+          properties:
+            cost_id:
+              description: The cost id for the assignment.
+              type: string
+            investment_id:
+              description: The investment id for the assignment.
+              type: string
+            manually_unassigned:
+              description: The manually unassigned for the assignment.
+              type: string
+            organization_id:
+              description: The organization id for the assignment.
+              type: string
+            user_id:
+              description: The user id for the assignment.
+              type: string
+        cost_category_id:
+          description: The unique identifier for the cost category.
+          type: string
+        cost_category_name:
+          description: The name for the cost category.
+          type: string
+        date:
+          description: The date for the Purchase Orders.
+          type: string
+          format: date
+        description:
+          description: The description for the Purchase Oders.
+          type: string
+        id:
+          description: The unique identifier for the Purchase Orders.
+          type: string
+        po_line:
+          description: The PO line for the Purchase Orders.
+          type: string
+        po_number:
+          description: The PO number for the Purchase Orders.
+          type: string
+        po_type:
+          description: The type of PO for the Purchase Orders.
+          type: string
+        reference:
+          description: The reference for the Purchase Orders.
+          type: string
+        vendor_id:
+          description: The vendor id for the Pruchase Orders.
+          type: string
 
     UserPostPut:
       type: object
