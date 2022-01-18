@@ -1908,6 +1908,9 @@ components:
           type: array
           items:
             type: object
+        auto_forecast:
+          description: The flag for auto forecasting.
+          type: boolean
         base_approved_total:
           description: The base approved total for the Cost.
           type: object
@@ -1942,10 +1945,7 @@ components:
                 currency:
                   description: The currency for the base spends.
                   type: string
-        investment_closed_at:
-          description: The investment closed timestamp for the Cost.
-          type: string
-          format: date-time
+
         cost_category_id:
           description: The cost category id for the Cost.
           type: string
@@ -1974,6 +1974,9 @@ components:
                   currency:
                     description: The currency for the unit cost.
                     type: string
+        first_repeat_month:
+          description: The month the cost is repeated.
+          type: number
         forecast_spends:
           description: The forecast spends for the Cost.
           type: array
@@ -2003,12 +2006,34 @@ components:
             currency:
               description: The currency for the freight.
               type: string
+        gate_id:
+          description: The unique identifier for the Cost gate.
+          type: string
+        has_budget:
+          description: The staus if the cost has been budgeted.
+          type: boolean
         id:
           description: The unique identifier for the Cost.
           type: string
+        investment_closed_at:
+          description: The investment closed timestamp for the Cost.
+          type: string
+          format: date-time
+        investment_denied:
+          description: The status if the investment has been denied.
+          type: boolean
         name:
           description: The name for the Cost.
           type: string
+        repeat_every_months:
+          description: The month the cost is repeated.
+          type: number
+        repeat_times:
+          description: The number the cost is repeated.
+          type: number
+        repeating:
+          description: The status if the cost is repeating.
+          type: boolean
         revised_forecast:
           description: The revised forecast for the Cost.
           type: array
@@ -2051,6 +2076,10 @@ components:
         vendor_id:
           description: The vendor id.
           type: string
+        updated_at:
+          description: The timestamp the cost is updated.
+          type: string
+          format: date-time
 
     CostsGet:
       type: array
