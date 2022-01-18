@@ -1182,7 +1182,6 @@ paths:
           explode: true
           schema:
             type: boolean
-          example: true
         - name: closed_within_days_ago
           in: query
           description: Takes an integer value, x. Returns Purchase Orders assigned to Investments that were closed in the last x days.
@@ -1191,7 +1190,6 @@ paths:
           explode: true
           schema:
             type: number
-          example: 30
       responses:
         '200':
           description: Success
@@ -2712,6 +2710,9 @@ components:
       items:
         type: object
         properties:
+          account_id:
+            description: The account id.
+            type: string
           amount:
             description: The amount for the Purchase Orders.
             type: object
@@ -2741,6 +2742,12 @@ components:
               user_id:
                 description: The user id for the assignment.
                 type: string
+          cost_category_id:
+            description: The unique identifier for the cost category.
+            type: string
+          cost_category_name:
+            description: The name for the cost category.
+            type: string
           date:
             description: The date for the Purchase Orders.
             type: string
