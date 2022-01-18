@@ -2167,6 +2167,26 @@ components:
         api_request:
           description: The api request used to create the investment (if created via api).
           type: string
+        approved_amount_base_currency_amount:
+          description: The approved base currency amount.
+          type: string
+        approved_amount_base_currency:
+          description: The approved base currency.
+          type: string
+        approved_amount_org_currency_amount:
+          description: The approved organization base currency amount.
+          type: string
+        approved_amount_org_currency:
+          description: The approved organization base currency.
+          type: string
+        approved_at:
+          description: The timestamp when the investment has been approved.
+          type: string
+          format: date-time
+        as_of_date:
+          description: The timestamp when the investment has been created.
+          type: string
+          format: date-time
         costs_path:
           description: The resource locator for costs.
           type: string
@@ -2184,6 +2204,9 @@ components:
           type: string
         organization_code:
           description: The organization code.
+          type: string
+        organization_name:
+          description: The organization name.
           type: string
 
     Investments:
