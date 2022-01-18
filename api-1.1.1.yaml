@@ -650,7 +650,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Investments'
+                $ref: '#/components/schemas/Investment'
         '404':
           content:
             application/json:
@@ -1557,6 +1557,8 @@ components:
         type: string
 
   schemas:
+    AnyValue: {}
+
     PostApprovalWebhook:
       type: object
       properties:
@@ -1894,19 +1896,26 @@ components:
               description: The currency for the base forecast total.
               type: string
         base_spends:
-          description: The base spends for the Cost.
+          description: | 
+            The base spends for the Cost.
+            
+            Each item is represented as an array of mixed-type:  
+            
+              ```json 
+              [
+                {
+                  "cents": 1933,    // The cents equivalent value.
+                  "currency": "USD" // The ISO currency code.
+                },
+                [
+                  2022,             // The year.
+                  1                 // The month.
+                ]
+              ]
           type: array
           items:
             type: array
-            items:
-              type: object
-              properties:
-                cents:
-                  description: The cents equivalent value for the base spendst.
-                  type: number
-                currency:
-                  description: The currency for the base spends.
-                  type: string
+            items: {}
 
         cost_category_id:
           description: The cost category id for the Cost.
@@ -1940,19 +1949,26 @@ components:
           description: The month the cost is repeated.
           type: number
         forecast_spends:
-          description: The forecast spends for the Cost.
+          description: |
+            The forecast spends for the Cost.
+
+            Each item is represented as an array of mixed-type:  
+            
+              ```json 
+              [
+                {
+                  "cents": 1933,    // The cents equivalent value.
+                  "currency": "USD" // The ISO currency code.
+                },
+                [
+                  2022,             // The year.
+                  1                 // The month.
+                ]
+              ]
           type: array
           items:
             type: array
-            items:
-              type: object
-              properties:
-                cents:
-                  description: The cents equivalent value for the forecast spends.
-                  type: number
-                currency:
-                  description: The currency for the forecast spends.
-                  type: string
+            items: {}
         forecasted_at:
           description: The forecasted timestamp for the Cost.
           type: string
@@ -1997,19 +2013,27 @@ components:
           description: The status if the cost is repeating.
           type: boolean
         revised_forecast:
-          description: The revised forecast for the Cost.
+          description: |
+            The revised forecast for the Cost.
+            
+            Each item is represented as an array of mixed-type:  
+            
+              ```json 
+              [
+                {
+                  "cents": 1933,    // The cents equivalent value.
+                  "currency": "USD" // The ISO currency code.
+                },
+                [
+                  2022,             // The year.
+                  1                 // The month.
+                ]
+              ]
           type: array
           items:
             type: array
-            items:
-              type: object
-              properties:
-                cents:
-                  description: The cents equivalent value for the revised forecast.
-                  type: number
-                currency:
-                  description: The currency for the revised forecast.
-                  type: string
+            items: {}
+
         sales_tax_rule:
           type: object
           properties:
@@ -2205,54 +2229,58 @@ components:
           description: The organization name.
           type: string
 
+    Investment:
+      type: object
+      properties:
+        api_request:
+          description: The api request used to create the investment (if created via api).
+          type: string
+        approved_amount_base_currency_amount:
+          description: The approved base currency amount.
+          type: string
+        approved_amount_base_currency:
+          description: The base currency of the approved amount.
+          type: string
+        approved_amount_org_currency_amount:
+          description: The organization's currency amount.
+          type: string
+        approved_amount_org_currency:
+          description: The organization's currency.
+          type: string
+        approved_at:
+          description: The timestamp when the Investment has been approved.
+          type: string
+          format: date-time
+        as_of_date:
+          description: The timestamp of the investment.
+          type: string
+          format: date-time
+        costs_path:
+          description: The resource locator for costs.
+          type: string
+        id:
+          description: The unique identifier for the Investment.
+          type: string
+        investment_category_name:
+          description: The category name for the Investment.
+          type: string
+        investment_id:
+          description: The unique code for the Investment.
+          type: string
+        name:
+          description: The name for the Investment.
+          type: string
+        organization_code:
+          description: The organization code.
+          type: string
+        organization_name:
+          description: The organization name.
+          type: string
+
     Investments:
       type: array
       items:
-        properties:
-          api_request:
-            description: The api request used to create the investment (if created via api).
-            type: string
-          approved_amount_base_currency_amount:
-            description: The approved base currency amount.
-            type: string
-          approved_amount_base_currency:
-            description: The base currency of the approved amount.
-            type: string
-          approved_amount_org_currency_amount:
-            description: The organization's currency amount.
-            type: string
-          approved_amount_org_currency:
-            description: The organization's currency.
-            type: string
-          approved_at:
-            description: The timestamp when the Investment has been approved.
-            type: string
-            format: date-time
-          as_of_date:
-            description: The timestamp of the investment.
-            type: string
-            format: date-time
-          costs_path:
-            description: The resource locator for costs.
-            type: string
-          id:
-            description: The unique identifier for the Investment.
-            type: string
-          investment_category_name:
-            description: The category name for the Investment.
-            type: string
-          investment_id:
-            description: The unique code for the Investment.
-            type: string
-          name:
-            description: The name for the Investment.
-            type: string
-          organization_code:
-            description: The organization code.
-            type: string
-          organization_name:
-            description: The organization name.
-            type: string
+        $ref: '#/components/schemas/Investment'
 
     InvoicePostPut:
       type: object
