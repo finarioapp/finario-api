@@ -487,12 +487,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Investments'
-        '404':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessageArrayOne'
-          description: Investment not found.
       summary: List Investments
       tags:
         - Investments
