@@ -685,7 +685,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorMessageArrayOne'
+                $ref: '#/components/schemas/ErrorMessageObjectThree'
       summary: Update an Investment
       tags:
         - Investments
