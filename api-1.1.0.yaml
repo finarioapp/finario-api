@@ -129,12 +129,14 @@
         description: |
           Returns a list of all cost categories.
 
-          > This endpoint does not support pagination.
+          _This endpoint does not support pagination._
+      operationId: GetCostCategories
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
         responses:
           '200':
+          description: An array of cost categories or an empty list.
             content:
               application/json:
                 schema:
@@ -156,6 +158,7 @@
           optional: false
       post:
         description: Create a new cost category.
+        operationId: CreateCostCategory
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
@@ -177,7 +180,7 @@
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/ErrorMessage'
+                  $ref: '#/components/schemas/ErrorMessageArrayOne'
             description: Missing required fields.
         security:
           - oauth2: []
@@ -193,18 +196,14 @@
             - basic_auth
           optional: false
 
-    '/cost_categories/{categoryId}':
+    '/cost_categories/{cost_category_id}':
       put:
         description: Update an existing cost category
+        operationId: UpdateCostCategory
         parameters:
           - $ref: '#/components/parameters/ApiToken'
           - $ref: '#/components/parameters/ContentType'
-          - name: categoryId
-            in: path
-            required: true
-            schema:
-              description: The unique identifier for the Cost Category.
-              type: string
+          - $ref: '#/components/parameters/CostCategoryId'
         requestBody:
           content:
             application/json:
@@ -212,7 +211,7 @@
                 $ref: '#/components/schemas/CostCategoryPostPut'
           description: The Cost Category details to update.
         responses:
-          '201':
+          '200':
             content:
               application/json:
                 schema:
@@ -222,13 +221,13 @@
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/ErrorMessage'
+                  $ref: '#/components/schemas/ErrorMessageObjectThree'
             description: Cost Category not found.
           '422':
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/ErrorMessage'
+                  $ref: '#/components/schemas/ErrorMessageArrayOne'
             description: Missing required fields.
         security:
           - oauth2: []
@@ -260,7 +259,6 @@
             explode: true
             schema:
               type: integer
-            example: 7
           - name: start_year
             in: query
             description: >-
@@ -271,7 +269,6 @@
             explode: true
             schema:
               type: integer
-            example: 2013
           - name: end_month
             in: query
             description: >-
@@ -282,7 +279,6 @@
             explode: true
             schema:
               type: integer
-            example: 6
           - name: end_year
             in: query
             description: >-
@@ -293,7 +289,6 @@
             explode: true
             schema:
               type: integer
-            example: 2014
           - name: keywords
             in: query
             description: >-
@@ -304,7 +299,6 @@
             explode: true
             schema:
               type: string
-            example: 'one,two'
           - name: organization
             in: query
             description: >-
@@ -316,7 +310,6 @@
             explode: true
             schema:
               type: string
-            example: organization=Asia or organization=Asia%20123
           - name: categories
             in: query
             description: >-
@@ -329,7 +322,6 @@
             explode: true
             schema:
               type: string
-            example: 'categories[]=Foo'
           - name: size_range
             in: query
             description: >-
@@ -342,7 +334,6 @@
             explode: true
             schema:
               type: string
-            example: 'size_range=greater_than,$1M'
           - name: rounds
             in: query
             description: >-
@@ -355,7 +346,6 @@
             explode: true
             schema:
               type: string
-            example: rounds=Approved
           - name: budgeted_status
             in: query
             description: >-
@@ -366,7 +356,6 @@
             explode: true
             schema:
               type: string
-            example: budgeted_status=budgeted
           - name: vendor
             in: query
             description: >-
@@ -378,7 +367,6 @@
             explode: true
             schema:
               type: string
-            example: vendor=Amazon
           - name: approved_before
             in: query
             description: >-
@@ -390,7 +378,6 @@
             explode: true
             schema:
               type: string
-            example: approved_before=2019-12-2
           - name: approved_after
             in: query
             description: >-
@@ -402,7 +389,6 @@
             explode: true
             schema:
               type: string
-            example: approved_after=2019-1-24
           - name: Custom Fields
             in: query
             description: >-
@@ -419,7 +405,6 @@
             explode: true
             schema:
               type: string
-            example: c_Funding=Cash
         responses:
           '200':
             description: Success
@@ -508,7 +493,6 @@
             explode: true
             schema:
               type: integer
-            example: 7
           - name: start_year
             in: query
             description: >-
@@ -519,7 +503,6 @@
             explode: true
             schema:
               type: integer
-            example: 2013
           - name: end_month
             in: query
             description: >-
@@ -530,7 +513,6 @@
             explode: true
             schema:
               type: integer
-            example: 6
           - name: end_year
             in: query
             description: >-
@@ -541,7 +523,6 @@
             explode: true
             schema:
               type: integer
-            example: 2014
           - name: keywords
             in: query
             description: >-
@@ -552,7 +533,6 @@
             explode: true
             schema:
               type: string
-            example: 'one,two'
           - name: organization
             in: query
             description: >-
@@ -564,7 +544,6 @@
             explode: true
             schema:
               type: string
-            example: organization=Asia or organization=Asia%20123
           - name: categories
             in: query
             description: >-
@@ -577,7 +556,6 @@
             explode: true
             schema:
               type: string
-            example: 'categories[]=Foo'
           - name: size_range
             in: query
             description: >-
@@ -590,7 +568,6 @@
             explode: true
             schema:
               type: string
-            example: 'size_range=greater_than,$1M'
           - name: rounds
             in: query
             description: >-
@@ -603,7 +580,6 @@
             explode: true
             schema:
               type: string
-            example: rounds=Approved
           - name: budgeted_status
             in: query
             description: >-
@@ -614,7 +590,6 @@
             explode: true
             schema:
               type: string
-            example: budgeted_status=budgeted
           - name: vendor
             in: query
             description: >-
@@ -626,7 +601,6 @@
             explode: true
             schema:
               type: string
-            example: vendor=Amazon
           - name: approved_before
             in: query
             description: >-
@@ -638,7 +612,6 @@
             explode: true
             schema:
               type: string
-            example: approved_before=2019-12-2
           - name: approved_after
             in: query
             description: >-
@@ -650,7 +623,6 @@
             explode: true
             schema:
               type: string
-            example: approved_after=2019-1-24
           - name: Custom Fields
             in: query
             description: >-
@@ -667,7 +639,6 @@
             explode: true
             schema:
               type: string
-            example: c_Funding=Cash
         responses:
           '200':
             description: Success
@@ -1331,7 +1302,6 @@
             explode: true
             schema:
               type: boolean
-            example: true
           - name: closed_within_days_ago
             in: query
             description: >-
@@ -1342,7 +1312,6 @@
             explode: true
             schema:
               type: number
-            example: 30
         responses:
           '200':
             description: Success
@@ -1514,7 +1483,6 @@
             explode: true
             schema:
               type: boolean
-            example: true
           - name: closed_within_days_ago
             in: query
             description: >-
@@ -1525,7 +1493,6 @@
             explode: true
             schema:
               type: number
-            example: 30
         responses:
           '200':
             description: Success
@@ -1653,7 +1620,6 @@
             explode: true
             schema:
               type: boolean
-            example: true
           - name: closed_within_days_ago
             in: query
             description: >-
@@ -1664,7 +1630,6 @@
             explode: true
             schema:
               type: number
-            example: 30
         responses:
           '200':
             description: Success
@@ -2886,7 +2851,18 @@
               An array of Authority Assignment objects, e.g., [{"authority":
               "foo", "organization": "bar"}]
             items:
-              type: string
+              type: object
+              properties:
+                authority:
+                  type: string
+                  description: >-
+                    Must match an authority assignment name that already exists in your
+                    Finario application.
+                organization:
+                  type: string
+                  description: >-
+                    Must match an organization name that already exists in your Finario
+                    application.
           'authority_assignment_object[authority]':
             type: string
             description: >-
@@ -2903,7 +2879,16 @@
               Must match an organization name that already exists in your Finario
               application.
             items:
-              type: string
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'As of now, "Edit" is the only level of permissions supported.'
+                organization:
+                  type: string
+                  description: >-
+                    Must match an organization name that already exists in your Finario
+                    application.
           'permission_object[name]':
             type: string
             description: 'As of now, "Edit" is the only level of permissions supported.'
