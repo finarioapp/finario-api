@@ -16,7 +16,7 @@ info:
     Developing integrations using the Finario API is easy and the workflow relatively straight-forward. You will need to perform the following:
     
     1. Ensure you have a Finario account.
-    2. Familiarize yourself with the API **Endpoints** and **Webhooks**.
+    2. Familiarize yourself with the API **[Endpoints](#tag/Approvals)** and **[Webhooks](#tag/Webhooks)**.
     3. Familiarize yourself with the [headers required](#section/Required-Headers) to be sent with each request. 
     4. Familiarize yourself with [how to authenticate](#section/Authentication) when using the API.
     5. [Generate](#section/Authentication/ApiToken) your API Token.
