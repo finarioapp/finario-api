@@ -17,9 +17,9 @@ info:
     
     1. Ensure you have a Finario account.
     2. Familiarize yourself with the API **Endpoints** and **Webhooks**.
-    3. Familiarize yourself with the [headers required](#required-headers) to be sent with each request. 
-    4. Familiarize yourself with [how to authenticate](#authentication) when using the API.
-    5. [Generate](#authentication) your API Token.
+    3. Familiarize yourself with the [headers required](#section/Required-Headers) to be sent with each request. 
+    4. Familiarize yourself with [how to authenticate](#section/Authentication) when using the API.
+    5. [Generate](#section/Authentication/ApiToken) your API Token.
     6. Start using the API, either in your code or via your tooling of choice.
     
     ### Development & Testing Tools
@@ -47,7 +47,7 @@ info:
     | <div style="width:130px">Header Name</div> | Description |
     | ---------------- | --- |
     | `content-type`   | Must be `application/json`. |
-    | `x-api-token`    | As described in the [Authentication](#authentication) section below. |
+    | `x-api-token`    | As described in the [Authentication](#section/Authentication/ApiToken) section below. |
     | `x-finario-host` | The Finario host name that you use to login to your Finario app. For example, if you login to the Finario app at `example-co.finario.com`, then your `x-finario-host` will be `example-co`. |
     
     ### Response
@@ -58,45 +58,6 @@ info:
     
     This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with the [W3C spec](https://www.w3.org/TR/cors/). And that allows cross-domain communication from the browser. All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
     
-    ## Authentication
-    
-    You are required to authenticate when calling any of the Endpoints in the Finario API. This is performed via an **API Token**, as described below.
-
-    ### Generate your API Token
-
-    To generate an API Token, follow the steps below:
-
-      1. Visit your **Profile** in the Finario app: `https://<your-host>.finario.com/profile`.
-      2. Under **Profile Actions** on the left, click **API Token**.
-         - If you do not see the item **API Token**, you will need to contact your Finario account manager to gain access. 
-      3. Click **Get One** to generate your API Token for use in all API requests.
-      4. Configure a white list of IP addresses if you want to add additional security to your Finario API endpoint. This is not required, but here if you want the additional security.
-
-      ## Post-Approval Webhook
-
-      After an investment is approved, Finario can send the investment's data to an API endpoint of your choosing to integrate into your own backend systems.
-
-      ### Set Up
-
-      Setup is performed within the Finario app. An Administrator can set up Web Hooks at:
-
-      `https://<your_host>.finario.com/web_hooks`.
-
-      The information required is as follows:
-
-      1. Endpoint (the URL Finario will send the investment payload to after approval).
-      2. API Key (if needed for your endpoint).
-      3. API Secret (if needed for your endpoint).
-      4. The conditions that will trigger the payload being sent. These conditions will only be matched after an investment has been fully approved.
-
-      _You can also send test requests to the endpoint you set up from within the Finario app._
-
-      ### Response Format
-
-      The content type of the response will be `application/json`.
-
-      The format of the response can be found under [`Schemas/PostApprovalWebhook`](/schemas/PostApprovalWebhook).
-
   title: Finario API
   version: 1.1.1
   x-logo:
@@ -105,9 +66,9 @@ info:
     altText: 'Finario API'
 
 servers:
-  - url: 'https://sandbox.finarioapi.com/1.1'
+  - url: 'https://api-sandbox.finario.com/1.1'
     description: Sandbox URL
-  - url: 'https://finarioapi.com/1.1'
+  - url: 'https://api.finario.com/1.1'
     description: Production URL
 
 x-tagGroups:
@@ -1430,13 +1391,6 @@ paths:
 
 components:
   parameters:
-    ContentType:
-      in: header
-      name: content-type
-      required: true
-      schema:
-        enum: ['application/json']
-        type: string
 
     FinarioHost:
       description: The host name you use to login to your Finario app. See [Required Headers](#required-headers) for more information.
