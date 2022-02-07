@@ -61,9 +61,10 @@ info:
   title: Finario API
   version: 1.1.1
   x-logo:
-    url: '/img/logo.png'
-    backgroundColor: '#FFFFFF'
     altText: 'Finario API'
+    backgroundColor: '#FFFFFF'
+    href: '/'
+    url: '/img/logo.png'
 
 servers:
   - url: 'https://api-sandbox.finario.com/1.1'
