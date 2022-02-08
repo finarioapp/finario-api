@@ -38,6 +38,15 @@ info:
     
     - For versions 1.0 and earlier, please see this [GitHub repository](https://github.com/finarioapp/api).
     
+    ## URLs
+    
+    The current version of the API is `1.1`. As such the following base URLs are in use (please notice the postfix of the version number to the URL):
+    
+    | <div style="width:130px">Environment</div> | Base URL |
+    | ---------------- | --- |
+    | Sandbox    | `https://api-sandbox.finario.com/1.1` |
+    | Production | `https://api.finario.com/1.1` |
+    
     ## Required Headers
     
     ### Request
@@ -57,6 +66,27 @@ info:
     ### CORS
     
     This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with the [W3C spec](https://www.w3.org/TR/cors/). And that allows cross-domain communication from the browser. All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
+    
+    ## Example Request
+    
+    To show a list of users on your account using the popular `curl` or `httpie` command-line tools:
+    
+    > Remember to replace the `x-api-token` and `x-finario-host` with appropriate values for your setup:
+
+    ```shell    
+    curl --request GET \
+      --url https://api-sandbox.finario.com/1.1/users \ 
+      --header 'content-type: application/json' \
+      --header 'x-api-token: <your-api-token>' \
+      --header 'x-finario-host: <your-finario-instance-name>'
+    ```
+    
+    ```shell
+    http https://api-sandbox.finario.com/1.1/users \
+      content-type:application/json \
+      x-api-token:<your-api-token>
+      x-finario-host:<your-finario-instance-name>
+    ```
     
   title: Finario API
   version: 1.1.1
