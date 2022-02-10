@@ -2255,6 +2255,12 @@ components:
           description: The timestamp of the investment.
           type: string
           format: date-time
+        budgeted_amount:
+          description: The budgeted amount.
+          type: string
+        budgeted_status:
+          description: The budgeted status. e.g., budgeted, unbudgeted
+          type: string
         costs_path:
           description: The resource locator for costs.
           type: string
@@ -2267,8 +2273,15 @@ components:
         investment_id:
           description: The unique code for the Investment.
           type: string
+        in_service_date:
+          description: The in service date for the Investment.
+          type: array
+          items: {}
         name:
           description: The name for the Investment.
+          type: string
+        npv:
+          description: The npv for the Investment.
           type: string
         organization_code:
           description: The organization code.
@@ -2276,6 +2289,16 @@ components:
         organization_name:
           description: The organization name.
           type: string
+        payback:
+          description: The payback for the investment.
+          type: string
+        pi:
+          description: The pi for the investment.
+          type: string
+        project_start:
+          description: The project start for the investment.
+          type: array
+          items: {}
 
     Investments:
       type: array
