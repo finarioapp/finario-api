@@ -1571,6 +1571,12 @@ components:
             as_of_date:
               description: Time when report was generated (will always be current time).
               type: string
+            budgeted_amount:
+              description: The budgeted amount of the investment.
+              type: string
+            budgeted_status: 
+              description: The budgeted status. e.g., budgeted, unbudgeted
+              type: string
             costs:
               description: Costs associated with the investment array of cost hashes - see below for contents of cost hashes within array.
               type: array
@@ -1643,8 +1649,15 @@ components:
             investment_path:
               description: The investment's API URL.
               type: string
+            in_service_date:
+              description: The investment's in service date.
+              type: array
+              items: {}
             name:
               description: The investment's name.
+              type: string
+            npv:
+              description: The investment's npv.
               type: string
             organization_code:
               description: The organization's unique code.
@@ -1657,6 +1670,12 @@ components:
               type: string
             owner_email:
               description: The investment owner's email.
+              type: string
+            payback:
+              description: The investment payback.
+              type: string
+            pi:
+              description: The investment pi.
               type: string
             project_start:
               description: The investment's project start date.
