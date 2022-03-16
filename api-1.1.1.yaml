@@ -1328,7 +1328,7 @@ paths:
         - Users
     put:
       description: Create a new user, or update an existing user (aka upsert).
-      operationId: UpdateUser
+      operationId: CreateOrUpdateUser
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/UserEmail'
