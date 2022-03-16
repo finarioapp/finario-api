@@ -84,7 +84,7 @@ info:
     ```shell
     http https://api-sandbox.finario.com/1.1/users \
       content-type:application/json \
-      x-api-token:<your-api-token>
+      x-api-token:<your-api-token> \
       x-finario-host:<your-finario-instance-name>
     ```
     
