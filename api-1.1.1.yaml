@@ -1327,7 +1327,7 @@ paths:
       tags:
         - Users
     put:
-      description: Update an existing user
+      description: Create a new user, or update an existing user (aka upsert).
       operationId: UpdateUser
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
@@ -1346,7 +1346,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorMessageObjectTwo'
-      summary: Update a User
+      summary: Create or Update a User
       tags:
         - Users
 
