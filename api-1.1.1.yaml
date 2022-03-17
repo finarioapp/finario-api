@@ -1864,18 +1864,50 @@ components:
           description: The account id for the Cost.
           type: string
         actual_spends:
-          description: The actual spends for the Cost.
+          description: |
+            The actual spend for the Cost.
+            
+            Each item is represented as an array of mixed-type:  
+            
+              ```json 
+              [
+                {
+                  "cents": 1933,    // The cents equivalent value.
+                  "currency": "USD" // The ISO currency code.
+                },
+                [
+                  2022,             // The year.
+                  1                 // The month.
+                ]
+              ]
           type: array
           items:
-            type: object
+            type: array
+            items: {}
         approved:
           description: The approved status for the Cost.
           type: boolean
         approved_spends:
-          description: The approved spends for the Cost.
+          description: |
+            The approved spend for the Cost.
+            
+            Each item is represented as an array of mixed-type:  
+            
+              ```json 
+              [
+                {
+                  "cents": 1933,    // The cents equivalent value.
+                  "currency": "USD" // The ISO currency code.
+                },
+                [
+                  2022,             // The year.
+                  1                 // The month.
+                ]
+              ]
           type: array
           items:
-            type: object
+            type: array
+            items: {}
         auto_forecast:
           description: The flag for auto forecasting.
           type: boolean
@@ -2045,15 +2077,31 @@ components:
               description: The rate for the sales tax rule.
               type: number
             taxable:
-              description: The taxable items for the sales tax rule.
+              description: The taxable items of the Cost that sales tax applies to. e.g. "unit_price", "frieght".
               type: array
               items:
-                type: object
+                type: string
         suspended_spends:
-          description: The suspended spends of the Cost.
+          description: |
+            The suspended spend for the Cost.
+            
+            Each item is represented as an array of mixed-type:  
+            
+              ```json 
+              [
+                {
+                  "cents": 1933,    // The cents equivalent value.
+                  "currency": "USD" // The ISO currency code.
+                },
+                [
+                  2022,             // The year.
+                  1                 // The month.
+                ]
+              ]
           type: array
           items:
-            type: object
+            type: array
+            items: {}
         unit_price:
           type: object
           properties:
@@ -2067,7 +2115,7 @@ components:
           description: The vendor id.
           type: string
         updated_at:
-          description: The timestamp the cost is updated.
+          description: The timestamp the cost is updated in ISO format. e.g. "2022-03-17T15:03:25-04:00"
           type: string
           format: date-time
 
