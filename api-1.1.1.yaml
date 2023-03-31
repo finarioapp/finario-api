@@ -44,8 +44,8 @@ info:
     
     | <div style="width:130px">Environment</div> | Base URL |
     | ---------------- | --- |
-    | Sandbox    | `https://api-sandbox.finario.com/1.1` |
-    | Production | `https://api.finario.com/1.1` |
+    | Sandbox    | `https://api-sandbox.finario.com` |
+    | Production | `https://api.finario.com` |
     
     ## Required Headers
     
@@ -89,7 +89,7 @@ info:
     ```
     
   title: Finario API
-  version: 1.1.1
+  version: v1.1
   x-logo:
     altText: 'Finario API'
     backgroundColor: '#FFFFFF'
@@ -97,9 +97,9 @@ info:
     url: '/img/logo.png'
 
 servers:
-  - url: 'https://api-sandbox.finario.com/1.1'
+  - url: 'https://api-sandbox.finario.com'
     description: Sandbox URL
-  - url: 'https://api.finario.com/1.1'
+  - url: 'https://api.finario.com'
     description: Production URL
 
 tags:
@@ -109,7 +109,7 @@ tags:
 
       If enabled in your Finario site configuration, payments can be created via the API for closed investments
 x-tagGroups:
-  - name: Endpoints
+  - name: Enpoints
     tags:
       - Approvals
       - Budgets
@@ -128,13 +128,14 @@ x-tagGroups:
       - Webhooks
 
 paths:
-  '/investments/{investment_id}/approvals':
+  '/{version}/investments/{investment_id}/approvals':
     post:
       description: This operation will submit the investment to the first approver in the approval list. It changes the investment's status from **Idea** to **Pending**.
       operationId: CreateApproval
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
+        - $ref: '#/components/parameters/Version1.1'
       responses:
         '201':
           description: Created
@@ -184,7 +185,7 @@ paths:
       tags:
         #- Approvals
 
-  '/cost_categories':
+  '/{version}/cost_categories':
     get:
       description: |
         Returns a list of all cost categories.
@@ -193,6 +194,7 @@ paths:
       operationId: GetCostCategories
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/Version1.1'
       responses:
         '200':
           description: An array of cost categories or an empty list.
@@ -234,13 +236,14 @@ paths:
       tags:
         - Cost Categories
 
-  '/cost_categories/{cost_category_id}':
+  '/{version}/cost_categories/{cost_category_id}':
     put:
       description: Update an existing cost category
       operationId: UpdateCostCategory
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/CostCategoryId'
+        - $ref: '#/components/parameters/Version1.1'
       requestBody:
         content:
           application/json:
@@ -270,13 +273,14 @@ paths:
       tags:
         - Cost Categories
 
-  '/investments/{investment_id}/costs':
+  '/{version}/investments/{investment_id}/costs':
     get:
       description: Returns a list of all costs for a given investment.
       operationId: GetCosts
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
+        - $ref: '#/components/parameters/Version1.1'
       responses:
         '200':
           description: Success
@@ -337,7 +341,7 @@ paths:
       tags:
         - Costs
 
-  '/investments/{investment_id}/costs/{cost_id}':
+  '/{version}/investments/{investment_id}/costs/{cost_id}':
     get:
       description: Retrieve cost details of an investment
       operationId: GetCost
@@ -345,6 +349,7 @@ paths:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/CostId'
+        - $ref: '#/components/parameters/Version1.1'
       responses:
         '200':
           description: Success
@@ -362,12 +367,13 @@ paths:
       tags:
         - Costs
 
-  '/investments':
+  '/{version}/investments':
     get:
       description: Retrieve list of investments
       operationId: GetInvestments
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/Version1.1'
         - name: page
           in: query
           description: Returns a page of 100 investments at a time. Pass the next integer increment to get the next page of 100 investments.
@@ -534,13 +540,14 @@ paths:
       tags:
         - Investments
 
-  '/investments/{investment_id}':
+  '/{version}/investments/{investment_id}':
     get:
       description: Retrieve an investment
       operationId: GetInvestment
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
+        - $ref: '#/components/parameters/Version1.1'
         - name: start_month
           in: query
           description: Investments with spend starting in 2013. Should be used with start_month.
@@ -699,7 +706,7 @@ paths:
       tags:
         - Investments
 
-  '/invoices':
+  '/{version}/invoices':
     get:
       description: |
         Retrieve list of invoices.
@@ -718,6 +725,7 @@ paths:
       operationId: GetInvoices
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/Version1.1'
         - name: closed
           in: query
           description: Returns Invoices assigned to Investments that are closed. Use closed=false to return Invoices assigned to open Investments.
@@ -749,13 +757,14 @@ paths:
       tags:
         - Invoices
 
-  '/invoices/{invoice_id}':
+  '/{version}/invoices/{invoice_id}':
     get:
       description: Retrieve an invoice details.
       operationId: GetInvoice
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvoiceId'
+        - $ref: '#/components/parameters/Version1.1'
         - name: vendor_id
           description: The unique identifier for the Vendor
           in: query
@@ -781,7 +790,7 @@ paths:
       tags:
         - Invoices
 
-  '/investments/{investment_id}/vendors/{vendor_id}/invoices':
+  '/{version}/investments/{investment_id}/vendors/{vendor_id}/invoices':
     post:
       description: Create an invoice made by the vendor against an investment.
       operationId: CreateInvoice
@@ -789,6 +798,7 @@ paths:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/VendorId'
+        - $ref: '#/components/parameters/Version1.1'
       requestBody:
         description: 'Required Parameters <br/> amount, date, number'
         content:
@@ -818,7 +828,7 @@ paths:
       tags:
         - Invoices
 
-  '/investments/{investment_id}/vendors/{vendor_id}/invoices/{invoice_id}':
+  '/{version}/investments/{investment_id}/vendors/{vendor_id}/invoices/{invoice_id}':
     put:
       description: Update an existing invoice.
       operationId: UpdateInvoiceById
@@ -827,6 +837,7 @@ paths:
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/VendorId'
         - $ref: '#/components/parameters/InvoiceId'
+        - $ref: '#/components/parameters/Version1.1'
       requestBody:
         description: 'Required Parameters <br/> amount, date, number'
         content:
@@ -886,12 +897,13 @@ paths:
 #      tags:
 #        - Invoices
 
-  '/organizations':
+  '/{version}/organizations':
     get:
       description: Returns a list of all Organizations.
       operationId: GetOrganizations
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/Version1.1'
       responses:
         '200':
           description: Success
@@ -903,7 +915,7 @@ paths:
       tags:
         - Organizations
   
-  '/{organization_id}/organizations':
+  '/{version}/{organization_id}/organizations':
     post:
       description: |
         Create new organization.
@@ -914,6 +926,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/OrganizationId'
+        - $ref: '#/components/parameters/Version1.1'
       requestBody:
         description: <strong>Required Parameters.</strong> <br/> name, org_code
         content:
@@ -944,45 +957,47 @@ paths:
       tags:
         - Organizations
 
-  '/{organization_id}/organizations/budgets/{year}':
+  '/{version}/{organization_id}/organizations/budgets/{year}':
     get:
       description: Returns Budget data at an organization level 
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/OrganizationId'
         - $ref: '#/components/parameters/Year'
+        - $ref: '#/components/parameters/Version1.1'
       responses:
         '200':
           description: Success     
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Budgets'
+                $ref: '#/components/schemas/BudgetsOrganization'
       summary: List Budgets at Organization level
       tags:
         - Budgets
         - Organizations
 
-  '/{organization_id}/organizations/forecasts/{year}':
+  '/{version}/{organization_id}/organizations/forecasts/{year}':
     get:
       description: Returns Forecasts data at an organization level 
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/OrganizationId'
         - $ref: '#/components/parameters/Year'
+        - $ref: '#/components/parameters/Version1.1'
       responses:
         '200':
           description: Success     
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Forecasts'
+                $ref: '#/components/schemas/ForecastsOrganization'
       summary: List Forecasts at Organization level
       tags:
         - Forecasts
         - Organizations
 
-  '/payments':
+  '/{version}/payments':
     get:
       description: |
         Retrieve list of payments
@@ -1001,6 +1016,7 @@ paths:
       operationId: GetPayments
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/Version1.1'
         - name: closed
           in: query
           description: Returns Payments assigned to Investments that are closed. Use closed=false to return Payments assigned to open Investments.
@@ -1087,7 +1103,7 @@ paths:
       tags:
         - Payments
 
-  '/investments/{investment_id}/costs/{cost_id}/payments':
+  '/{version}/investments/{investment_id}/costs/{cost_id}/payments':
     post:
       description: Create payment against an existing investment cost
       operationId: CreatePaymentByCost
@@ -1095,6 +1111,7 @@ paths:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/CostId'
+        - $ref: '#/components/parameters/Version1.1'
       requestBody:
         description: 'Required Parameters <br/> amount, date, reference,'
         content:
@@ -1124,13 +1141,14 @@ paths:
       tags:
         - Payments
 
-  '/investments/{investment_id}/payments':
+  '/{version}/investments/{investment_id}/payments':
     post:
       description: Create payment against an investment
       operationId: CreatePaymentByInvestment
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
+        - $ref: '#/components/parameters/Version1.1'
         - name: unique_cost_id
           description: The unique cost id
           in: query
@@ -1168,13 +1186,14 @@ paths:
       tags:
         - Payments
 
-  '/payments/{payment_id}':
+  '/{version}/payments/{payment_id}':
     get:
       description: Retrieve payment details
       operationId: GetPayment
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/PaymentId'
+        - $ref: '#/components/parameters/Version1.1'
       responses:
         '200':
           description: Success
@@ -1192,7 +1211,7 @@ paths:
       tags:
         - Payments
 
-  '/investments/{investment_id}/payments/{payment_id}':
+  '/{version}/investments/{investment_id}/payments/{payment_id}':
     put:
       description: Update an existing payment details
       operationId: UpdatePayment
@@ -1200,6 +1219,7 @@ paths:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/PaymentId'
+        - $ref: '#/components/parameters/Version1.1'
       requestBody:
         content:
           application/json:
@@ -1224,7 +1244,7 @@ paths:
       tags:
         - Payments
 
-  '/purchase_orders':
+  '/{version}/purchase_orders':
     get:
       description: |
         Retrieve list of purchase orders.
@@ -1243,6 +1263,7 @@ paths:
       operationId: GetPurchaseOrders
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/Version1.1'
         - name: closed
           in: query
           description: Returns Purchase Orders assigned to Investments that are closed. Use closed=false to return PO's assigned to open Investments.
@@ -1270,13 +1291,14 @@ paths:
       tags:
         - Purchase Orders
 
-  '/purchase_orders/{purchase_order_id}':
+  '/{version}/purchase_orders/{purchase_order_id}':
     get:
       description: Retrieve purchase order details
       operationId: GetPurchaseOrder
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/PurchaseOrderId'
+        - $ref: '#/components/parameters/Version1.1'
       responses:
         '200':
           description: Success
@@ -1294,13 +1316,14 @@ paths:
       tags:
         - Purchase Orders
 
-  '/investments/{investment_id}/purchase_orders':
+  '/{version}/investments/{investment_id}/purchase_orders':
     post:
       description: Create a purchase order against an investment
       operationId: CreatePurchaseOrder
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
+        - $ref: '#/components/parameters/Version1.1'
       requestBody:
         content:
           application/json:
@@ -1329,7 +1352,7 @@ paths:
       tags:
         - Purchase Orders
 
-  '/investments/{investment_id}/purchase_orders/{purchase_order_id}':
+  '/{version}/investments/{investment_id}/purchase_orders/{purchase_order_id}':
     put:
       description: Update an existing purchase order details of an investment
       operationId: UpdatePurchaseOrder
@@ -1337,6 +1360,7 @@ paths:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/InvestmentId'
         - $ref: '#/components/parameters/PurchaseOrderId'
+        - $ref: '#/components/parameters/Version1.1'
       requestBody:
         content:
           application/json:
@@ -1361,7 +1385,7 @@ paths:
       tags:
         - Purchase Orders
 
-  '/users':
+  '/1.1/users':
     get:
       description: Retrieve list of users
       operationId: GetUsers
@@ -1376,24 +1400,46 @@ paths:
                 $ref: '#/components/schemas/Users'
         '404':
           description: Not Found
-      summary: List Users
+      summary: List Users (1.1)
       tags:
         - Users
-
-  '/users/{user_email}':
+  
+  '/1.2/users':
     get:
-      description: Retrieve user details
-      operationId: GetUser
+      description: Retrieve list of users
+      operationId: GetUsersV1.2
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
-        - $ref: '#/components/parameters/UserEmail'
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Users'
+                $ref: '#/components/schemas/UsersV1.2'
+        '404':
+          description: Not Found
+      summary: List Users (1.2)
+      tags:
+        - Users
+
+  '/{version}/users/{user_email}':
+    get:
+      description: Retrieve user details
+      operationId: GetUser
+      parameters:
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/UserEmail'
+        - $ref: '#/components/parameters/Version1.2'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Users'
+                  - $ref: '#/components/schemas/UsersV1.2'
         '404':
           description: Not Found
           content:
@@ -1409,6 +1455,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/UserEmail'
+        - $ref: '#/components/parameters/Version1.2'
       requestBody:
         content:
           application/json:
@@ -1427,12 +1474,13 @@ paths:
       tags:
         - Users
 
-  '/vendors':
+  '/{version}/vendors':
     get:
       description: Returns a list of all Vendors.
       operationId: GetVendors
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/Version1.1'
       responses:
         '200':
           description: Success
@@ -1472,13 +1520,14 @@ paths:
       tags:
         - Vendors
 
-  '/vendors/{vendor_id}':
+  '/{version}/vendors/{vendor_id}':
     put:
       description: Update an existing vendor
       operationId: UpdateVendor
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/VendorId'
+        - $ref: '#/components/parameters/Version1.1'
       requestBody:
         content:
           application/json:
@@ -1627,6 +1676,25 @@ components:
       explode: false
       schema:
         type: string
+
+    Version1.1:
+      name: version
+      in: path
+      description: "API version available is 1.1"
+      required: true
+      type: string
+      enum:
+        - "1.1"
+      
+    Version1.2:
+      name: version
+      in: path
+      description: "API version available are 1.1 and 1.2"
+      required: true
+      type: string
+      enum:
+        - "1.1"
+        - "1.2"
 
   schemas:
     AnyValue: {}
@@ -1918,7 +1986,7 @@ components:
           description: The unique identifier of the approver.
           type: string
 
-    Budgets:
+    BudgetsOrganization:
       type: array
       items:
         type: object
@@ -2669,7 +2737,7 @@ components:
               items:
                 type: string
           type: object
-    Forecasts:
+    ForecastsOrganization:
       type: array
       items:
         type: object
@@ -3845,6 +3913,7 @@ components:
         - last_name
 
     Users:
+      title: Users 1.1
       type: array
       items:
         type: object
@@ -3907,6 +3976,108 @@ components:
                 organization:
                   description: The organization for the permissions.
                   type: string
+    
+    UsersV1.2:
+      title: Users 1.2
+      type: array
+      items:
+        type: object
+        properties:
+          active_for_authentication:
+            description: The active for authentication for the User.
+            type: boolean
+          auditor:
+            description: The flag to determine if the User is an auditor.
+            type: boolean
+          authority_assignments:
+            description: The authority assignments for the User.
+            type: array
+            items:
+              type: object
+              properties:
+                authority:
+                  description: The authority for the assigments.
+                  type: string
+                organization:
+                  description: The organization for the assignments.
+                  type: string
+          confirmed_at:
+            description: The date the user is confirmed. Format YYYY-MM-DD
+            type: string
+            format: date-time
+          confirmed_sent_at:
+            description: The date the user is confirmed was sent. Format YYYY-MM-DD
+            type: string
+            format: date-time
+          created_at:
+            description: The created date for the User. Format YYYY-MM-DD
+            type: string
+            format: date-time
+          creator_email:
+            description: The email address who creates the the User.
+            type: string
+          email:
+            description: The email address for the User.
+            type: string
+          external_id:
+            description: The external id for the User.
+            type: string
+          has_actual_costs_feature:
+            description: The has actual costs feature id for the User.
+            type: boolean
+          has_approvals:
+            description: The has approvals for the User.
+            type: boolean
+          has_budgets_feature:
+            description: The has budgets feature for the User.
+            type: boolean
+          has_portfolios_feature:
+            description: The has portfolios feature for the User.
+            type: boolean
+          has_reports:
+            description: The has reports for the User.
+            type: boolean
+          id:
+            description: The unique identifier for the User.
+            type: string
+          investment_admin:
+            description: The flag to determine if the User is an Investment admin.
+            type: boolean
+          last_modified:
+            description: The last modified timestamp for the User.
+            type: string
+            format: date-time
+          last_session:
+            description: The last session for the User. Format YYYY-MM-DD
+            type: string
+            format: date-time
+          name:
+            description: The full name for the User.
+            type: string
+          out_of_office:
+            description: The flag to determine if the User is currently out-of-office.
+            type: boolean
+          permissions:
+            description: The permissions for the User.
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  description: The name for the permissions.
+                  type: string
+                organization:
+                  description: The organization for the permissions.
+                  type: string
+          system_admin:
+            description: The flag to determine if the User is a System admin.
+            type: boolean
+          title:
+            description: The title for the User.
+            type: string
+          updater_email:
+            description: The email address that made the last update for the User.
+            type: string
 
     VendorPostPut:
       properties:
@@ -3990,6 +4161,10 @@ components:
       in: header
       name: x-api-token
       type: apiKey
+
+  content:
+    custom/json:
+      name: "Custom JSON"
 
 security:
   - ApiToken: []
