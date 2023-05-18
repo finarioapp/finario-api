@@ -957,7 +957,7 @@ paths:
       tags:
         - Organizations
 
-  '/{version}/{organization_id}/organizations/budgets/{year}':
+  '/{version}/{organization_id}/budgets/{year}':
     get:
       description: Returns Budget data at an organization level 
       parameters:
@@ -976,8 +976,66 @@ paths:
       tags:
         - Budgets
         - Organizations
+    
+  '/{version}/{organization_id}/budgets/{year}/investments':
+    get:
+      description: Returns Budget data at an Investment level 
+      parameters:
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/OrganizationId'
+        - $ref: '#/components/parameters/Year'
+        - $ref: '#/components/parameters/Version1.1'
+        - name: investment_category
+          in: query
+          description:  Returns all investments that are assigned to that category.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: Capacity Expansion
+      responses:
+        '200':
+          description: Success     
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetsInvestment'
+      summary: List Budget data at an Investment level
+      tags:
+        - Budgets
+        - Investments
+  
+  '/{version}/{organization_id}/forecasts/{year}/investments':
+    get:
+      description: Returns Forecast data at an investment level 
+      parameters:
+        - $ref: '#/components/parameters/FinarioHost'
+        - $ref: '#/components/parameters/OrganizationId'
+        - $ref: '#/components/parameters/Year'
+        - $ref: '#/components/parameters/Version1.1'
+        - name: investment_category
+          in: query
+          description:  Returns all investments that are assigned to that category.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+          example: Capacity Expansion
+      responses:
+        '200':
+          description: Success     
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetsInvestment'
+      summary: List  Forecast data at an investment level
+      tags:
+        - Forecasts
+        - Investments
 
-  '/{version}/{organization_id}/organizations/forecasts/{year}':
+  '/{version}/{organization_id}/forecasts/{year}':
     get:
       description: Returns Forecasts data at an organization level 
       parameters:
@@ -2318,6 +2376,348 @@ components:
           organization_name:
             description: The name of the Organization.
             type: string
+
+    BudgetsInvestment:
+      type: array
+      items:
+        type: object
+        properties:
+          base_currency:
+            description: e.g., "USD" or "EUR". If no currency is given, your account's base currency will be used.
+            type: string
+          category:
+            description: The Investment category.
+            type: string
+          capital_base_currency_spend:
+            description: Budget CAPITAL Base Currency amounts per Fiscal Month 1-12.
+            type: object
+            properties: 
+              "1":
+                description: The number representation for January.
+                type: string
+                example: "3628765.62"
+              "2":
+                description: The number representation for February.
+                type: string
+                example: "3628765.62"
+              "3":
+                description: The number representation for March.
+                type: string
+                example: "3628765.62"
+              "4":
+                description: The number representation for April.
+                type: string
+                example: "3628765.62"
+              "5":
+                description: The number representation for May.
+                type: string
+                example: "3628765.62"
+              "6":
+                description: The number representation for June.
+                type: string
+                example: "3628765.62"
+              "7":
+                description: The number representation for July.
+                type: string
+                example: "3628765.62"
+              "8":
+                description: The number representation for August.
+                type: string
+                example: "3628765.62"
+              "9":
+                description: The number representation for September.
+                type: string
+                example: "3628765.62"
+              "10":
+                description: The number representation for October.
+                type: string
+                example: "3628765.62"
+              "11":
+                description: The number representation for November.
+                type: string
+                example: "3628765.62"
+              "12":
+                description: The number representation for December.
+                type: string
+                example: "3628765.62"
+          capital_org_currency_spend:
+            description: Budget CAPITAL Org Currency amounts per Fiscal Month 1-12.
+            type: object
+            properties: 
+              "1":
+                description: The number representation for January.
+                type: string
+                example: "3628765.62"
+              "2":
+                description: The number representation for February.
+                type: string
+                example: "3628765.62"
+              "3":
+                description: The number representation for March.
+                type: string
+                example: "3628765.62"
+              "4":
+                description: The number representation for April.
+                type: string
+                example: "3628765.62"
+              "5":
+                description: The number representation for May.
+                type: string
+                example: "3628765.62"
+              "6":
+                description: The number representation for June.
+                type: string
+                example: "3628765.62"
+              "7":
+                description: The number representation for July.
+                type: string
+                example: "3628765.62"
+              "8":
+                description: The number representation for August.
+                type: string
+                example: "3628765.62"
+              "9":
+                description: The number representation for September.
+                type: string
+                example: "3628765.62"
+              "10":
+                description: The number representation for October.
+                type: string
+                example: "3628765.62"
+              "11":
+                description: The number representation for November.
+                type: string
+                example: "3628765.62"
+              "12":
+                description: The number representation for December.
+                type: string
+                example: "3628765.62"
+          expense_base_currency_spend:
+            description: Budget EXPENSE Base Currency amounts per Fiscal Month 1-12.
+            type: object
+            properties: 
+              "1":
+                description: The number representation for January.
+                type: string
+                example: "3628765.62"
+              "2":
+                description: The number representation for February.
+                type: string
+                example: "3628765.62"
+              "3":
+                description: The number representation for March.
+                type: string
+                example: "3628765.62"
+              "4":
+                description: The number representation for April.
+                type: string
+                example: "3628765.62"
+              "5":
+                description: The number representation for May.
+                type: string
+                example: "3628765.62"
+              "6":
+                description: The number representation for June.
+                type: string
+                example: "3628765.62"
+              "7":
+                description: The number representation for July.
+                type: string
+                example: "3628765.62"
+              "8":
+                description: The number representation for August.
+                type: string
+                example: "3628765.62"
+              "9":
+                description: The number representation for September.
+                type: string
+                example: "3628765.62"
+              "10":
+                description: The number representation for October.
+                type: string
+                example: "3628765.62"
+              "11":
+                description: The number representation for November.
+                type: string
+                example: "3628765.62"
+              "12":
+                description: The number representation for December.
+                type: string
+                example: "3628765.62"
+          expense_org_currency_spend:
+            description: Budget EXPENSE Org Currency amounts per Fiscal Month 1-12.
+            type: object
+            properties: 
+              "1":
+                description: The number representation for January.
+                type: string
+                example: "3628765.62"
+              "2":
+                description: The number representation for February.
+                type: string
+                example: "3628765.62"
+              "3":
+                description: The number representation for March.
+                type: string
+                example: "3628765.62"
+              "4":
+                description: The number representation for April.
+                type: string
+                example: "3628765.62"
+              "5":
+                description: The number representation for May.
+                type: string
+                example: "3628765.62"
+              "6":
+                description: The number representation for June.
+                type: string
+                example: "3628765.62"
+              "7":
+                description: The number representation for July.
+                type: string
+                example: "3628765.62"
+              "8":
+                description: The number representation for August.
+                type: string
+                example: "3628765.62"
+              "9":
+                description: The number representation for September.
+                type: string
+                example: "3628765.62"
+              "10":
+                description: The number representation for October.
+                type: string
+                example: "3628765.62"
+              "11":
+                description: The number representation for November.
+                type: string
+                example: "3628765.62"
+              "12":
+                description: The number representation for December.
+                type: string
+                example: "3628765.62"
+          fiscal_year:
+            description: This is the fiscal year in which the investment is budgeted.
+            type: number
+          investment_id:
+            description: The Investment ID code.
+            type: string
+          name:
+            description: The name of the Investment.
+            type: string
+          organization_code:
+            description: The Organization code.
+            type: string
+          org_currency:
+            description: e.g., "USD" or "EUR". If no currency is given, your account's base currency will be used.
+            type: string
+          organization_name:
+            description: The Name of the Organization.
+            type: string
+          total_base_currency_spend:
+            description: Budget TOTAL Base Currency amounts per Fiscal Month 1-12.
+            type: object
+            properties: 
+              "1":
+                description: The number representation for January.
+                type: string
+                example: "3628765.62"
+              "2":
+                description: The number representation for February.
+                type: string
+                example: "3628765.62"
+              "3":
+                description: The number representation for March.
+                type: string
+                example: "3628765.62"
+              "4":
+                description: The number representation for April.
+                type: string
+                example: "3628765.62"
+              "5":
+                description: The number representation for May.
+                type: string
+                example: "3628765.62"
+              "6":
+                description: The number representation for June.
+                type: string
+                example: "3628765.62"
+              "7":
+                description: The number representation for July.
+                type: string
+                example: "3628765.62"
+              "8":
+                description: The number representation for August.
+                type: string
+                example: "3628765.62"
+              "9":
+                description: The number representation for September.
+                type: string
+                example: "3628765.62"
+              "10":
+                description: The number representation for October.
+                type: string
+                example: "3628765.62"
+              "11":
+                description: The number representation for November.
+                type: string
+                example: "3628765.62"
+              "12":
+                description: The number representation for December.
+                type: string
+                example: "3628765.62"
+          total_org_currency_spend:
+            description: Budget TOTAL Org Currency amounts per Fiscal Month 1-12.
+            type: object
+            properties: 
+              "1":
+                description: The number representation for January.
+                type: string
+                example: "3628765.62"
+              "2":
+                description: The number representation for February.
+                type: string
+                example: "3628765.62"
+              "3":
+                description: The number representation for March.
+                type: string
+                example: "3628765.62"
+              "4":
+                description: The number representation for April.
+                type: string
+                example: "3628765.62"
+              "5":
+                description: The number representation for May.
+                type: string
+                example: "3628765.62"
+              "6":
+                description: The number representation for June.
+                type: string
+                example: "3628765.62"
+              "7":
+                description: The number representation for July.
+                type: string
+                example: "3628765.62"
+              "8":
+                description: The number representation for August.
+                type: string
+                example: "3628765.62"
+              "9":
+                description: The number representation for September.
+                type: string
+                example: "3628765.62"
+              "10":
+                description: The number representation for October.
+                type: string
+                example: "3628765.62"
+              "11":
+                description: The number representation for November.
+                type: string
+                example: "3628765.62"
+              "12":
+                description: The number representation for December.
+                type: string
+                example: "3628765.62"
 
     CostCategory:
       type: object
