@@ -150,7 +150,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Create an Approval
-      tags:
+      #tags:
         #- Approvals
 
   '/investments/{investment_id}/approvals/{approval_id}':
@@ -182,7 +182,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorMessageObjectOne'
       summary: Get an Approval
-      tags:
+      #tags:
         #- Approvals
 
   '/{version}/cost_categories':
@@ -1740,19 +1740,21 @@ components:
       in: path
       description: "API version available is 1.1"
       required: true
-      type: string
-      enum:
-        - "1.1"
+      schema:
+        type: string
+        enum:
+          - "1.1"
       
     Version1.2:
       name: version
       in: path
       description: "API version available are 1.1 and 1.2"
       required: true
-      type: string
-      enum:
-        - "1.1"
-        - "1.2"
+      schema:
+        type: string
+        enum:
+          - "1.1"
+          - "1.2"
 
   schemas:
     AnyValue: {}
@@ -3625,10 +3627,9 @@ components:
           type: array
           items: 
             type:
-              - integer
-              - integer
+              integer
           minItems: 2
-          examples:
+          example:
             - [2020, 10]
         name:
           description: The name for the Investment.
@@ -3660,10 +3661,9 @@ components:
           type: array
           items: 
             type:
-              - integer
-              - integer
+              integer
           minItems: 2
-          examples:
+          example:
             - [2020, 10]
 
     Investments:
@@ -4561,10 +4561,6 @@ components:
       in: header
       name: x-api-token
       type: apiKey
-
-  content:
-    custom/json:
-      name: "Custom JSON"
 
 security:
   - ApiToken: []
