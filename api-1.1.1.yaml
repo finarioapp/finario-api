@@ -4308,7 +4308,27 @@ components:
             type: object
           type: array
         user_department:
-          description: The department the user works in. Valid departments are Corporate, Engineering, Finance, Finance - Accounting, Finance - FP&A, Information Technology, Management - General, Management - Line, Operations, Operations - Finance, Other, PMO, Procurement, R&D, Real Estate and Shared Services.
+          description:  |
+            The department the user works in.
+            
+            Valid departments are:
+            
+            1. Corporate
+            2. Engineering
+            3. Finance
+            4. Finance - Accounting
+            5. Finance - FP&A
+            6. Information Technology
+            7. Management - General
+            8. Management - Line
+            9. Operations
+            10. Operations - Finance
+            11. Other
+            12. PMO
+            13. Procurement
+            14. R&D
+            15. Real Estate
+            16. Shared Services
           type: string
       required:
         - first_name
