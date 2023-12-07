@@ -4118,7 +4118,6 @@ components:
         - date
         - po_line
         - po_number
-        - reference
 
     PurchaseOrders:
       type: array
@@ -4276,7 +4275,7 @@ components:
           description: The external id for the User.
           type: string
         first_name:
-          description: The users first name.
+          description: The User's first name.
           type: string
         has_actual_costs_feature:
           description: The has actual costs feature id for the User.
@@ -4294,7 +4293,7 @@ components:
           description: The has reports for the User.
           type: boolean
         last_name:
-          description: The users last name.
+          description: The User's last name.
           type: string
         permissions:
           description: Must match an organization name that already exists in your Finario application.
@@ -4308,9 +4307,13 @@ components:
                 type: string
             type: object
           type: array
+        user_department:
+          description: The department the user works in. Valid departments are Corporate, Engineering, Finance, Finance - Accounting, Finance - FP&A, Information Technology, Management - General, Management - Line, Operations, Operations - Finance, Other, PMO, Procurement, R&D, Real Estate and Shared Services.
+          type: string
       required:
         - first_name
         - last_name
+        - user_department
 
     Users:
       title: Users 1.1
