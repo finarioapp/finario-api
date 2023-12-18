@@ -16,10 +16,10 @@ info:
     Developing integrations using the Finario API is easy and the workflow relatively straight-forward. You will need to perform the following:
     
     1. Ensure you have a Finario account.
-    2. Familiarize yourself with the API **[Endpoints](#tag/Approvals)** and **[Webhooks](#tag/Webhooks)**.
-    3. Familiarize yourself with the [headers required](#section/Required-Headers) to be sent with each request. 
-    4. Familiarize yourself with [how to authenticate](#section/Authentication) when using the API.
-    5. [Generate](#section/Authentication/ApiToken) your API Token.
+    2. Familiarize yourself with the [headers required](#section/Required-Headers) to be sent with each request. 
+    3. [Generate](#section/Authentication/ApiToken) your API Token.
+    4. Familiarize yourself with [how to authenticate](#section/Authentication) when using the API.     
+    5. Familiarize yourself with the API **[Endpoints](#tag/Approvals)** and **[Webhooks](#tag/Webhooks)**.
     6. Start using the API, either in your code or via your tooling of choice.
     
     ### Development & Testing Tools
@@ -40,12 +40,13 @@ info:
     
     ## URLs
     
-    The current version of the API is `1.1`. As such the following base URLs are in use (please notice the postfix of the version number to the URL):
+    The current version of the API is `1.1`. As such, fully formed URLs for interacting with the Finario API take the form of https://api.finario.com/1.1/<resource> :
     
     | <div style="width:130px">Environment</div> | Base URL |
     | ---------------- | --- |
-    | Sandbox    | `https://api-sandbox.finario.com` |
-    | Production | `https://api.finario.com` |
+    | Sandbox    | `https://api-sandbox.finario.com/1.1` |
+    | Production | `https://api.finario.com/1.1` |
+    
     
     ## Required Headers
     
@@ -67,11 +68,23 @@ info:
     
     This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with the [W3C spec](https://www.w3.org/TR/cors/). And that allows cross-domain communication from the browser. All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
     
+    ## Authentication
+    
+    You are required to authenticate when calling any of the Endpoints in the Finario API. This is performed via an **API Token**, as described below.
+    ### Generate your API Token
+    To generate an API Token, follow the steps below:
+      1. Visit your **Profile** in the Finario app: `https://<your-host>.finario.com/profile`.
+      2. Under **Profile Actions** on the left, click **API Token**.
+         - If you do not see the item **API Token**, you will need to contact your Finario account manager to gain access. 
+      3. Click **Get One** to generate your API Token for use in all API requests.
+      4. Configure a white list of IP addresses if you want to add additional security to your Finario API endpoint. This is not required, but here if you want the additional security.
+
+
     ## Example Request
     
-    To show a list of users on your account using the popular `curl` or `httpie` command-line tools:
+    To show a list of users in your Finario organization using the popular `curl` or `httpie` command-line tools:
     
-    > Remember to replace the `x-api-token` and `x-finario-host` with appropriate values for your setup:
+    > Remember to replace the `x-api-token` and `x-finario-host` with the appropriate values for your organization and user:
 
     ```shell    
     curl --request GET \
