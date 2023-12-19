@@ -4293,9 +4293,6 @@ components:
         has_actual_costs_feature:
           description: The has actual costs feature id for the User.
           type: boolean
-        has_approvals:
-          description: The has approvals for the User.
-          type: boolean
         has_budgets_feature:
           description: The has budgets feature for the User.
           type: boolean
@@ -4378,9 +4375,6 @@ components:
           has_actual_costs_feature:
             description: The has actual costs feature id for the User.
             type: boolean
-          has_approvals:
-            description: The has approvals for the User.
-            type: boolean
           has_budgets_feature:
             description: The has budgets feature for the User.
             type: boolean
@@ -4460,9 +4454,6 @@ components:
             type: string
           has_actual_costs_feature:
             description: The has actual costs feature id for the User.
-            type: boolean
-          has_approvals:
-            description: The has approvals for the User.
             type: boolean
           has_budgets_feature:
             description: The has budgets feature for the User.

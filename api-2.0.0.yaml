@@ -2237,9 +2237,6 @@
           has_actual_costs_feature:
             description: The has actual costs feature id for the User.
             type: boolean
-          has_approvals:
-            description: The has approvals for the User.
-            type: boolean
           has_budgets_feature:
             description: The has budgets feature for the User.
             type: boolean
@@ -2300,9 +2297,6 @@
                     type: string
             has_actual_costs_feature:
               description: The has actual costs feature id for the User.
-              type: boolean
-            has_approvals:
-              description: The has approvals for the User.
               type: boolean
             has_budgets_feature:
               description: The has budgets feature for the User.
@@ -2481,8 +2475,6 @@
           external_id:
             type: string
           has_budgets_feature:
-            type: boolean
-          has_approvals:
             type: boolean
           has_actual_costs_feature:
             type: boolean
