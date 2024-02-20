@@ -508,6 +508,14 @@ paths:
           explode: true
           schema:
             type: string
+        - name: planning_flag
+          in: query
+          description: Investments flagged (true) or not flagged (false).
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: boolean
       responses:
         '200':
           description: Success
@@ -665,14 +673,82 @@ paths:
           explode: true
           schema:
             type: string
-        - name: Custom Fields
+        - name: custom_field_values
           in: query
-          description: See custom fields for more information. Custom fields will only be optional parameters if they are turned on within your account. If you're unsure, ask your account manager whether or not you have access to custom fields.Custom fields are formatted with a c_ proceeding whatever you've named the custom field. The examplec_Funding=Cash will take you to the investments where the custom field "Funding" is set to "Cash' Parameter keys and values should match what you've defined in your custom fields
+          description: Varies depending on the custom fields.
           required: false
           style: form
           explode: true
           schema:
             type: string
+        - name: budgeted_years_cache
+          in: query
+          description: The budget years for which an investment has been budgeted.
+          required: false
+          type: array
+          items:
+            type:
+              integer
+          minItems: 1
+          example:
+            - [2022, 2023]
+        - name: created_at
+          in: query
+          description: The initial creation time of the investment.
+          required: false
+          schema:
+            type: string
+          format: date-time
+          example:
+            - "2022-08-24T14:15:22Z"
+        - name: creator_id
+          in: query
+          description: The user ID of the investment’s creator.
+          required: false
+          schema:
+            type: string
+          example:
+            - "618c3441e5c354026400d67e"
+        - name: estimated_completion_date_as_time
+          in: query
+          description: Estimated completion date of the investment.
+          required: false
+          schema:
+            type: string
+          example:
+            - "Oct-2023"
+        - name: owner_cached_name
+          in: query
+          description: Investment owner’s name.
+          required: false
+          schema:
+            type: string
+          example:
+            - "Joe Benz"
+        - name: owner_id
+          in: query
+          description: Investment owner’s name.
+          required: false
+          schema:
+            type: string
+          example:
+            - "618c3441e5c354026400d67e"
+        - name: owner_email
+          in: query
+          description: Investment owner’s email.
+          required: false
+          schema:
+            type: string
+          example:
+            - "joe.benz@finario.com"
+        - name: planning_flag
+          in: query
+          description: Investments flagged (true) or not flagged (false).
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: boolean
       responses:
         '200':
           description: Success
@@ -3528,6 +3604,9 @@ components:
         owner_name:
           description: Either `owner_name` or `owner_email` is required. Must match a value that already exists in your Finario application.
           type: string
+        planning_flag:
+          description: Investments flagged (true) or not flagged (false).
+          type: boolean
         project_start_as_time:
           description: e.g., `Oct-2015`. Year must be 4 digits. Month must be one of `Jan`, `Feb`, `Mar`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov` or `Dec`.
           type: string
@@ -3586,7 +3665,9 @@ components:
         organization_name:
           description: The organization name.
           type: string
-
+        planning_flag:
+          description: Investments flagged (true) or not flagged (false).
+          type: boolean
     Investment:
       type: object
       properties:
@@ -3623,9 +3704,48 @@ components:
           description: Will be "budgeted" or "unbudgeted".
           type: string
           enum: [budgeted,]
+        budgeted_years_cache:
+          description: The budget years for which an investment has been budgeted.
+          type: array
+          items:
+            type:
+              integer
+          example:
+            - [2022, 2023]
         costs_path:
           description: The resource locator for costs.
           type: string
+        created_at:
+          description: The initial creation time of the investment.
+          type: string
+          format: date-time
+          example:
+            - "2022-08-24T14:15:22Z"
+        creator_id:
+          description: The user ID of the investment’s creator.
+          type: string
+          example:
+            - "618c3441e5c354026400d67e"
+        estimated_completion_date_as_time:
+          description: Estimated completion date of the investment.
+          type: string
+          example:
+            - "Oct-2023"
+        owner_cached_name:
+          description: Investment owner’s name.
+          type: string
+          example:
+            - "Joe Benz"
+        owner_email:
+          description: Investment owner’s email.
+          type: string
+          example:
+            - "joe.benz@finario.com"
+        owner_id:
+          description: Investment owner’s name.
+          type: string
+          example:
+            - "618c3441e5c354026400d67e"
         id:
           description: The unique identifier for the Investment.
           type: string
@@ -3669,6 +3789,10 @@ components:
         pi:
           description: The pi for the investment.
           type: string
+        planning_flag:
+          description: Investments flagged (true) or not flagged (false).
+          required: false
+          type: boolean
         project_start:
           description: The project start for the investment.
           type: array
