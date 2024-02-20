@@ -709,7 +709,7 @@ paths:
             type: string
           example:
             - "618c3441e5c354026400d67e"
-        - name: estimated_completion_date_as_time
+        - name: estimated_completion_date
           in: query
           description: Estimated completion date of the investment.
           required: false
