@@ -3726,7 +3726,7 @@ components:
           type: string
           example:
             - "618c3441e5c354026400d67e"
-        estimated_completion_date_as_time:
+        estimated_completion_date:
           description: Estimated completion date of the investment.
           type: string
           example:
