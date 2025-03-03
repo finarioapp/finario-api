@@ -2,112 +2,112 @@ openapi: 3.0.3
 
 info:
   description: |
-    
+
     ## Introduction
-    
+
     Our set of REST-based APIs enable seamless integration of Finario directly into your internal workflows, products and services. The API uses JSON over HTTPS to allow you to build secure applications capable of using or adding Finario data in your application, and vice-versa.
-    
+
     > Please note, API access is available in various editions, so please contact your Finario account manager for more information.
 
     This API is built and documented using [OpenAPI 3.0.3](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md). In addition to standard OpenAPI syntax we use a few vendor extensions to improve compatibility with tooling and documentation.
-    
+
     ## Development Workflow
-    
+
     Developing integrations using the Finario API is easy and the workflow relatively straight-forward. You will need to perform the following:
-    
+
     1. Ensure you have a Finario account.
-    2. Familiarize yourself with the [headers required](#section/Required-Headers) to be sent with each request. 
+    2. Familiarize yourself with the [headers required](#section/Required-Headers) to be sent with each request.
     3. [Generate](#section/Authentication/ApiToken) your API Token.
-    4. Familiarize yourself with [how to authenticate](#section/Authentication) when using the API.     
+    4. Familiarize yourself with [how to authenticate](#section/Authentication) when using the API.
     5. Familiarize yourself with the API **[Endpoints](#tag/Approvals)** and **[Webhooks](#tag/Webhooks)**.
     6. Start using the API, either in your code or via your tooling of choice.
-    
+
     ### Development & Testing Tools
-    
+
     There are many different tools that can be used for developing and testing APIs. If you're experienced, we'd imagine you've seen them all. If you have your own preference, feel free to use that. If your existing toolchain comes with some form of HTTP client and that's what you're familiar with, feel free to stick with that.
-    
+
     However, for completeness, below we provide some links to tooling that we use and would recommend when building and testing APIs.
-    
+
     You can [import this specification](/api-1.1.1.yaml) into an API testing tool such as **Postman** or **Paw**. You can also use command-line tools such as **curl**, **wget** or **httpie**. By using tools such as Postman or Paw, you will be able to genereate code stubs for a variety of popular languages to speed your development and testing efforts.
-    
+
     - [Postman](https://www.postman.com) | [Paw](https://paw.cloud) | [curl](https://curl.se) | [wget](https://www.gnu.org/software/wget/) | [httpie](https://httpie.io)
 
     ## Download the API Spec
-    
+
     **[Download](/api-1.1.1.yaml)** version 1.1.1 of the specification for use in your chosen API development and testing tools.
-    
+
     - For versions 1.0 and earlier, please see this [GitHub repository](https://github.com/finarioapp/api).
-    
+
     ## URLs
-    
+
     The current version of the API is `1.1`. As such, fully formed URLs for interacting with the Finario API take the form of https://api.finario.com/1.1/<resource> :
-    
+
     | <div style="width:130px">Environment</div> | Base URL |
     | ---------------- | --- |
     | Sandbox    | `https://api-sandbox.finario.com/1.1` |
     | Production | `https://api.finario.com/1.1` |
-    
-    
+
+
     ## Required Headers
-    
+
     ### Request
-    
+
     This API requires you to send the following three headers, at a minimum, as part of each HTTP request:
-    
+
     | <div style="width:130px">Header Name</div> | Description |
     | ---------------- | --- |
     | `content-type`   | Must be `application/json`. |
     | `x-api-token`    | As described in the [Authentication](#section/Authentication/ApiToken) section below. |
     | `x-finario-host` | The Finario host name that you use to login to your Finario app. For example, if you login to the Finario app at `example-co.finario.com`, then your `x-finario-host` will be `example-co`. |
-    
+
     ### Response
-    
+
     To receive a valid HTTP response, your API must be able to accept `application/json` as a response media type.
-    
+
     ### CORS
-    
+
     This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with the [W3C spec](https://www.w3.org/TR/cors/). And that allows cross-domain communication from the browser. All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
-    
+
     ## Authentication
-    
+
     You are required to authenticate when calling any of the Endpoints in the Finario API. This is performed via an **API Token**, as described below.
     ### Generate your API Token
     To generate an API Token, follow the steps below:
       1. Visit your **Profile** in the Finario app: `https://<your-host>.finario.com/profile`.
       2. Under **Profile Actions** on the left, click **API Token**.
-         - If you do not see the item **API Token**, you will need to contact your Finario account manager to gain access. 
+         - If you do not see the item **API Token**, you will need to contact your Finario account manager to gain access.
       3. Click **Get One** to generate your API Token for use in all API requests.
       4. Configure a white list of IP addresses if you want to add additional security to your Finario API endpoint. This is not required, but here if you want the additional security.
 
 
     ## Example Request
-    
+
     To show a list of users in your Finario organization using the popular `curl` or `httpie` command-line tools:
-    
+
     > Remember to replace the `x-api-token` and `x-finario-host` with the appropriate values for your organization and user:
 
-    ```shell    
+    ```shell
     curl --request GET \
-      --url https://api-sandbox.finario.com/1.1/users \ 
+      --url https://api-sandbox.finario.com/1.1/users \
       --header 'content-type: application/json' \
       --header 'x-api-token: <your-api-token>' \
       --header 'x-finario-host: <your-finario-instance-name>'
     ```
-    
+
     ```shell
     http https://api-sandbox.finario.com/1.1/users \
       content-type:application/json \
       x-api-token:<your-api-token> \
       x-finario-host:<your-finario-instance-name>
     ```
-    
+
   title: Finario API
   version: v1.1
   x-logo:
     altText: 'Finario API'
     backgroundColor: '#FFFFFF'
-    href: '/'
-    url: '/img/logo.png'
+    href: '/finario-api'
+    url: 'img/logo.png'
 
 servers:
   - url: 'https://api-sandbox.finario.com'
@@ -1003,7 +1003,7 @@ paths:
       summary: List Organizations
       tags:
         - Organizations
-  
+
   '/{version}/{organization_id}/organizations':
     post:
       description: |
@@ -1048,7 +1048,7 @@ paths:
 
   '/{version}/{organization_id}/budgets/{year}':
     get:
-      description: Returns Budget data at an organization level 
+      description: Returns Budget data at an organization level
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/OrganizationId'
@@ -1056,7 +1056,7 @@ paths:
         - $ref: '#/components/parameters/Version1.1'
       responses:
         '200':
-          description: Success     
+          description: Success
           content:
             application/json:
               schema:
@@ -1065,10 +1065,10 @@ paths:
       tags:
         - Budgets
         - Organizations
-    
+
   '/{version}/{organization_id}/budgets/{year}/investments':
     get:
-      description: Returns Budget data at an Investment level 
+      description: Returns Budget data at an Investment level
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/OrganizationId'
@@ -1085,7 +1085,7 @@ paths:
           example: Capacity Expansion
       responses:
         '200':
-          description: Success     
+          description: Success
           content:
             application/json:
               schema:
@@ -1094,10 +1094,10 @@ paths:
       tags:
         - Budgets
         - Investments
-  
+
   '/{version}/{organization_id}/forecasts/{year}/investments':
     get:
-      description: Returns Forecast data at an investment level 
+      description: Returns Forecast data at an investment level
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/OrganizationId'
@@ -1114,7 +1114,7 @@ paths:
           example: Capacity Expansion
       responses:
         '200':
-          description: Success     
+          description: Success
           content:
             application/json:
               schema:
@@ -1126,7 +1126,7 @@ paths:
 
   '/{version}/{organization_id}/forecasts/{year}':
     get:
-      description: Returns Forecasts data at an organization level 
+      description: Returns Forecasts data at an organization level
       parameters:
         - $ref: '#/components/parameters/FinarioHost'
         - $ref: '#/components/parameters/OrganizationId'
@@ -1134,7 +1134,7 @@ paths:
         - $ref: '#/components/parameters/Version1.1'
       responses:
         '200':
-          description: Success     
+          description: Success
           content:
             application/json:
               schema:
@@ -1186,7 +1186,7 @@ paths:
           in: query
           description: |
             Returns a set of Payments that are equal to or newer than the date passed into the parameter. The date must follow the `year-month-date` format.
-            
+
             Example: payments_after=2022-03-20  should return anything dated from March 20th until the present day. Creates an inclusive date range if used with payments_before.
           required: false
           style: form
@@ -1197,7 +1197,7 @@ paths:
           in: query
           description: |
             Returns a set of Payments that are equal to or older than the date passed into the parameter. The date must follow the year-month-date format.
-            
+
             Example: payments_before=2022-04-20  should return anything dated from April 20th and earlier
           required: false
           style: form
@@ -1550,7 +1550,7 @@ paths:
       summary: List Users (1.1)
       tags:
         - Users
-  
+
   '/1.2/users':
     get:
       description: Retrieve list of users
@@ -1833,7 +1833,7 @@ components:
         type: string
         enum:
           - "1.1"
-      
+
     Version1.2:
       name: version
       in: path
@@ -1857,18 +1857,18 @@ components:
             actual_spends:
               description: |
                 The actual spend for the Cost.
-                
-                Each item is represented as an array of mixed-type:  
-                
-                  ```json 
+
+                Each item is represented as an array of mixed-type:
+
+                  ```json
                   [
                     {
-                      "cents": 75500000, 
-                      "currency": "USD" 
+                      "cents": 75500000,
+                      "currency": "USD"
                     },
                     [
-                      2022, 
-                      5    
+                      2022,
+                      5
                     ]
                   ]
               type: array
@@ -1899,7 +1899,7 @@ components:
             budgeted_amount:
               description: The budgeted amount of the investment.
               type: string
-            budgeted_status: 
+            budgeted_status:
               description: The budgeted status. e.g., budgeted, unbudgeted
               type: string
             costs:
@@ -1952,7 +1952,7 @@ components:
                     description: All codes for a given vendor.
                     type: array
                     items: {}
-                    example: ["all-codes", "for-a", "given-vendor"] 
+                    example: ["all-codes", "for-a", "given-vendor"]
                   vendor_name:
                     description: Name of the Vendor.
                     type: string
@@ -1974,27 +1974,27 @@ components:
               description: |
                 The forecast spends for the Cost.
 
-                Each item is represented as an array of mixed-type:  
-                
-                  ```json 
+                Each item is represented as an array of mixed-type:
+
+                  ```json
                   [
                     {
-                      "cents": 50000000, 
-                      "currency": "USD" 
+                      "cents": 50000000,
+                      "currency": "USD"
                     },
                     [
-                      2022,    
-                      9     
+                      2022,
+                      9
                     ]
                   ],
                   [
                     {
-                      "cents": 50000000, 
-                      "currency": "USD" 
+                      "cents": 50000000,
+                      "currency": "USD"
                     },
                     [
-                      2022,    
-                      11      
+                      2022,
+                      11
                     ]
                   ]
               type: array
@@ -2146,7 +2146,7 @@ components:
           capital_base_currency_spend:
             description: Budget CAPITAL Base Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -2198,7 +2198,7 @@ components:
           capital_org_currency_spend:
             description: Budget CAPITAL Org Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -2250,7 +2250,7 @@ components:
           expense_base_currency_spend:
             description: Budget EXPENSE Base Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -2302,7 +2302,7 @@ components:
           expense_org_currency_spend:
             description: Budget EXPENSE Org Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -2357,7 +2357,7 @@ components:
           total_base_currency_spend:
             description: Budget TOTAL Base Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -2409,7 +2409,7 @@ components:
           total_org_currency_spend:
             description: Budget TOTAL Org Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -2482,7 +2482,7 @@ components:
           capital_base_currency_spend:
             description: Budget CAPITAL Base Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -2534,7 +2534,7 @@ components:
           capital_org_currency_spend:
             description: Budget CAPITAL Org Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -2586,7 +2586,7 @@ components:
           expense_base_currency_spend:
             description: Budget EXPENSE Base Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -2638,7 +2638,7 @@ components:
           expense_org_currency_spend:
             description: Budget EXPENSE Org Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -2708,7 +2708,7 @@ components:
           total_base_currency_spend:
             description: Budget TOTAL Base Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -2760,7 +2760,7 @@ components:
           total_org_currency_spend:
             description: Budget TOTAL Org Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -2853,7 +2853,7 @@ components:
         expected_units:
           description: |
             An array of Expected Unit objects, e.g. [{"quantity": 1, "project_month": "M3"}].
-            
+
             If more than one `expected_unit` object is passed in, only the first in the array will be used.
           type: array
           items:
@@ -2911,10 +2911,10 @@ components:
         actual_spends:
           description: |
             The actual spend for the Cost.
-            
-            Each item is represented as an array of mixed-type:  
-            
-              ```json 
+
+            Each item is represented as an array of mixed-type:
+
+              ```json
               [
                 {
                   "cents": 1933,    // The cents equivalent value.
@@ -2935,10 +2935,10 @@ components:
         approved_spends:
           description: |
             The approved spend for the Cost.
-            
-            Each item is represented as an array of mixed-type:  
-            
-              ```json 
+
+            Each item is represented as an array of mixed-type:
+
+              ```json
               [
                 {
                   "cents": 1933,    // The cents equivalent value.
@@ -2977,12 +2977,12 @@ components:
               description: The currency for the base forecast total.
               type: string
         base_spends:
-          description: | 
+          description: |
             The base spends for the Cost.
-            
-            Each item is represented as an array of mixed-type:  
-            
-              ```json 
+
+            Each item is represented as an array of mixed-type:
+
+              ```json
               [
                 {
                   "cents": 1933,    // The cents equivalent value.
@@ -3035,9 +3035,9 @@ components:
           description: |
             The forecast spends for the Cost.
 
-            Each item is represented as an array of mixed-type:  
-            
-              ```json 
+            Each item is represented as an array of mixed-type:
+
+              ```json
               [
                 {
                   "cents": 1933,    // The cents equivalent value.
@@ -3098,10 +3098,10 @@ components:
         revised_forecast:
           description: |
             The revised forecast for the Cost.
-            
-            Each item is represented as an array of mixed-type:  
-            
-              ```json 
+
+            Each item is represented as an array of mixed-type:
+
+              ```json
               [
                 {
                   "cents": 1933,    // The cents equivalent value.
@@ -3131,10 +3131,10 @@ components:
         suspended_spends:
           description: |
             The suspended spend for the Cost.
-            
-            Each item is represented as an array of mixed-type:  
-            
-              ```json 
+
+            Each item is represented as an array of mixed-type:
+
+              ```json
               [
                 {
                   "cents": 1933,    // The cents equivalent value.
@@ -3239,7 +3239,7 @@ components:
           capital_base_currency_spend:
             description: Budget CAPITAL Base Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -3291,7 +3291,7 @@ components:
           capital_org_currency_spend:
             description: Budget CAPITAL Org Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -3343,7 +3343,7 @@ components:
           expense_base_currency_spend:
             description: Budget EXPENSE Base Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -3395,7 +3395,7 @@ components:
           expense_org_currency_spend:
             description: Budget EXPENSE Org Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -3450,7 +3450,7 @@ components:
           total_base_currency_spend:
             description: Budget TOTAL Base Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -3502,7 +3502,7 @@ components:
           total_org_currency_spend:
             description: Budget TOTAL Org Currency amounts per Fiscal Month 1-12.
             type: object
-            properties: 
+            properties:
               "1":
                 description: The number representation for January.
                 type: string
@@ -3758,7 +3758,7 @@ components:
         in_service_date:
           description: The in service date for the Investment.
           type: array
-          items: 
+          items:
             type:
               integer
           minItems: 2
@@ -3796,7 +3796,7 @@ components:
         project_start:
           description: The project start for the investment.
           type: array
-          items: 
+          items:
             type:
               integer
           minItems: 2
@@ -4444,9 +4444,9 @@ components:
         user_department:
           description:  |
             The department the user works in.
-            
+
             Valid departments are:
-            
+
             1. Corporate
             2. Engineering
             3. Finance
@@ -4530,7 +4530,7 @@ components:
                 organization:
                   description: The organization for the permissions.
                   type: string
-    
+
     UsersV1.2:
       title: Users 1.2
       type: array
@@ -4699,14 +4699,14 @@ components:
     ApiToken:
       description: |
         You are required to authenticate when calling any of the Endpoints in the Finario API. This is performed via an **API Token**, as described below.
-        
+
         ### Generate your API Token
-        
+
         To generate an API Token, follow the steps below:
-          
+
           1. Visit your **Profile** in the Finario app: `https://<your-host>.finario.com/profile`.
           2. Under **Profile Actions** on the left, click **API Token**.
-             - If you do not see the item **API Token**, you will need to contact your Finario account manager to gain access. 
+             - If you do not see the item **API Token**, you will need to contact your Finario account manager to gain access.
           3. Click **Get One** to generate your API Token for use in all API requests.
           4. Configure a white list of IP addresses if you want to add additional security to your Finario API endpoint. This is not required, but here if you want the additional security.
       in: header
